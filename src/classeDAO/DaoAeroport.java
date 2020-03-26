@@ -5,30 +5,27 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import classes.Aeroport;
-import classes.Pays;
-import classes.Ville;
 
 public class DaoAeroport extends DAO<Aeroport> {
+	
 
 	@Override
 	public Aeroport insert(Aeroport obj) {
-		int numAeroport = obj.getNumAeroport();
-		String nomAeroport = obj.getNomAeroport();
-		String nomVille = obj.getNomVille().getNomVille();
-		String nomPays = obj.getNomPays().getNomPays();
+		
+	
 		
 		try {
 			
 			PreparedStatement prepare = this.connect.prepareStatement("INSERT INTO Aeroport (numAeroport, nomAeroport, nomVille, nomPays) VALUES(?, ?, ?, ?)");
 			
-			prepare.setInt(1, numAeroport);
-			prepare.setString(2, nomAeroport);
-			prepare.setString(3, nomVille);
-			prepare.setString(4, nomPays);
+			prepare.setInt(1, obj.getNumAeroport());
+			prepare.setString(2, obj.getNomAeroport());
+			prepare.setString(3, obj.getNomVille());
+			prepare.setString(4, obj.getNomPays());
 
 			prepare.executeUpdate();
 			
-			obj = this.selectbyID(numAeroport);
+			obj = this.selectbyID(obj.getNumAeroport());
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -38,23 +35,20 @@ public class DaoAeroport extends DAO<Aeroport> {
 
 	@Override
 	public Aeroport modify(Aeroport obj) {
-		
-		int numAeroport = obj.getNumAeroport();
-		String nomAeroport = obj.getNomAeroport();
-		String nomVille = obj.getNomVille().getNomVille();
-		String nomPays = obj.getNomPays().getNomPays();
+
 
 		try{
+			
 			this.connect.setTransactionIsolation(java.sql.Connection.TRANSACTION_SERIALIZABLE);
 			this.connect	
                 .createStatement(
                 	ResultSet.TYPE_SCROLL_INSENSITIVE, 
                     ResultSet.CONCUR_UPDATABLE
                  ).executeUpdate(
-                	"UPDATE Aeroport SET nomVille = '" + nomVille + "',"+
-                    " nomPays = '" + nomPays + "',"+
-                    " nomAeroport = '" + nomAeroport + "'"+
-                	" WHERE numAeroport = '" + numAeroport + "'"
+                	"UPDATE Aeroport SET nomVille = '" + obj.getNomVille() + "',"+
+                    " nomPays = '" + obj.getNomPays() + "',"+
+                    " nomAeroport = '" + obj.getNomAeroport() + "'"+
+                	" WHERE numAeroport = '" + obj.getNumAeroport() + "'"
                  );
 
 			obj = this.selectbyID(obj.getNumAeroport());
@@ -88,8 +82,8 @@ public class DaoAeroport extends DAO<Aeroport> {
 			
 			if(result.first())
 				
-				a = new Aeroport(numAeroport,result.getString("nomAeroport"),new Ville(result.getString("nomVille"), new Pays(result.getString("nomPays"))),
-					new Pays(result.getString("nomPays")));
+				a = new Aeroport(numAeroport,result.getString("nomAeroport"),result.getString("nomVille"), result.getString("nomPays"));
+				
 		
 			} catch (SQLException e) {
 				
@@ -111,9 +105,10 @@ public class DaoAeroport extends DAO<Aeroport> {
 			
 			while(result.next())
 				
-				a.add(new Aeroport(result.getInt("numAeroport"),result.getString("nomAeroport"),new Ville(result.getString("nomVille"), new Pays(result.getString("nomPays"))),
-					new Pays(result.getString("nomPays"))));
+				a.add(new Aeroport(result.getInt("numAeroport"),result.getString("nomAeroport"),result.getString("nomVille"),
+					result.getString("nomPays")));
 		
+			
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
