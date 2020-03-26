@@ -4,11 +4,11 @@ public class Aeroport {
 	
 	private int  numAeroport;
 	private String 	nomAeroport;
-	private Ville nomVille;
-	private Pays nomPays;
+	private String nomVille;
+	private String nomPays;
 	
 	
-	public Aeroport(int  numAeroport, String nomAeroport, Ville nomVille, Pays nomPays) {
+	public Aeroport(int  numAeroport, String nomAeroport, String nomVille, String nomPays) {
 		super();
 		this.numAeroport = numAeroport;
 		this.nomAeroport = nomAeroport;
@@ -34,25 +34,25 @@ public class Aeroport {
 		this.nomAeroport = nomAeroport;
 	}
 
-	public Ville getNomVille() {
+	public String getNomVille() {
 		return nomVille;
 	}
 
-	public void setNomVille(Ville nomVille) {
+	public void setNomVille(String nomVille) {
 		this.nomVille = nomVille;
 	}
 
-	public Pays getNomPays() {
+	public String getNomPays() {
 		return nomPays;
 	}
 
-	public void setNomPays(Pays nomPays) {
+	public void setNomPays(String nomPays) {
 		this.nomPays = nomPays;
 	}
 	
 	
 	public void ToString() {
-		System.out.println("Aeroport nom : "+ nomAeroport + " - Numéro d'aeroport : " + numAeroport + " - Nom de la ville : "+ nomVille.getNomVille()+" - Pays : "+ nomPays.getNomPays()) ;
+		System.out.println("Aeroport nom : "+ nomAeroport + " - Numéro d'aeroport : " + numAeroport + " - Nom de la ville : "+ nomVille+" - Pays : "+ nomPays) ;
 	}
 	
 	
