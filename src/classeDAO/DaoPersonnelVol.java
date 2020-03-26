@@ -15,52 +15,42 @@ import classes.PersonnelVol;
 public class DaoPersonnelVol extends DAO<PersonnelVol> {
 	
 	 public PersonnelVol insert(PersonnelVol obj) {
-			
-			int numPersonnel = obj.getNumPersonnel().getNumPersonnel();
-			int numVol = obj.getNumVol().getNumVol();
-			
-			ResultSet result;
+		
 			
 			try {
-				
-				result = this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeQuery(
-							"SELECT numVol FROM Personnel NATURAL JOIN VOL ");
 
-				if (result.first()) {
-					
-					int lastId = result.getInt("numVol");
 					PreparedStatement prepare = this.connect.prepareStatement("INSERT INTO Client (numVol, numPersonnel) VALUES(?, ?)");
 					
-					prepare.setInt(1, lastId);
-					prepare.setInt(2, numPersonnel);
+					prepare.setInt(1, obj.getNumVol().getNumVol());
+					prepare.setInt(2, obj.getNumPersonnel().getNumPersonnel());
+				
 
 					prepare.executeUpdate();
-					obj = this.selectById(numVol);
+					
+					obj = this.selectById(obj.getNumVol().getNumVol());
+					
+				} catch (SQLException e) {
+					e.printStackTrace();
 				}
-			} catch (SQLException e) {
-				
-				e.printStackTrace();
-			}
-		    
-			return obj;
+
+				return obj;
 			
 		 }
 	
 	 
 	 public PersonnelVol modify(PersonnelVol obj) {
 			
-		 	int numPersonnel = obj.getNumPersonnel().getNumPersonnel();
-			int numVol = obj.getNumVol().getNumVol();
-			
+		
 			try{
 				
 				this.connect.setTransactionIsolation(java.sql.Connection.TRANSACTION_SERIALIZABLE);
 				this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeUpdate(
-	                	"UPDATE Avion SET numVol = '" + numVol + "',"+
-	                	" WHERE numPersonnel = '" + numPersonnel + "'"
+	                	"UPDATE Avion SET numVol = '" + obj.getNumVol().getNumVol() + "',"+
+	                	" WHERE numPersonnel = '" + obj.getNumPersonnel().getNumPersonnel() + "'"
 	                 );
 
-				obj = this.selectById(obj.getNumVol());
+				obj = this.selectById(obj.getNumVol().getNumVol());
+				
 		    } catch (SQLException e) {
 		    	
 		            e.printStackTrace();
@@ -84,7 +74,7 @@ public class DaoPersonnelVol extends DAO<PersonnelVol> {
 			DaoPersonnel pDAO = new DaoPersonnel();
 			DaoVol vDAO = new DaoVol();
 			
-			vol v = null;
+			Vol v = null;
 			Personnel p = null;
 			
 			try {

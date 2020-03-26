@@ -6,13 +6,13 @@ public class Adresse {
 	private int numAllee;
 	private String nomRue;
 	private String codePostal;
-	private Ville nomVille;
-	private Pays nomPays;
+	private String nomVille;
+	private String nomPays;
 	
 	
 	public Adresse() {}
 	
-	public Adresse(int numAdresse, int numAllee, String nomRue, String codePostal, Ville nomVille, Pays nomPays) {
+	public Adresse(int numAdresse, int numAllee, String nomRue, String codePostal, String nomVille, String nomPays) {
 		this.numAdresse = numAdresse;
 		this.numAllee = numAllee;
 		this.nomRue = nomRue;
@@ -53,26 +53,26 @@ public class Adresse {
 		this.codePostal = codePostal;
 	}
 
-	public Ville getNomVille() {
+	public String getNomVille() {
 		return nomVille;
 	}
 
-	public void setNomVille(Ville nomVille) {
+	public void setNomVille(String nomVille) {
 		this.nomVille = nomVille;
 	}
 
-	public Pays getNomPays() {
+	public String getNomPays() {
 		return nomPays;
 	}
 
-	public void setNomPays(Pays nomPays) {
+	public void setNomPays(String nomPays) {
 		this.nomPays = nomPays;
 	}
 	
 	
 	public void ToString() {
 		System.out.println(" Adresse : "+" Numéro de l'adresse : "+ numAdresse +" Code Postal: "+codePostal+" numéro de la rue : "+ numAllee +" Nom de la ville : "+ 
-		   nomVille.getNomVille() + " Pays : "+ nomPays.getNomPays());
+		   nomVille + " Pays : "+ nomPays);
 		}
 	
 	

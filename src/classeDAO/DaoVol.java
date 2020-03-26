@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import classes.Aeroport;
 import classes.Vol;
 
 
@@ -36,7 +37,7 @@ public class DaoVol extends DAO<Vol> {
 				prepare.setInt		(8, obj.getnbrMinPlacePremiere());
 				prepare.setInt		(9, obj.getnbrMinPlaceAffaire());
 				prepare.setInt		(10, obj.isVoltermine()?1:0);
-				prepare.setInt		(10, obj.getNumAvion().getNumAvion());
+				prepare.setInt		(11, obj.getNumAvion().getNumAvion());
 
 				prepare.executeUpdate();
 				obj = this.selectbyID(obj.getNumVol());
@@ -57,16 +58,23 @@ public class DaoVol extends DAO<Vol> {
 		try{
 			
 			this.connect.setTransactionIsolation(java.sql.Connection.TRANSACTION_SERIALIZABLE);
-			this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeUpdate(
-                	"UPDATE Vol SET nomVille = '" + nomVille + "',"+
-                    " nomPays = '" + nomPays + "',"+
-                    " nomRue = '" + nomRue + "',"+
-                    " numAllee = " + numAllee + ","+
-                	" codePostal = '" + codePostal + "'"+
-                	" WHERE numAdresse = " + numAdresse
-                 );
+			this.connect
+			.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE)
+			.executeUpdate("UPDATE VOL set num_vol = "			+obj.getNumVol() +","+
+						   "date_vol = "			+obj.getDateVol() +"," + 
+						   "aeroport_origine ="	+obj.getAeroportDepart().getNumAeroport() + "," +
+						   "aeroport_destination ="+obj.getAeroportArrive().getNumAeroport() +","+
+						   "duree ="				+obj.getDuree() + "," + 
+						   "distance ="			+obj.getDistanceVol() +","+
+						   "minplace_eco ="		+obj.getnbrMinPlaceEco() +","+ 
+						   "nbr_minplace_premiere="+obj.getnbrMinPlacePremiere() +","+
+						   "nbr_minplace_affaire ="+obj.getnbrMinPlaceAffaire() +","+
+						   "terminaison ="			+(obj.isVoltermine()?1:0) +","+
+						   "num_avion ="			+obj.getNumAvion().getNumAvion()
+							
+					);
 
-			obj = this.selectbyID(obj.getNumAdresse());
+			obj = this.selectbyID(obj.getNumVol());
 	    } catch (SQLException e) {
 	            e.printStackTrace();
 	    }
@@ -76,18 +84,35 @@ public class DaoVol extends DAO<Vol> {
 
 	
 
-
-	public Vol selectbyID(int numAdresse) {
-		Adresse a = new Adresse();
+	public Vol selectbyID(int numVol) {
+		Vol a = new Vol();
 		
 		try {
-			ResultSet result = this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeQuery(
-	                            "SELECT * FROM Vol WHERE numAdresse = " + numAdresse);
+			
+			ResultSet result = this.connect
+					.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE)
+					.executeQuery("SELECT * FROM Vol WHERE numVol = " + numVol);
 			
 			if(result.first())
+			{
+			
+					a = new Vol(
+							numVol,
+							result.getString("date_vol"),
+							DaoAeroport.selectbyID(result.getInt(3)) ,
+							DaoAeroport.selectbyID(result.getInt(4)) ,
+							result.getInt("duree") ,
+							result.getInt("distance") , 
+							(result.getInt("terminaison")==1?true:false),
+							DaoAvion.selectById(result.getInt("num_avion")) , 
+							result.getInt("nbr_minplace_eco") ,
+							result.getInt("nbr_minplace_premiere") ,
+							result.getInt("nbr_minplace_affaire")
+							);
+			}
+
+			
 				
-				a = new Adresse(numAdresse,result.getInt("numRue"),result.getString("nomRue"),result.getString("codePostal"),
-					new Ville(result.getString("nomVille"), new Pays(result.getString("nomPays"))),new Pays(result.getString("nomPays")));
 		
 		} catch (SQLException e) {
 			
@@ -100,29 +125,41 @@ public class DaoVol extends DAO<Vol> {
 	
 	@Override
 	public void delete(Vol object) {} // ici  On interdit la suppression d'une adresse
-	
-	
-	
+		
 	@Override
 	public ArrayList<Vol> selectAll() {
-		ArrayList<Vol> a = new ArrayList<Vol>();
+		ArrayList<Vol> volList = new ArrayList<Vol>();
 		
 		try {
 			
 			ResultSet result = this .connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeQuery("SELECT * FROM Adresse");
 			
-			
+
 			while(result.next())
+			{
+				Vol newVol = new Vol(
+							result.getInt("num_vol"),
+							result.getString("date_vol"),
+							DaoAeroport.selectbyID(result.getInt(3)) ,
+							DaoAeroport.selectbyID(result.getInt(4)) ,
+							result.getInt("duree") ,
+							result.getInt("distance") , 
+							(result.getInt("terminaison")==1?true:false),
+							DaoAvion.selectById(result.getInt("num_avion")) , 
+							result.getInt("nbr_minplace_eco") ,
+							result.getInt("nbr_minplace_premiere") ,
+							result.getInt("nbr_minplace_affaire")
+							);
+				volList.add(newVol);
 				
-				a.add(new Adresse(result.getInt("numAdresse"),result.getInt("numRue"),result.getString("nomRue"),result.getString("codePostal"),new Ville(result.getString("nomVille"), new Pays(result.getString("nomPays"))),
-					new Pays(result.getString("nomPays"))));
-		
+			}
+			
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
 		}
 		
-		return a;
+		return volList;
 	}
 	
 	

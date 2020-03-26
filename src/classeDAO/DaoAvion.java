@@ -77,7 +77,7 @@ public class DaoAvion extends DAO<Avion> {
 	    }
 	}
 	
-	public Avion selectById(int numA) {
+	public static Avion selectById(int numA) {
 		
 		Avion a = new Avion();
 		
@@ -86,7 +86,7 @@ public class DaoAvion extends DAO<Avion> {
 		
 		try {
 			
-			ResultSet result = this .connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeQuery(
+			ResultSet result =  connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeQuery(
 	                            "SELECT * FROM Avion WHERE numAvion = " + numA);
 			
 			if(result.first())
