@@ -5,23 +5,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import classes.Adresse;
-import classes.Pays;
-import classes.Ville;
+import classes.Vol;
 
 
-public class DaoAdresse extends DAO<Adresse> {
+public class DaoVol extends DAO<Vol> {
 	
-	
-	
-	public Adresse insert(Adresse obj) {
-		
-		int numAdresse = obj.getNumAdresse();
-		int numAllee = obj.getNumAllee();
-		String nomRue = obj.getNomRue();
-		String codePostal = obj.getCodePostal();
-		String nomVille = obj.getNomVille().getNomVille();
-		String nomPays = obj.getNomPays().getNomPays();
+	public Vol insert(Vol obj) {
 		
 		ResultSet result;
 		
@@ -33,16 +22,24 @@ public class DaoAdresse extends DAO<Adresse> {
 			if (result.first()) {
 				int lastId = result.getInt("numAdresse");
 				
-				PreparedStatement prepare = this.connect.prepareStatement("INSERT INTO Adresse (numAdresse, numRue, nomRue, codePostal, nomVille, nomPays) VALUES(?, ?, ?, ?, ?, ?)");
-				prepare.setInt(1, lastId);
-				prepare.setInt(2, numAllee);
-				prepare.setString(3, nomRue);
-				prepare.setString(4, codePostal);
-				prepare.setString(5, nomVille);
-				prepare.setString(6, nomPays);
+				PreparedStatement prepare = this.connect.prepareStatement(""
+						+ "INSERT INTO Vol (num_vol ,date_vol,aeroport_origine,aeroport_destination,duree ,distance ,_minplace_eco ,nbr_minplace_premiere ,nbr_minplace_affaire ,terminaison ,num_avion\n" + 
+						")"
+						+ " VALUES(?, ?, ?, ?, ?, ?,?,?,?,?,?)");
+				prepare.setInt		(1, obj.getNumVol());
+				prepare.setString	(2, obj.getDateVol());
+				prepare.setInt		(3,obj.getAeroportDepart().getNumAeroport());
+				prepare.setInt		(4, obj.getAeroportArrive().getNumAeroport());
+				prepare.setFloat	(5, obj.getDuree());
+				prepare.setFloat	(6, obj.getDistanceVol());
+				prepare.setInt		(7, obj.getnbrMinPlaceEco());
+				prepare.setInt		(8, obj.getnbrMinPlacePremiere());
+				prepare.setInt		(9, obj.getnbrMinPlaceAffaire());
+				prepare.setInt		(10, obj.isVoltermine()?1:0);
+				prepare.setInt		(10, obj.getNumAvion().getNumAvion());
 
 				prepare.executeUpdate();
-				obj = this.selectbyID(numAdresse);
+				obj = this.selectbyID(obj.getNumVol());
 				
 			}
 			
@@ -55,25 +52,18 @@ public class DaoAdresse extends DAO<Adresse> {
 	}
 
 	@Override
-	public Adresse modify(Adresse obj) {
-		
-		int numAdresse = obj.getNumAdresse();
-		int numAllee = obj.getNumAllee();
-		String nomRue = obj.getNomRue();
-		String codePostal = obj.getCodePostal();
-		String nomVille = obj.getNomVille().getNomVille();
-		String nomPays = obj.getNomPays().getNomPays();
+	public Vol modify(Vol obj) {
 		
 		try{
 			
 			this.connect.setTransactionIsolation(java.sql.Connection.TRANSACTION_SERIALIZABLE);
 			this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeUpdate(
-                	"UPDATE Adresse SET nomVille = '" + nomVille + "',"+
+                	"UPDATE Vol SET nomVille = '" + nomVille + "',"+
                     " nomPays = '" + nomPays + "',"+
                     " nomRue = '" + nomRue + "',"+
                     " numAllee = " + numAllee + ","+
                 	" codePostal = '" + codePostal + "'"+
-                	" WHERE numAdresse = " + obj.getNumAdresse()
+                	" WHERE numAdresse = " + numAdresse
                  );
 
 			obj = this.selectbyID(obj.getNumAdresse());
@@ -87,12 +77,12 @@ public class DaoAdresse extends DAO<Adresse> {
 	
 
 
-	public Adresse selectbyID(int numAdresse) {
+	public Vol selectbyID(int numAdresse) {
 		Adresse a = new Adresse();
 		
 		try {
 			ResultSet result = this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeQuery(
-	                            "SELECT * FROM Adresse WHERE numAdresse = " + numAdresse);
+	                            "SELECT * FROM Vol WHERE numAdresse = " + numAdresse);
 			
 			if(result.first())
 				
@@ -109,13 +99,13 @@ public class DaoAdresse extends DAO<Adresse> {
 
 	
 	@Override
-	public void delete(Adresse object) {} // ici  On interdit la suppression d'une adresse
+	public void delete(Vol object) {} // ici  On interdit la suppression d'une adresse
 	
 	
 	
 	@Override
-	public ArrayList<Adresse> selectAll() {
-		ArrayList<Adresse> a = new ArrayList<Adresse>();
+	public ArrayList<Vol> selectAll() {
+		ArrayList<Vol> a = new ArrayList<Vol>();
 		
 		try {
 			
