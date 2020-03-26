@@ -8,14 +8,11 @@ import java.util.ArrayList;
 import classes.Adresse;
 import classes.Pays;
 import classes.Ville;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import classes.Adresse;
-import classes.Pays;
-import classes.Ville;
+
 
 public class DaoAdresse extends DAO<Adresse> {
+	
+	
 	
 	public Adresse insert(Adresse obj) {
 		
@@ -87,7 +84,7 @@ public class DaoAdresse extends DAO<Adresse> {
 		return obj;
 	}
 
-
+	
 
 
 	public Adresse selectbyID(int numAdresse) {
