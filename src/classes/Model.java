@@ -9,7 +9,7 @@ public class Model {
 	
 	public Model() {}
 	
-	public Model (int numModele, int nbPiloteMin, int rayonAction) {
+	public Model (String nomModele,int numModele, int nbPiloteMin, int rayonAction) {
 		
 		this.numModele = numModele;
 		this.nbPiloteMin = nbPiloteMin;
