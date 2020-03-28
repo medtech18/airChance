@@ -59,6 +59,7 @@ public class PlannificationVolView extends JFrame {
         getContentPane().add(piloteChoiceList);
         
         avionList = new JList(listModel);
+        avionList.setEnabled(false);
         piloteChoiceList.setRowHeaderView(avionList);
         avionList.setSelectionModel(new MySelectionModel(avionList, 2));
         
@@ -146,6 +147,7 @@ public class PlannificationVolView extends JFrame {
         getContentPane().add(lblNumAvion);
         
         JComboBox comboBoxNumAvion = new JComboBox();
+        comboBoxNumAvion.setEnabled(false);
         comboBoxNumAvion.setBounds(454, 69, 130, 27);
         getContentPane().add(comboBoxNumAvion);
         
