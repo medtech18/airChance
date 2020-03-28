@@ -31,8 +31,7 @@ public class AvionMenu extends JFrame {
 		for(int i= 0 ; i < 100 ; i++)
 		{
 			avionList.add(new Avion(100+i,new Model("BOEING",generateRandomInt(3000),generateRandomInt(10),generateRandomInt(1000)), generateRandomInt(100),generateRandomInt(9000),generateRandomInt(20000)));
-		}
-      
+		}  
 //     data = new Object[][] {{"102", 222,33,44,"500032"}, {"103", 222,33,44,"400032"}, {"104", 22,333,54,"300032"}, {"105", 022,33,44,"900032"}};
       
       columnNames = new String[] {"NUM AVION ", "nb place_eco" , "nb place premiere" , "Num Model", "nom_modele" ,"nb_min_pilote","rayon_action" };
