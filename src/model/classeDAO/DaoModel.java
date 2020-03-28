@@ -1,5 +1,6 @@
 package model.classeDAO;
 
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,20 +12,19 @@ public class DaoModel extends DAO<Model>{
 	
 	public Model insert(Model obj) {
 		
-		String nomModele = obj.getNomModele();
-		int nbPiloteMin = obj.getNbPiloteMin();
-		int rayonAction = obj.getRayonAction();
-		int numModele = obj.getNumModele();
-		
+	
 		try {
-				PreparedStatement prepare = this.connect.prepareStatement("INSERT INTO Modele (numModele, nomModele, nbPiloteMin, rayonAction) VALUES(?, ?, ?, ?)");
-				prepare.setInt(1, numModele);
-				prepare.setString(2, nomModele);
-				prepare.setInt(3, nbPiloteMin);
-				prepare.setInt(4, rayonAction);
+			
+				connect.setTransactionIsolation(java.sql.Connection.TRANSACTION_SERIALIZABLE);
+			
+				PreparedStatement prepare =  connect.prepareStatement("INSERT INTO Modele (numModele, nomModele, nbPiloteMin, rayonAction) VALUES(?, ?, ?, ?)");
+				prepare.setInt(1, obj.getNumModele());
+				prepare.setString(2, obj.getNomModele());
+				prepare.setInt(3, obj.getNbPiloteMin());
+				prepare.setInt(4, obj.getRayonAction());
 
 				prepare.executeUpdate();
-				obj = this.selectById(numModele);
+				obj = selectById(obj.getNumModele());
 				
 		} catch (SQLException e) {
 			
@@ -35,22 +35,19 @@ public class DaoModel extends DAO<Model>{
 	}
 	
 	public Model  modify(Model obj) {
-		String nomModele = obj.getNomModele();
-		int nbPiloteMin = obj.getNbPiloteMin();
-		int rayonAction = obj.getRayonAction();
-		int numModele = obj.getNumModele();
+		
 		
 		try{
 			
-			this.connect.setTransactionIsolation(java.sql.Connection.TRANSACTION_SERIALIZABLE);
-			this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeUpdate(
-                	"UPDATE Modele SET numModele = " + numModele + ","+
-                    " rayonAction = " + rayonAction + ","+
-                    " nbPiloteMin = " + nbPiloteMin + ","+
-                	" WHERE nomModele = '" + nomModele + "'" 
+			connect.setTransactionIsolation(java.sql.Connection.TRANSACTION_SERIALIZABLE);
+			connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeUpdate(
+                	"UPDATE Modele SET numModele = " + obj.getNumModele() + ","+
+                    " rayonAction = " + obj.getRayonAction() + ","+
+                    " nbPiloteMin = " + obj.getNbPiloteMin() + ","+
+                	" WHERE nomModele = '" + obj.getNomModele() + "'" 
                  );
 
-			obj = this.selectById(obj.getNumModele());
+			obj = selectById(obj.getNumModele());
 	    } catch (SQLException e) {
 	    	
 	            e.printStackTrace();
@@ -63,7 +60,7 @@ public class DaoModel extends DAO<Model>{
 		
 		try{
 			
-			this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeUpdate(
+			connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeUpdate(
                 	"DELETE FROM Model WHERE numModele = '" + obj.getNumModele() + "'"
                  );
 			
@@ -73,12 +70,12 @@ public class DaoModel extends DAO<Model>{
 		
 	}
 	
-	public Model selectById(int numModele) {
+	public static Model selectById(int numModele) {
 		Model m = new Model();
 		
 		try {
 			
-			ResultSet result = this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeQuery(
+			ResultSet result = connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeQuery(
 	                            "SELECT * FROM Modele WHERE numModele = '" + numModele + "'");
 			
 			if(result.first())
@@ -98,7 +95,7 @@ public class DaoModel extends DAO<Model>{
 		
 		try {
 			
-			ResultSet result = this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeQuery(
+			ResultSet result =  connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeQuery(
 	                            "SELECT * FROM Modele");
 			
 			while(result.next()) {

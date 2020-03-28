@@ -9,6 +9,7 @@ public class PlaceReserver {
 	public PlaceReserver() {}
 	
 	public PlaceReserver(Reservation numReservation,Place numPlace , Vol numVol) {
+
 		this.numPlace = numPlace ;
 		this.numReservation = numReservation ;
 		this.numVol = numVol ;

@@ -12,7 +12,7 @@ public class Personnel {
 	
 	public Personnel() {}
 	
-	public Personnel(int numPersonnel ,String nom , String prenom, int totalHeureVol,String dateDisponibilite,
+	public Personnel(int numPersonnel ,String nom , String prenom, int totalHeureVol,String dateDisponibilie,
 			Adresse numAdresse,String genre) {
 		
 		this.dateDisponibilie = dateDisponibilie ;

@@ -1,5 +1,6 @@
 package model.classeDAO;
 
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,7 +17,7 @@ public class DaoAeroport extends DAO<Aeroport> {
 	
 		try {
 			
-			PreparedStatement prepare = this.connect.prepareStatement("INSERT INTO Aeroport (numAeroport, nomAeroport, nomVille, nomPays) VALUES(?, ?, ?, ?)");
+			PreparedStatement prepare = connect.prepareStatement("INSERT INTO Aeroport (numAeroport, nomAeroport, nomVille, nomPays) VALUES(?, ?, ?, ?)");
 			
 			prepare.setInt(1, obj.getNumAeroport());
 			prepare.setString(2, obj.getNomAeroport());
@@ -25,7 +26,7 @@ public class DaoAeroport extends DAO<Aeroport> {
 
 			prepare.executeUpdate();
 			
-			obj = this.selectbyID(obj.getNumAeroport());
+			obj = selectbyID(obj.getNumAeroport());
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -39,9 +40,8 @@ public class DaoAeroport extends DAO<Aeroport> {
 
 		try{
 			
-			this.connect.setTransactionIsolation(java.sql.Connection.TRANSACTION_SERIALIZABLE);
-			this.connect	
-                .createStatement(
+			connect.setTransactionIsolation(java.sql.Connection.TRANSACTION_SERIALIZABLE);
+			connect	.createStatement(
                 	ResultSet.TYPE_SCROLL_INSENSITIVE, 
                     ResultSet.CONCUR_UPDATABLE
                  ).executeUpdate(
@@ -51,7 +51,7 @@ public class DaoAeroport extends DAO<Aeroport> {
                 	" WHERE numAeroport = '" + obj.getNumAeroport() + "'"
                  );
 
-			obj = this.selectbyID(obj.getNumAeroport());
+			obj = selectbyID(obj.getNumAeroport());
 	    } catch (SQLException e) {
 	            e.printStackTrace();
 	    }
@@ -63,7 +63,7 @@ public class DaoAeroport extends DAO<Aeroport> {
 	public void delete(Aeroport object) {
 		try{
 			
-			this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeUpdate("DELETE FROM Aeroport WHERE numAeroport = " + object.getNumAeroport());
+			connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeUpdate("DELETE FROM Aeroport WHERE numAeroport = " + object.getNumAeroport());
 	    
 		} catch (SQLException e) {
 			
@@ -76,7 +76,8 @@ public class DaoAeroport extends DAO<Aeroport> {
 		Aeroport a = new Aeroport();
 		
 		try {
-			ResultSet result =  connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeQuery(
+			
+			ResultSet result = connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeQuery(
 	                            "SELECT * FROM Aeroport WHERE numAeroport  = '" + numAeroport + "'");
 			
 			
@@ -100,7 +101,7 @@ public class DaoAeroport extends DAO<Aeroport> {
 		ArrayList<Aeroport> a = new ArrayList<Aeroport>();
 		
 		try {
-			ResultSet result = this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeQuery(
+			ResultSet result = connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeQuery(
 	                            "SELECT * FROM Aeroport");
 			
 			while(result.next())
@@ -119,21 +120,7 @@ public class DaoAeroport extends DAO<Aeroport> {
 
 } 
 	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
+	 
 	  
 	  
 	  

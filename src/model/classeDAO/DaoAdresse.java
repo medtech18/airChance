@@ -1,12 +1,12 @@
 package model.classeDAO;
 
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 import model.classes.Adresse;
-
 
 
 public class DaoAdresse extends DAO<Adresse> {
@@ -16,8 +16,9 @@ public class DaoAdresse extends DAO<Adresse> {
 	public Adresse insert(Adresse obj) {
 
 		try {
-	
-				PreparedStatement prepare = this.connect.prepareStatement("INSERT INTO Adresse (numAdresse, numRue, nomRue, codePostal, nomVille, nomPays) VALUES(?, ?, ?, ?, ?, ?)");
+			
+				connect.setTransactionIsolation(java.sql.Connection.TRANSACTION_SERIALIZABLE);
+				PreparedStatement prepare = connect.prepareStatement("INSERT INTO Adresse (numAdresse, numRue, nomRue, codePostal, nomVille, nomPays) VALUES(?, ?, ?, ?, ?, ?)");
 				
 				prepare.setInt(1, obj.getNumAdresse());
 				prepare.setInt(2, obj.getNumAllee());
@@ -27,7 +28,7 @@ public class DaoAdresse extends DAO<Adresse> {
 				prepare.setString(6, obj.getNomPays());
 
 				prepare.executeUpdate();
-				obj = this.selectbyID(obj.getNumAdresse());
+				obj = selectbyID(obj.getNumAdresse());
 				
 			
 			
@@ -46,14 +47,8 @@ public class DaoAdresse extends DAO<Adresse> {
 		
 		try{
 			
-			this.connect.setTransactionIsolation(java.sql.Connection.TRANSACTION_SERIALIZABLE);
-			this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeUpdate(
-
-                	"UPDATE Adresse SET nomVille = '" + obj.getNomVille() + "',"+
-                    " nomPays = '" + obj.getNomPays() + "',"+
-                    " nomRue = '" + obj.getNomRue() + "',"+
-                    " numAllee = " + obj.getNumAllee() + ","+
-                	" codePostal = '" + obj.getCodePostal() + "'"+
+			connect.setTransactionIsolation(java.sql.Connection.TRANSACTION_SERIALIZABLE);
+			connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeUpdate(
                 	"UPDATE Adresse SET nomVille = '" + obj.getNomVille() + "',"+
                     " nomPays = '" +  obj.getNomPays() + "',"+
                     " nomRue = '" + obj.getNomRue() + "',"+
@@ -62,7 +57,7 @@ public class DaoAdresse extends DAO<Adresse> {
                 	" WHERE numAdresse = " + obj.getNumAdresse()
                  );
 
-			obj = this.selectbyID(obj.getNumAdresse());
+			obj = selectbyID(obj.getNumAdresse());
 	    } catch (SQLException e) {
 	            e.printStackTrace();
 	    }
@@ -73,16 +68,16 @@ public class DaoAdresse extends DAO<Adresse> {
 	
 
 
-	public Adresse selectbyID(int numAdresse) {
+	public static Adresse selectbyID(int numAdresse) {
 		Adresse a = new Adresse();
 		
 		try {
-			ResultSet result = this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeQuery(
+			ResultSet result = connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeQuery(
 	                            "SELECT * FROM Adresse WHERE numAdresse = " + numAdresse);
 			
 			if(result.first())
 				
-				a = new Adresse(numAdresse,result.getInt("numRue"),result.getString("nomRue"),result.getString("codePostal"),
+				a = new Adresse(numAdresse,result.getInt("numAllee"),result.getString("nomRue"),result.getString("codePostal"),
 					result.getString("nomVille"), result.getString("nomPays"));
 		
 		} catch (SQLException e) {
@@ -105,12 +100,12 @@ public class DaoAdresse extends DAO<Adresse> {
 		
 		try {
 			
-			ResultSet result = this .connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeQuery("SELECT * FROM Adresse");
+			ResultSet result = connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeQuery("SELECT * FROM Adresse");
 			
 			
 			while(result.next())
 				
-				a.add(new Adresse(result.getInt("numAdresse"),result.getInt("numRue"),result.getString("nomRue"),result.getString("codePostal"),result.getString("nomVille"), result.getString("nomPays")));
+				a.add(new Adresse(result.getInt("numAdresse"),result.getInt("numAllee"),result.getString("nomRue"),result.getString("codePostal"),result.getString("nomVille"), result.getString("nomPays")));
 		
 		} catch (SQLException e) {
 			

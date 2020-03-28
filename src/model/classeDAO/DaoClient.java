@@ -1,4 +1,6 @@
 package model.classeDAO;
+
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -6,39 +8,27 @@ import java.util.ArrayList;
 
 import model.classes.Client;
 
+
 public class DaoClient extends DAO<Client> {
 	
 	public Client insert(Client obj) {
 		
-		int numClient = obj.getNumClient();
-		String nom = obj.getNom();
-		String prenom = obj.getPrenom();
-		String numPasseport = obj.getNumPasseport();
-		int pointsFidelite = obj.getPointsFidelite();
-		int numAdresse = obj.getNumAdresse().getNumAdresse();
-		
-		ResultSet result;
 		
 		try {
 			
-			result = this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeQuery(
-						"SELECT numClient FROM Client");
-
-			if (result.first()) {
+				connect.setTransactionIsolation(java.sql.Connection.TRANSACTION_SERIALIZABLE);
+				PreparedStatement prepare = connect.prepareStatement("INSERT INTO Client (numClient, nom, prenom, numPasseport, pointsFidelite, numAdresse) VALUES(?, ?, ?, ?, ?, ?)");
 				
-				int lastId = result.getInt("numClient");
-				PreparedStatement prepare = this.connect.prepareStatement("INSERT INTO Client (numClient, nom, prenom, numPasseport, pointsFidelite, numAdresse) VALUES(?, ?, ?, ?, ?, ?)");
-				
-				prepare.setInt(1, lastId);
-				prepare.setString(2, nom);
-				prepare.setString(3, prenom);
-				prepare.setString(4, numPasseport);
-				prepare.setInt(5, pointsFidelite);
-				prepare.setInt(6, numAdresse);
+				prepare.setInt(1, obj.getNumClient());
+				prepare.setString(2, obj.getNom());
+				prepare.setString(3, obj.getPrenom());
+				prepare.setString(4, obj.getNumPasseport());
+				prepare.setInt(5, obj.getPointsFidelite());
+				prepare.setInt(6, obj.getNumAdresse().getNumAdresse());
 
 				prepare.executeUpdate();
-				obj = this.selectById(numClient);
-			}
+				obj = selectById(obj.getNumClient());
+			
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
@@ -52,8 +42,8 @@ public class DaoClient extends DAO<Client> {
 		
 		try{
 			
-			this.connect.setTransactionIsolation(java.sql.Connection.TRANSACTION_SERIALIZABLE);
-			this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeUpdate(
+			connect.setTransactionIsolation(java.sql.Connection.TRANSACTION_SERIALIZABLE);
+			connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeUpdate(
                 	"UPDATE Client SET nom = '" + obj.getNom() + "',"+
                 	" prenom = '" + obj.getPrenom() + "',"+
                 	" numPasseport = '" + obj.getNumPasseport() + "',"+
@@ -72,7 +62,7 @@ public class DaoClient extends DAO<Client> {
 	public void delete(Client obj) {
 		try {
 			
-			this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeUpdate(
+			connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeUpdate(
                 	"DELETE FROM Client WHERE numClient = " + obj.getNumClient()
                  );
 
@@ -83,18 +73,19 @@ public class DaoClient extends DAO<Client> {
 	}
 	
 	
-	public Client selectById(int numClient) {
+	public static Client selectById(int numClient) {
 		
 		Client c = new Client();
 		
 		try {
 			
-			ResultSet result = this .connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeQuery(
+			ResultSet result = connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeQuery(
 	                            "SELECT * FROM Client WHERE numClient = " + numClient);
 			
 			if(result.first())
+
 				
-				c = new Client(numClient,result.getString("nom"),result.getString("prenom"),result.getString("numPasseport"),result.getInt("pointsFidelite"),new DaoAdresse().selectbyID(result.getInt("numAdresse")));
+				c = new Client(numClient,result.getString("nom"),result.getString("prenom"),result.getString("numPasseport"),result.getInt("pointsFidelite"), DaoAdresse.selectbyID(result.getInt("numAdresse")));
 		
 		} catch (SQLException e) {
 			
@@ -109,13 +100,13 @@ public class DaoClient extends DAO<Client> {
 		
 		try {
 			
-			ResultSet result = this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeQuery(
+			ResultSet result = connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeQuery(
 	                            "SELECT * FROM Client");
 			
 			while(result.next())
 				
 				c.add(new Client(result.getInt("numClient"),result.getString("nom"),result.getString("prenom"),result.getString("numPasseport"),result.getInt("pointsFidelite"),
-		               new DaoAdresse().selectbyID(result.getInt("numAdresse"))));
+		                DaoAdresse.selectbyID(result.getInt("numAdresse"))));
 		
 		} catch (SQLException e) {
 			

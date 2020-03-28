@@ -1,15 +1,7 @@
 package controller.gestionPlannification;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
-
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 
 import model.classeDAO.DaoAeroport;
 import model.classeDAO.DaoAvion;
@@ -40,7 +32,7 @@ public class PlannificationVolController {
 
 		for(int i= 0 ; i < 100 ; i++)
 		{
-			avions.add(new Avion(100+i, generateRandomInt(100),generateRandomInt(9000),generateRandomInt(20000),new Model("BOEING",generateRandomInt(3000),generateRandomInt(10),generateRandomInt(1000))));
+			avions.add(new Avion(100+i,new Model("BOEING",generateRandomInt(3000),generateRandomInt(10),generateRandomInt(1000)), generateRandomInt(100),generateRandomInt(9000),generateRandomInt(20000)));
 		}
 		
 		

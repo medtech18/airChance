@@ -1,4 +1,5 @@
 package model.classeDAO;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -7,43 +8,28 @@ import java.util.ArrayList;
 import model.classes.Personnel;
 
 
-
-
 public class DaoPersonnel extends DAO<Personnel> {
 	
 	 public Personnel insert(Personnel obj) {
 		
-		int numPersonnel = obj.getNumPersonnel();
-		String nom = obj.getNom();
-		String prenom = obj.getPrenom();
-		String dateDisponibilie = obj.getDateDisponibilie();
-		int totalHeureVol = obj.getTotalHeureVol();
-		int numAdresse = obj.getNumAdresse().getNumAdresse();
-		String genre = obj.getGenre();
-		
-		ResultSet result;
 		
 		try {
 			
-			result = this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeQuery(
-						"SELECT numPersonnel FROM Personnel");
-
-			if (result.first()) {
+				connect.setTransactionIsolation(java.sql.Connection.TRANSACTION_SERIALIZABLE);
+				PreparedStatement prepare = connect.prepareStatement("INSERT INTO Client (numPersonnel, nom, prenom, dateDisponibilie, totalHeureVol, numAdresse,genre) VALUES(?, ?, ?, ?, ?, ?,?)");
 				
-				int lastId = result.getInt("numPersonnel");
-				PreparedStatement prepare = this.connect.prepareStatement("INSERT INTO Client (numPersonnel, nom, prenom, dateDisponibilie, totalHeureVol, numAdresse,genre) VALUES(?, ?, ?, ?, ?, ?,?)");
-				
-				prepare.setInt(1, lastId);
-				prepare.setString(2, nom);
-				prepare.setString(3, prenom);
-				prepare.setString(4, dateDisponibilie);
-				prepare.setInt(5, totalHeureVol);
-				prepare.setInt(6, numAdresse);
-				prepare.setString(7, genre);
+				prepare.setInt(1, obj.getNumPersonnel());
+				prepare.setString(2, obj.getNom());
+				prepare.setString(3, obj.getPrenom());
+				prepare.setString(4, obj.getDateDisponibilie());
+				prepare.setInt(5, obj.getTotalHeureVol());
+				prepare.setInt(6, obj.getNumAdresse().getNumAdresse());
+				prepare.setString(7, obj.getGenre());
 
 				prepare.executeUpdate();
-				obj = this.selectById(numPersonnel);
-			}
+				obj = selectById(obj.getNumPersonnel());
+			
+				
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
@@ -57,8 +43,8 @@ public class DaoPersonnel extends DAO<Personnel> {
 			
 			try{
 				
-				this.connect.setTransactionIsolation(java.sql.Connection.TRANSACTION_SERIALIZABLE);
-				this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeUpdate(
+				connect.setTransactionIsolation(java.sql.Connection.TRANSACTION_SERIALIZABLE);
+				connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeUpdate(
 	                	"UPDATE Personnel SET nom = '" + obj.getNom() + "',"+
 	                	" prenom = '" + obj.getPrenom() + "',"+
 	                	" dateDisponibilie = '" + obj.getDateDisponibilie() + "',"+
@@ -75,12 +61,13 @@ public class DaoPersonnel extends DAO<Personnel> {
 		}
 		
 		
+		
 		public void delete(Personnel obj) {
 			
 			try{
 				
 				
-				this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeUpdate(
+				connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeUpdate(
 	                	"DELETE FROM Personnel WHERE numPersonnel = " + obj.getNumPersonnel()
 	                 );
 				
@@ -90,19 +77,22 @@ public class DaoPersonnel extends DAO<Personnel> {
 		    }
 		}
 		
-		public Personnel selectById(int numP) {
+		
+		
+		
+		public static Personnel selectById(int numP) {
 			
 			Personnel p = new Personnel();
 		
 			
 			try {
 				
-				ResultSet result = this .connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeQuery(
+				ResultSet result = connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeQuery(
 		                            "SELECT * FROM Personnel WHERE numPersonnel = " + numP);
 				
 				if(result.first())
 				
-					p = new Personnel(numP,result.getString("nom"),result.getString("prenom"),result.getInt("totalHeureVol"),result.getString("dateDisponibilie"),new DaoAdresse().selectbyID(result.getInt("numAdresse")),result.getString("genre"));
+					p = new Personnel(numP,result.getString("nom"),result.getString("prenom"),result.getInt("totalHeureVol"),result.getString("dateDisponibilie"),DaoAdresse.selectbyID(result.getInt("numAdresse")),result.getString("genre"));
 					
 			} catch (SQLException e) {
 				
@@ -112,19 +102,20 @@ public class DaoPersonnel extends DAO<Personnel> {
 			return p;
 		}
 		
+	
 		
 		public ArrayList<Personnel> selectAll() {
 			ArrayList<Personnel> p = new ArrayList<Personnel>();
 			
 			try {
 				
-				ResultSet result = this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeQuery(
+				ResultSet result = connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeQuery(
 		                            "SELECT * FROM Personnel");
 				
 				while(result.next())
 					
 					p.add(new Personnel(result.getInt("numPersonnel"),result.getString("nom"),result.getString("prenom"),result.getInt("totalHeureVol"),result.getString("dateDisponibilite"),
-			               new DaoAdresse().selectbyID(result.getInt("numAdresse")),result.getString("genre")));
+			                DaoAdresse.selectbyID(result.getInt("numAdresse")),result.getString("genre")));
 			
 			} catch (SQLException e) {
 				
@@ -134,41 +125,6 @@ public class DaoPersonnel extends DAO<Personnel> {
 			return p;
 		}
 
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 	
 	
 	

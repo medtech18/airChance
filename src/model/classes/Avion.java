@@ -3,54 +3,20 @@ package model.classes;
 public class Avion {
 	
 	protected int numAvion;
-	private int nbrMinPlaceEco ;
-	private int nbrMinPlacePremiere ;
-	private int nbrMinPlaceAffaire ;
 	protected Model numModele;
-
+	private int nbrPlaceEco  ;
+	private int nbrPlacePremiere ;
+	private int nbrPlaceAffaire ;
 	
 	public Avion() {}
 	
-
-	public Avion(int numAvion, int nbrMinPlaceEco, int nbrMinPlacePremiere, int nbrMinPlaceAffaire, Model numModele) {
-		super();
+	public Avion(int numAvion , Model numModele ,int nbrPlaceAffaire , int nbrPlacePremiere, int nbrPlaceEco) {
 		this.numAvion = numAvion;
-		this.nbrMinPlaceEco = nbrMinPlaceEco;
-		this.nbrMinPlacePremiere = nbrMinPlacePremiere;
-		this.nbrMinPlaceAffaire = nbrMinPlaceAffaire;
 		this.numModele = numModele;
+		this.nbrPlaceAffaire = nbrPlaceAffaire ;
+		this.nbrPlaceEco = nbrPlaceEco ; 
+		this.nbrPlacePremiere = nbrPlacePremiere ;
 	}
-
-
-	public int getNbrMinPlaceEco() {
-		return nbrMinPlaceEco;
-	}
-
-
-	public int getNbrMinPlacePremiere() {
-		return nbrMinPlacePremiere;
-	}
-
-
-	public int getNbrMinPlaceAffaire() {
-		return nbrMinPlaceAffaire;
-	}
-
-
-	public void setNbrMinPlaceEco(int nbrMinPlaceEco) {
-		this.nbrMinPlaceEco = nbrMinPlaceEco;
-	}
-
-
-	public void setNbrMinPlacePremiere(int nbrMinPlacePremiere) {
-		this.nbrMinPlacePremiere = nbrMinPlacePremiere;
-	}
-
-
-	public void setNbrMinPlaceAffaire(int nbrMinPlaceAffaire) {
-		this.nbrMinPlaceAffaire = nbrMinPlaceAffaire;
-	}
-
 
 	public int getNumAvion() {
 		return numAvion;
@@ -68,8 +34,35 @@ public class Avion {
 		this.numModele = numModele;
 	}
 	
+	
+	
+	public int getNbrPlaceEco() {
+		return nbrPlaceEco;
+	}
+
+	public void setNbrPlaceEco(int nbrPlaceEco) {
+		this.nbrPlaceEco = nbrPlaceEco;
+	}
+
+	public int getNbrPlacePremiere() {
+		return nbrPlacePremiere;
+	}
+
+	public void setNbrPlacePremiere(int nbrPlacePremiere) {
+		this.nbrPlacePremiere = nbrPlacePremiere;
+	}
+
+	public int getNbrPlaceAffaire() {
+		return nbrPlaceAffaire;
+	}
+
+	public void setNbrPlaceAffaire(int nbrPlaceAffaire) {
+		this.nbrPlaceAffaire = nbrPlaceAffaire;
+	}
+
 	public void ToString() { 
-		System.out.println("Avion numero : " + numAvion +  " Numéro du modele : "+ numModele.getNumModele());
+		System.out.println("Avion numero : " + numAvion +  " Numéro du modele : "+ numModele.getNumModele() +
+				"Nombre place affaire : " + nbrPlaceAffaire + "Nombre de place Eco : " + nbrPlaceEco + "Nombre de place première : " +nbrPlacePremiere);
 	}
 	
 

@@ -1,14 +1,18 @@
 package view.gestionPlannification;
 
 import java.awt.BorderLayout;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Random;
 
-import javax.swing.*;
-import javax.swing.table.*;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
-import model.classes.Aeroport;
 import model.classes.Avion;
 import model.classes.Model;
 
@@ -26,7 +30,7 @@ public class AvionMenu extends JFrame {
       
 		for(int i= 0 ; i < 100 ; i++)
 		{
-			avionList.add(new Avion(100+i, generateRandomInt(100),generateRandomInt(9000),generateRandomInt(20000),new Model("BOEING",generateRandomInt(3000),generateRandomInt(10),generateRandomInt(1000))));
+			avionList.add(new Avion(100+i,new Model("BOEING",generateRandomInt(3000),generateRandomInt(10),generateRandomInt(1000)), generateRandomInt(100),generateRandomInt(9000),generateRandomInt(20000)));
 		}
       
 //     data = new Object[][] {{"102", 222,33,44,"500032"}, {"103", 222,33,44,"400032"}, {"104", 22,333,54,"300032"}, {"105", 022,33,44,"900032"}};
@@ -37,9 +41,9 @@ public class AvionMenu extends JFrame {
       {
           model.addRow( new Object[]
         		  		{   ele.getNumAvion(), 
-        		  			ele.getNbrMinPlaceEco(),
-        		  			ele.getNbrMinPlacePremiere(),
-        		  			ele.getNbrMinPlaceAffaire(),
+        		  			ele.getNbrPlaceEco(),
+        		  			ele.getNbrPlacePremiere(),
+        		  			ele.getNbrPlaceAffaire(),
         		  			ele.getNumModele().getNumModele(),
         		  			ele.getNumModele().getNomModele(),
         		  			ele.getNumModele().getNbPiloteMin(),

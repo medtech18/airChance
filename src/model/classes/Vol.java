@@ -1,5 +1,6 @@
 package model.classes;
 
+
 public class Vol {
 
 	private int  numVol;

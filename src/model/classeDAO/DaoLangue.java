@@ -1,4 +1,5 @@
 package model.classeDAO;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,26 +13,17 @@ public class DaoLangue extends DAO<Langue>{
 	
 	public Langue insert(Langue obj) {
 		
-		int numLangue = obj.getNumLangue();
-		String nom = obj.getNom();
-		
-		ResultSet result;
 		
 		try {
 			
-			result = this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeQuery(
-						"SELECT numLangue  FROM Langue");
-
-			if (result.first()) {
-				
-				int lastId = result.getInt("numLangue");
-				PreparedStatement prepare = this.connect.prepareStatement("INSERT INTO Avion (numLangue , nom) VALUES(?, ?)");
-				prepare.setInt(1, lastId);
-				prepare.setString(3, nom);
+				connect.setTransactionIsolation(java.sql.Connection.TRANSACTION_SERIALIZABLE);
+				PreparedStatement prepare = connect.prepareStatement("INSERT INTO Avion (numLangue , nom) VALUES(?, ?)");
+				prepare.setInt(1, obj.getNumLangue());
+				prepare.setString(2, obj.getNom());
 
 				prepare.executeUpdate();
-				obj = this.selectById(numLangue);
-			}
+				obj = selectById(obj.getNumLangue());
+			
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
@@ -43,18 +35,16 @@ public class DaoLangue extends DAO<Langue>{
 
 	public Langue modify(Langue obj) {
 		
-		int numLangue = obj.getNumLangue();
-		String nom = obj.getNom();
-		
+
 		try{
 			
-			this.connect.setTransactionIsolation(java.sql.Connection.TRANSACTION_SERIALIZABLE);
-			this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeUpdate(
-                	"UPDATE Langue SET numLangue = '" + numLangue + "',"+
-                	" WHERE nom = '" + nom + "'"
+			connect.setTransactionIsolation(java.sql.Connection.TRANSACTION_SERIALIZABLE);
+			connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeUpdate(
+                	"UPDATE Langue SET numLangue = '" + obj.getNumLangue() + "',"+
+                	" WHERE nom = '" + obj.getNom() + "'"
                  );
 
-			obj = this.selectById(obj.getNumLangue());
+			obj = selectById(obj.getNumLangue());
 	    } catch (SQLException e) {
 	    	
 	            e.printStackTrace();
@@ -69,7 +59,7 @@ public class DaoLangue extends DAO<Langue>{
 		try{
 
 			
-			this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeUpdate(
+			connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeUpdate(
                 	"DELETE FROM Langue WHERE numLangue = " + obj.getNumLangue());
 			
 	    } catch (SQLException e) {
@@ -80,13 +70,13 @@ public class DaoLangue extends DAO<Langue>{
 	
 	
 
-	public Langue selectById(int numL) {
+	public static Langue selectById(int numL) {
 		
 		Langue l = new Langue();
 	
 		try {
 			
-			ResultSet result = this .connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeQuery(
+			ResultSet result = connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeQuery(
 	                            "SELECT * FROM Langue WHERE numLangue = " + numL);
 			
 			if(result.first())
@@ -108,7 +98,7 @@ public ArrayList<Langue> selectAll() {
 		
 		try {
 			
-			ResultSet result = this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeQuery(
+			ResultSet result = connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeQuery(
 	                            "SELECT * FROM Langue");
 			
 			while(result.next()) {

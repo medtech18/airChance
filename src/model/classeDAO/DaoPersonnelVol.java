@@ -1,4 +1,5 @@
 package model.classeDAO;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -8,15 +9,16 @@ import model.classes.Personnel;
 import model.classes.PersonnelVol;
 import model.classes.Vol;
 
-
 public class DaoPersonnelVol extends DAO<PersonnelVol> {
 	
 	 public PersonnelVol insert(PersonnelVol obj) {
 		
 			
 			try {
+				
+					connect.setTransactionIsolation(java.sql.Connection.TRANSACTION_SERIALIZABLE);
 
-					PreparedStatement prepare = this.connect.prepareStatement("INSERT INTO Client (numVol, numPersonnel) VALUES(?, ?)");
+					PreparedStatement prepare = connect.prepareStatement("INSERT INTO Client (numVol, numPersonnel) VALUES(?, ?)");
 					
 					prepare.setInt(1, obj.getNumVol().getNumVol());
 					prepare.setInt(2, obj.getNumPersonnel().getNumPersonnel());
@@ -24,7 +26,7 @@ public class DaoPersonnelVol extends DAO<PersonnelVol> {
 
 					prepare.executeUpdate();
 					
-					obj = this.selectById(obj.getNumVol().getNumVol());
+					obj = this.selectById(obj.getNumVol().getNumVol(),obj.getNumPersonnel().getNumPersonnel());
 					
 				} catch (SQLException e) {
 					e.printStackTrace();
@@ -40,13 +42,13 @@ public class DaoPersonnelVol extends DAO<PersonnelVol> {
 		
 			try{
 				
-				this.connect.setTransactionIsolation(java.sql.Connection.TRANSACTION_SERIALIZABLE);
-				this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeUpdate(
+				connect.setTransactionIsolation(java.sql.Connection.TRANSACTION_SERIALIZABLE);
+				connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeUpdate(
 	                	"UPDATE Avion SET numVol = '" + obj.getNumVol().getNumVol() + "',"+
 	                	" WHERE numPersonnel = '" + obj.getNumPersonnel().getNumPersonnel() + "'"
 	                 );
 
-				obj = this.selectById(obj.getNumVol().getNumVol());
+				obj = this.selectById(obj.getNumVol().getNumVol() ,obj.getNumPersonnel().getNumPersonnel());
 				
 		    } catch (SQLException e) {
 		    	
@@ -64,23 +66,21 @@ public class DaoPersonnelVol extends DAO<PersonnelVol> {
 		}
 		
 		
-		public PersonnelVol selectById(int numV) {
+		public PersonnelVol selectById(int numVol , int numPersonnel) {
 			
 			PersonnelVol pr = new PersonnelVol();
-			
-			DaoPersonnel pDAO = new DaoPersonnel();
-			
-			Vol v = null;
-			Personnel p = null;
+
+			Vol v = null ;
+			Personnel p= null;
 			
 			try {
 				
-				ResultSet result = this .connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeQuery(
-		                            "SELECT * FROM PersonnelVol WHERE numVol = " + numV);
+				ResultSet result = connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeQuery(
+						"SELECT * FROM PersonnelVol WHERE numVol = '" + numVol + "' AND numPersonnel = " + numPersonnel);
 				
 				if(result.first())
 					
-					p = pDAO.selectById(result.getInt("numPersonnel"));
+					p = DaoPersonnel.selectById(result.getInt("numPersonnel"));
 					v = DaoVol.selectbyID(result.getInt("numVol"));
 					
 					pr = new PersonnelVol(p,v);
@@ -93,26 +93,24 @@ public class DaoPersonnelVol extends DAO<PersonnelVol> {
 			return pr;
 		}
 		
-		
 		public ArrayList<PersonnelVol> selectAll() {
 			
 			ArrayList<PersonnelVol> a = new ArrayList<PersonnelVol>();
 			
-			DaoPersonnel pDAO = new DaoPersonnel();
-			DaoVol vDAO = new DaoVol();
-			
-			Vol v = null;
-			Personnel p = null;
+			Vol v = null ;
+			Personnel p = null ;
 			
 			
 			try {
 				
-				ResultSet result = this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeQuery(
+				ResultSet result = connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeQuery(
 		                            "SELECT * FROM PersonnelVol");
 				
 				while(result.next()) {
-					p = pDAO.selectById(result.getInt("numPersonnel"));
-					v = vDAO.selectbyID(result.getInt("numVol"));
+					
+					p = DaoPersonnel.selectById(result.getInt("numPersonnel"));
+					v = DaoVol.selectbyID(result.getInt("numVol"));
+					
 					a.add(new PersonnelVol(p,v));
 				}
 			} catch (SQLException e) {

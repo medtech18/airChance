@@ -1,5 +1,3 @@
-import javax.swing.SwingUtilities;
-
 import controller.gestionPlannification.PlannificationVolController;
 import model.classeDAO.DaoAeroport;
 import model.classeDAO.DaoAvion;
