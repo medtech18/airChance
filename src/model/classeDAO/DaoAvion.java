@@ -37,6 +37,7 @@ public class DaoAvion extends DAO<Avion> {
 		}
 
 		return obj;
+		
 	}
 
 	public Avion modify(Avion obj) {
@@ -94,7 +95,7 @@ public class DaoAvion extends DAO<Avion> {
 				
 				m = mDAO.selectById(result.getInt("numModele"));
 					
-				a = new Avion(numA,m);
+				a = new Avion(numA,result.getInt("nb_place_eco"),result.getInt("nb_place_premiere"),result.getInt("nb_place_affaire"),m);
 				
 		} catch (SQLException e) {
 			
@@ -117,7 +118,7 @@ public class DaoAvion extends DAO<Avion> {
 			
 			while(result.next()) {
 				m = mDAO.selectById(result.getInt("numModele"));
-				a.add(new Avion(result.getInt("numAvion"),m));
+				a.add(new Avion(result.getInt("numAvion"),result.getInt("nb_place_eco"),result.getInt("nb_place_premiere"),result.getInt("nb_place_affaire"),m));
 			}
 		} catch (SQLException e) {
 			

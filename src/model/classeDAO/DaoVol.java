@@ -122,7 +122,6 @@ public class DaoVol extends DAO<Vol> {
 		return a;
 	}
 
-	
 	@Override
 	public void delete(Vol object) {} // ici  On interdit la suppression d'une adresse
 		
