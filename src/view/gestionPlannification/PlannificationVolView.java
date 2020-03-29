@@ -1,7 +1,6 @@
 package view.gestionPlannification;
 
 import javax.swing.DefaultListModel;
-import javax.swing.DefaultListSelectionModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
@@ -25,52 +24,53 @@ public class PlannificationVolView extends JFrame {
 
 	private JTextField editTextPlacePrem;
     private JTextField editTextPlaceEco;
-    
+    private JLabel choixPilotLabel;
 
 
-	private JButton creerBtn;
+	public JButton getNextBtn() {
+		return nextBtn;
+	}
+
+	private JButton nextBtn;
     private JButton btnAnnuler;
     
     private JComboBox comboBoxAeroDep;
 	private JComboBox comboBoxAeroDest;
+	private JFormattedTextField TextFieldDateVol;
+	private JComboBox comboBoxNumAvion;
+	private JButton btnBack;
+	private JScrollPane piloteChoiceList;
+	private DefaultListModel<String> listModel;
+ 
+    public JButton getBtnBack() {
+		return btnBack;
+	}
 
- 
-    public PlannificationVolView() {
+	public PlannificationVolView() {
     	setResizable(false);
-        //create the model and add elements
-        DefaultListModel<String> listModel = new DefaultListModel<>();
-        listModel.addElement("USA");
-        listModel.addElement("India");
-        listModel.addElement("Vietnam");
-        listModel.addElement("Canada");
-        listModel.addElement("Denmark");
-        listModel.addElement("France");
-        listModel.addElement("Great Britain");
-        listModel.addElement("Japan"); 
-        listModel.addElement("Canada");
-        listModel.addElement("Denmark");
-        listModel.addElement("France");
-        listModel.addElement("Great Britain");
-        listModel.addElement("Japan");
+        //create the model and add elementss
+
+        
+        
+    	listModel = new DefaultListModel<>();
         getContentPane().setLayout(null);
- 
-        JScrollPane piloteChoiceList = new JScrollPane();
+        piloteChoiceList = new JScrollPane();
         piloteChoiceList.setBounds(370, 156, 200, 139);
         getContentPane().add(piloteChoiceList);
         
         avionList = new JList(listModel);
         avionList.setEnabled(false);
+
         piloteChoiceList.setRowHeaderView(avionList);
-        avionList.setSelectionModel(new MySelectionModel(avionList, 2));
         
          
                 //create the list
         //        countryList = new JList<>(listModel);
  
         
-        JLabel lblNewLabel = new JLabel("Choisir minimum 2 pilote");
-        lblNewLabel.setBounds(370, 128, 200, 16);
-        getContentPane().add(lblNewLabel);
+        choixPilotLabel = new JLabel("Choisir minimum 2 pilote :");
+        choixPilotLabel.setBounds(370, 128, 200, 16);
+        getContentPane().add(choixPilotLabel);
         
         JLabel lblNewLabel_1 = new JLabel("Date de Vol");
         lblNewLabel_1.setBounds(15, 73, 113, 16);
@@ -120,7 +120,7 @@ public class PlannificationVolView extends JFrame {
         lblNombrePlacePremium.setBounds(15, 248, 158, 16);
         getContentPane().add(lblNombrePlacePremium);
         
-        JFormattedTextField TextFieldDateVol = new JFormattedTextField();
+        TextFieldDateVol = new JFormattedTextField();
         TextFieldDateVol.setBounds(167, 68, 130, 26);
         getContentPane().add(TextFieldDateVol);
         
@@ -137,31 +137,32 @@ public class PlannificationVolView extends JFrame {
         getContentPane().add(lblNombrePlaceEco);
         
         editTextPlaceEco = new JTextField();
-        editTextPlaceEco.setEnabled(false);
         editTextPlaceEco.setColumns(10);
         editTextPlaceEco.setBounds(167, 268, 130, 26);
         getContentPane().add(editTextPlaceEco);
         
         JLabel lblNumAvion = new JLabel("Num Avion");
+
         lblNumAvion.setBounds(370, 77, 124, 16);
         getContentPane().add(lblNumAvion);
         
-        JComboBox comboBoxNumAvion = new JComboBox();
+        comboBoxNumAvion = new JComboBox();
         comboBoxNumAvion.setEnabled(false);
         comboBoxNumAvion.setBounds(454, 69, 130, 27);
         getContentPane().add(comboBoxNumAvion);
         
-        creerBtn = new JButton("NEXT");
+        nextBtn = new JButton("NEXT");
 
 
-        creerBtn.setBounds(217, 354, 183, 37);
-        getContentPane().add(creerBtn);
+
+        nextBtn.setBounds(217, 354, 183, 37);
+        getContentPane().add(nextBtn);
         
         btnAnnuler = new JButton("ANNULER");
         btnAnnuler.setBounds(424, 354, 183, 37);
         getContentPane().add(btnAnnuler);
         
-        JButton btnBack = new JButton("RESET");
+         btnBack = new JButton("RESET");
         btnBack.setBounds(15, 354, 183, 37);
         getContentPane().add(btnBack);
         
@@ -174,46 +175,7 @@ public class PlannificationVolView extends JFrame {
         this.setLocationRelativeTo(null);
         this.setVisible(true);
     }
-    
-    private static class MySelectionModel extends DefaultListSelectionModel
-    {
-        private JList list;
-        private int maxCount;
-
-        private MySelectionModel(JList list,int maxCount)
-        {
-            this.list = list;
-
-            this.maxCount = maxCount;
-        }
-
-        @Override
-        public void setSelectionInterval(int index0, int index1)
-        {
-            if (index1 - index0 >= maxCount)
-            {
-                index1 = index0 + maxCount - 1;
-            }
-            super.setSelectionInterval(index0, index1);
-        }
-
-        @Override
-        public void addSelectionInterval(int index0, int index1)
-        {
-            int selectionLength = list.getSelectedIndices().length;
-            if (selectionLength >= maxCount)
-                return;
-
-            if (index1 - index0 >= maxCount - selectionLength)
-            {
-                index1 = index0 + maxCount - 1 - selectionLength;
-            }
-            if (index1 < index0)
-                return;
-            super.addSelectionInterval(index0, index1);
-        }
-    }
-   
+       
 
     
     public JList<String> getAvionList() {
@@ -241,11 +203,11 @@ public class PlannificationVolView extends JFrame {
 	}
 
     public JButton getCreerBtn() {
-		return creerBtn;
+		return nextBtn;
 	}
 
 	public void setCreerBtn(JButton creerBtn) {
-		this.creerBtn = creerBtn;
+		this.nextBtn = creerBtn;
 	}
 
 	public JButton getBtnAnnuler() {
@@ -257,6 +219,38 @@ public class PlannificationVolView extends JFrame {
 
 	public JComboBox getComboBoxAeroDest() {
 		return comboBoxAeroDest;
+	}
+
+	public JFormattedTextField getTextFieldDateVol() {
+		return TextFieldDateVol;
+	}
+
+	public JComboBox getComboBoxNumAvion() {
+		return comboBoxNumAvion;
+	}
+
+	public JLabel getChoixPilotLabel() {
+		return choixPilotLabel;
+	}
+
+	public JScrollPane getPiloteChoiceList() {
+		return piloteChoiceList;
+	}
+
+	public DefaultListModel<String> getListModel() {
+		return listModel;
+	}
+
+	public void setPiloteChoiceList(JScrollPane piloteChoiceList) {
+		this.piloteChoiceList = piloteChoiceList;
+	}
+
+	public void setListModel(DefaultListModel<String> listModel) {
+		this.listModel = listModel;
+	}
+
+	public void setChoixPilotLabel(JLabel choixPilotLabel) {
+		this.choixPilotLabel = choixPilotLabel;
 	}
 
 

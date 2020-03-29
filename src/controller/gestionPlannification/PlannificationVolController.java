@@ -1,84 +1,218 @@
 package controller.gestionPlannification;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.ArrayList;
-import java.util.Random;
+import java.util.HashMap;
+import java.util.Map;
 
+import javax.swing.JFrame;
+import javax.swing.event.PopupMenuEvent;
+import javax.swing.event.PopupMenuListener;
+
+import controller.common.ComboxItem;
+import controller.common.MySelectionModel;
 import model.classeDAO.DaoAeroport;
 import model.classeDAO.DaoAvion;
+import model.classeDAO.DaoPersonnel;
 import model.classeDAO.DaoVol;
 import model.classes.Aeroport;
 import model.classes.Avion;
 import model.classes.Model;
+import view.gestionPlannification.AvionMenuView;
 import view.gestionPlannification.PlannificationVolView;
 
 public class PlannificationVolController {
 	private DaoVol volModel ;
 	private DaoAvion avionModel ;
 	private DaoAeroport AeroPortModel;
+	private DaoPersonnel personnelModel;
 	private PlannificationVolView plannificationVolView ;
+	private AvionMenuView avionMenuView ;
+	private Avion selectedAvion;
 	
-	public PlannificationVolController(PlannificationVolView plannificationVolView ,DaoVol volModel, DaoAvion avionModel , DaoAeroport aeroPortModel) {
+
+
+	private Map<String,String> inputsValues;
+	
+	// Data variables
+	private ArrayList<Avion> avions;
+	private ArrayList<Aeroport> aeroPorts;
+	
+	public PlannificationVolController(PlannificationVolView plannificationVolView,AvionMenuView avionMenuView ,DaoVol volModel, DaoAvion avionModel , DaoAeroport aeroPortModel ,DaoPersonnel personnelModel ) {
 		this.volModel = volModel;
 		this.avionModel = avionModel;
 		this.plannificationVolView = plannificationVolView;
+		this.avionMenuView = avionMenuView;
 		this.AeroPortModel = aeroPortModel;
-		viewInit();
+		this.personnelModel = personnelModel;
+		inputsValues = new HashMap<String,String>();
+		fetchDataFromModel();
+		createListenersPlannificationVolView();
+	}
+	
+	public void fetchDataFromModel()
+	{
+		
+		aeroPorts = AeroPortModel.selectAll();
+		for (Aeroport element : aeroPorts) {
+			plannificationVolView.getComboBoxAeroDep().addItem(new ComboxItem(element.getNumAeroport(),element.getNomAeroport()));
+			plannificationVolView.getComboBoxAeroDest().addItem(new ComboxItem(element.getNumAeroport(),element.getNomAeroport()));
+			
+		}
+		
+	}
+	
+	public void createListenersPlannificationVolView() {
+		// perfom some action when Next button is clicked
+		plannificationVolView.getNextBtn().addActionListener(new ActionListener() {
+	    	public void actionPerformed(ActionEvent e) {
+	    		inputsValues.put("textFieldDateVol", plannificationVolView.getTextFieldDateVol().getText());
+	    		inputsValues.put("comboBoxAeroDep", plannificationVolView.getComboBoxAeroDep().getSelectedItem().toString());
+	    		inputsValues.put("comboBoxAeroDest", plannificationVolView.getComboBoxAeroDest().getSelectedItem().toString());
+	    		inputsValues.put("textFieldDuree", plannificationVolView.getTextFieldDuree().getText());
+	    		inputsValues.put("textFieldDistance", plannificationVolView.getTextFieldDistance().getText());
+	    		inputsValues.put("editTextPlaceAff", plannificationVolView.getEditTextPlaceAff().getText());
+	    		inputsValues.put("editTextPlacePrem", plannificationVolView.getEditTextPlacePrem().getText());
+	    		inputsValues.put("editTextPlaceEco", plannificationVolView.getEditTextPlaceEco().getText());
+	    		
+	    		boolean isThereEmptyFields = false;
+	    		
+	    		for (Map.Entry<String, String> ele : inputsValues.entrySet()) {
+	    		    if(empty(ele.getValue().toString()) == true)
+	    		    	isThereEmptyFields = true;	
+	    		}
+	    		
+	    		if(isThereEmptyFields)
+	    			setFieldsState(true);
+	    		else
+	    			setFieldsState(false);
+	    	}
+	    });
+		
+		plannificationVolView.getBtnBack().addActionListener(new ActionListener() {
+	    	public void actionPerformed(ActionEvent e) {	    		
+	    		setFieldsState(true);
+	    	}
+	    });
+		
+		plannificationVolView.getBtnAnnuler().addActionListener(new ActionListener() {
+	    	public void actionPerformed(ActionEvent e) {	    		
+	    		plannificationVolView.dispose();
+	    	}
+	    });
+				
+		plannificationVolView.getComboBoxAeroDep().addItemListener(new ItemListener() {
+
+			
+	    public void itemStateChanged(ItemEvent e) {
+	        if (e.getStateChange() == ItemEvent.SELECTED) {
+	        	ComboxItem item = (ComboxItem)e.getItem();
+	            
+	            System.out.println("[ " + (item.getKey())+ "--" + item.getValue()+ "]"); ;
+	            
+	         }
+	    }
+		});
+		
+		plannificationVolView.getComboBoxNumAvion().addPopupMenuListener(new PopupMenuListener()
+		{
+		    public void popupMenuWillBecomeVisible(PopupMenuEvent e)
+		    {
+       		 			avions = avionModel.getAvionsWith(
+       		 			Integer.valueOf((String) inputsValues.get("editTextPlaceEco")),
+       		 			Integer.valueOf((String) inputsValues.get("editTextPlacePrem")),
+       		 			Integer.valueOf((String) inputsValues.get("editTextPlaceAff")),
+       		 			Integer.valueOf((String) inputsValues.get("textFieldDistance"))
+       		 		);
+       		 			
+       		 		createListenersAvionView();
+       		 		
+       		 		plannificationVolView.getListModel().addElement("USA");
+       		 		plannificationVolView.getListModel().addElement("India");
+       		 		plannificationVolView.getListModel().addElement("Vietnam");
+       		 		plannificationVolView.getListModel().addElement("Canada");
+       		 		plannificationVolView.getListModel().addElement("Denmark");
+       				plannificationVolView.getListModel().addElement("France");
+       				plannificationVolView.getListModel().addElement("Great Britain");
+       				plannificationVolView.getListModel().addElement("Japan"); 
+       				plannificationVolView.getListModel().addElement("Canada");
+       				plannificationVolView.getListModel().addElement("Denmark");
+       				plannificationVolView.getListModel().addElement("France");
+       				plannificationVolView.getListModel().addElement("Great Britain");
+       				plannificationVolView.getListModel().addElement("Japan");
+       		        
+//       				plannificationVolView.getAvionList().setSelectionModel(new MySelectionModel(plannificationVolView.getAvionList(), 2));
+       				plannificationVolView.getAvionList().setEnabled(true);
+		    }
+
+		    public void popupMenuCanceled(PopupMenuEvent e) {}
+		    public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {}
+		});
+
+	}
+
+	public void createListenersAvionView() {
+		this.avionMenuView.setVisible(true); 
+//   		AvionMenuView a = new AvionMenuView(plannificationVolView,avions,getPlannificationVolController());		
+		this.avionMenuView.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+		for(Avion ele : avions){
+			avionMenuView.getModel().addRow( new Object[]
+	        		  		{   ele.getNumAvion(), 
+	        		  			ele.getNbrPlaceEco(),
+	        		  			ele.getNbrPlacePremiere(),
+	        		  			ele.getNbrPlaceAffaire(),
+	        		  			ele.getNumModele().getNumModele(),
+	        		  			ele.getNumModele().getNomModele(),
+	        		  			ele.getNumModele().getNbPiloteMin(),
+	        		  			ele.getNumModele().getRayonAction()
+	        		  		 });
+	      }
+		avionMenuView.getButton().addActionListener(new ActionListener() {
+	          @Override
+	          public void actionPerformed(ActionEvent ae) {
+	         	 
+	             // check for selected row first
+	             if(avionMenuView.getTable().getSelectedRow() != -1) {
+	             	
+	             	int column = 0;
+	             	int row = avionMenuView.getTable().getSelectedRow();
+	             	String value = avionMenuView.getTable().getModel().getValueAt(row, column).toString();
+
+	             	
+//	             	selectedData = data.getDataVector().elementAt(table.getSelectedRow());
+
+	                // remove selected row from the model
+//	                model.removeRow(table.getSelectedRow());
+	             	
+	             	plannificationVolView.getEditTextPlaceAff().setText("Ssfdsfddsffds");
+	             	plannificationVolView.getComboBoxNumAvion().addItem(value);
+	             	
+	             	selectedAvion = new Avion(
+	             			(int)avionMenuView.getTable().getModel().getValueAt(row, 0),
+	             			new Model(avionMenuView.getTable().getModel().getValueAt(row,4).toString(),
+	             					  (int)avionMenuView.getTable().getModel().getValueAt(row,3),
+	             					  444,
+	             					  (int)avionMenuView.getTable().getModel().getValueAt(row,6)
+	             					),
+	             			(int)avionMenuView.getTable().getModel().getValueAt(row,1),
+	             			(int)avionMenuView.getTable().getModel().getValueAt(row,2),122112);
+	             	
+	             	inputsValues.put("comboBoxNumAvion",value);
+	             	plannificationVolView.getChoixPilotLabel().setText("Choisir au minimum " + value + " pilote(s)");
+	             }
+	             
+	             avionMenuView.dispose();
+	          }
+	       });
 	}
 	
 	public void viewInit()
 	{
 		
-		ArrayList<Avion> avions = new ArrayList<Avion>();
-
-		for(int i= 0 ; i < 100 ; i++)
-		{
-			avions.add(new Avion(100+i,new Model("BOEING",generateRandomInt(3000),generateRandomInt(10),generateRandomInt(1000)), generateRandomInt(100),generateRandomInt(9000),generateRandomInt(20000)));
-		}
-		
-		
-		ArrayList<Aeroport> aeroPorts = new ArrayList<Aeroport>();
-		aeroPorts.add(new Aeroport(100,"MOHAMED 5 AEROPORT","CASA","MAROC"));
-		aeroPorts.add(new Aeroport(101,"MOHAMED 6 AEROPORT","FES","MAROC"));
-		aeroPorts.add(new Aeroport(101,"MOHAMED 7 AEROPORT","AGADIR","MAROC"));
-		aeroPorts.add(new Aeroport(103,"MOHAMED 8 AEROPORT","RABAT","MAROC"));
-		aeroPorts.add(new Aeroport(103,"MOHAMED 9 AEROPORT","TANGER","MAROC"));
-		aeroPorts.add(new Aeroport(103,"MOHAMED 9 AEROPORT","TANGER","MAROC"));
-		
-		
-		
-		
-//      data = new Object[][] {{}, {"103", 222,33,44,"400032"}, {"104", 22,333,54,"300032"}, {"105", 022,33,44,"900032"}};
-
-
-//		ArrayList<Aeroport> aeroPorts = AeroPortModel.selectAll();
-//		for (Aeroport element : aeroPorts) {
-//			plannificationVolView.getComboBoxAeroDep().addItem(new ComboItem(element.getNumAeroport(),element.getNomAeroport()));
-//		}
-		
-		
-//		ComboItem[] letters = {new ComboItem("A","NONO"),new ComboItem("B","NONO"),new ComboItem("C","NONO")};
-//		for(ComboItem a: letters)
-//		plannificationVolView.getComboBoxAeroDep().addItem(a);
-//		
-//		plannificationVolView.getComboBoxAeroDep().addItemListener(new ItemListener() {
-//		    public void itemStateChanged(ItemEvent e) {
-//		        if (e.getStateChange() == ItemEvent.SELECTED) {
-//		        	ComboItem item = (ComboItem)e.getItem();
-//		            
-//		            
-//		            System.out.println("[ " + (item.getKey())+ "--" + item.getValue()+ "]"); ;
-//		            
-//		         }
-//		    }
-//		});
-//		        			
-
-//		this.plannificationVolView.getCreerBtn().addActionListener(new ActionListener() {
-//        	public void actionPerformed(ActionEvent e) {
-//        		
-//        		
-//        	}
-//        });
 	}
     
 	public DaoVol getVolModel() {
@@ -99,39 +233,40 @@ public class PlannificationVolController {
 	public void setPlannificationVolView(PlannificationVolView plannificationVolView) {
 		this.plannificationVolView = plannificationVolView;
 	}
-	
-	public static int generateRandomInt(int upperRange){
-	    Random random = new Random();
-	    return random.nextInt(upperRange);
+	public void setSelectedAvion(Avion selectedAvion) {
+		this.selectedAvion = selectedAvion;
+	}
+
+	public void setFieldsState(boolean state)
+	{
+    	plannificationVolView.getTextFieldDateVol().setEnabled(state);
+    	plannificationVolView.getComboBoxAeroDep().setEnabled(state);
+    	plannificationVolView.getComboBoxAeroDest().setEnabled(state);
+    	plannificationVolView.getTextFieldDuree().setEnabled(state);
+    	plannificationVolView.getTextFieldDistance().setEnabled(state);
+    	plannificationVolView.getEditTextPlaceAff().setEnabled(state);
+    	plannificationVolView.getEditTextPlacePrem().setEnabled(state);
+    	plannificationVolView.getEditTextPlaceEco().setEnabled(state);
+    	
+    	plannificationVolView.getComboBoxNumAvion().setEnabled(!state);
 	}
 	
-    public class ComboItem
-    {
-        private String key;
-        private String value;
+	public boolean empty(String value)
+	{
+		return (value == null || (value.length() == 0))?true:false;
+	}
+	public PlannificationVolController getPlannificationVolController()
+	{
+		return this;
+	}
 
-        public ComboItem( String key, String value)
-        {
-            this.key = key;
-            this.value = value;
-        }
+	public Map<String, String> getInputsValues() {
+		return inputsValues;
+	}
 
-        @Override
-        public String toString()
-        {
-            return value;
-        }
+	public void setInputsValues(Map<String, String> inputsValues) {
+		this.inputsValues = inputsValues;
+	}
 
-        public String getKey()
-        {
-            return key;
-        }
-
-        public String getValue()
-        {
-            return value;
-        }
-    }
-	
 	
 }

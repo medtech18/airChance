@@ -100,22 +100,32 @@ public class DaoAeroport extends DAO<Aeroport> {
 	public ArrayList<Aeroport> selectAll() {
 		ArrayList<Aeroport> a = new ArrayList<Aeroport>();
 		
-		try {
-			ResultSet result = connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeQuery(
-	                            "SELECT * FROM Aeroport");
-			
-			while(result.next())
-				
-				a.add(new Aeroport(result.getInt("numAeroport"),result.getString("nomAeroport"),result.getString("nomVille"),
-					result.getString("nomPays")));
+//		try {
+//			ResultSet result = connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeQuery(
+//	                            "SELECT * FROM Aeroport");
+//			
+//			while(result.next())
+//				
+//				a.add(new Aeroport(result.getInt("numAeroport"),result.getString("nomAeroport"),result.getString("nomVille"),
+//					result.getString("nomPays")));
+//		
+//			
+//		} catch (SQLException e) {
+//			
+//			e.printStackTrace();
+//		}
 		
-			
-		} catch (SQLException e) {
-			
-			e.printStackTrace();
-		}
+//		return a;
 		
-		return a;
+		ArrayList<Aeroport> aeroPorts = new ArrayList<Aeroport>();
+		aeroPorts.add(new Aeroport(100,"MOHAMED 5 AEROPORT","CASA","MAROC"));
+		aeroPorts.add(new Aeroport(101,"MOHAMED 6 AEROPORT","FES","MAROC"));
+		aeroPorts.add(new Aeroport(101,"MOHAMED 7 AEROPORT","AGADIR","MAROC"));
+		aeroPorts.add(new Aeroport(103,"MOHAMED 8 AEROPORT","RABAT","MAROC"));
+		aeroPorts.add(new Aeroport(103,"MOHAMED 9 AEROPORT","TANGER","MAROC"));
+		aeroPorts.add(new Aeroport(103,"MOHAMED 9 AEROPORT","TANGER","MAROC"));
+
+		return aeroPorts;
 	}
 
 } 

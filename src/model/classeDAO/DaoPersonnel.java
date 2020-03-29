@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import model.classes.Adresse;
 import model.classes.Personnel;
 
 
@@ -107,26 +108,32 @@ public class DaoPersonnel extends DAO<Personnel> {
 		public ArrayList<Personnel> selectAll() {
 			ArrayList<Personnel> p = new ArrayList<Personnel>();
 			
-			try {
-				
-				ResultSet result = connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeQuery(
-		                            "SELECT * FROM Personnel");
-				
-				while(result.next())
-					
-					p.add(new Personnel(result.getInt("numPersonnel"),result.getString("nom"),result.getString("prenom"),result.getInt("totalHeureVol"),result.getString("dateDisponibilite"),
-			                DaoAdresse.selectbyID(result.getInt("numAdresse")),result.getString("genre")));
+//			try {
+//				
+//				ResultSet result = connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeQuery(
+//		                            "SELECT * FROM Personnel");
+//				
+//				while(result.next())
+//					
+//					p.add(new Personnel(result.getInt("numPersonnel"),result.getString("nom"),result.getString("prenom"),result.getInt("totalHeureVol"),result.getString("dateDisponibilite"),
+//			                DaoAdresse.selectbyID(result.getInt("numAdresse")),result.getString("genre")));
+//			
+//			} catch (SQLException e) {
+//				
+//				e.printStackTrace();
+//			}
+//			
+//			return p;
 			
-			} catch (SQLException e) {
-				
-				e.printStackTrace();
-			}
+			for(int i= 0 ; i < 100 ; i++)
+			p.add(new Personnel(100+i,"ADAM" , "EVE", DaoAvion.generateRandomInt(10),"12/02/2021",
+					new Adresse(),"MALE") 
+				);
 			
 			return p;
 		}
 
-	
-	
+
 	
 
 }

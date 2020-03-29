@@ -34,6 +34,7 @@ public class DaoModel extends DAO<Model>{
 		return obj;
 	}
 	
+	
 	public Model  modify(Model obj) {
 		
 		

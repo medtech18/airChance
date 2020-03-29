@@ -5,8 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Random;
 
 import model.classes.Avion;
+import model.classes.Model;
 
 
 public class DaoAvion extends DAO<Avion> {
@@ -119,7 +121,58 @@ public class DaoAvion extends DAO<Avion> {
 	}
 	
 	
+	public ArrayList<Avion> getAvionsWith(int nb_place_eco , int nb_place_premiere , int nb_place_affaire , int rayon_action){
+		
+//		try {
+//			
+//			ArrayList<Avion> listAvions = new ArrayList<Avion>();
+//
+//			ResultSet result = connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeQuery("SELECT DISTINCT num_avion,num_modele,nb_place_affaire,nb_place_premiere,nb_place_eco, "
+//																																	+ "FROM Avion NATURAL JOIN model "+
+//																																	  "where nb_place_eco >= "+nb_place_eco +
+//																																	  "AND nb_place_premiere >= " + nb_place_premiere + 
+//																																      "AND nb_place_affaire >= " + nb_place_affaire + 
+//																																	  "AND rayon_action >= " + rayon_action 
+//																																	);
+//
+//			
+//			while(result.next())
+//			{
+//				Avion newVol = new Avion(
+//							result.getInt("num_avion"),
+//							DaoModel.selectById(result.getInt("num_modele")),
+//							result.getInt("nb_place_affaire"),
+//							result.getInt("nb_place_premiere"),
+//							result.getInt("nb_place_eco")
+//							);
+//				
+//				listAvions.add(newVol);
+//				
+//			}
+//			
+//		} catch (SQLException e) {
+//			
+//			e.printStackTrace();
+//		}
 
+		
+		ArrayList<Avion> avions = new ArrayList<Avion>();
+
+		for(int i= 0 ; i < 100 ; i++)
+		{
+			avions.add(new Avion(100+i,new Model("BOEING",generateRandomInt(3000),generateRandomInt(10),generateRandomInt(1000)), generateRandomInt(100),generateRandomInt(9000),generateRandomInt(20000)));
+
+		}
+		
+		return avions;
+		
+	}
+
+	
+	public static int generateRandomInt(int upperRange){
+	    Random random = new Random();
+	    return random.nextInt(upperRange);
+	}
 
 
 }

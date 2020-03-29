@@ -1,7 +1,9 @@
 import controller.gestionPlannification.PlannificationVolController;
 import model.classeDAO.DaoAeroport;
 import model.classeDAO.DaoAvion;
+import model.classeDAO.DaoPersonnel;
 import model.classeDAO.DaoVol;
+import view.gestionPlannification.AvionMenuView;
 import view.gestionPlannification.PlannificationVolView;
 
 	public class App {
@@ -13,12 +15,15 @@ import view.gestionPlannification.PlannificationVolView;
 	    	 
 	    	 DaoVol volModel  	 		= new DaoVol() ;
 	    	 DaoAvion avionModel 		= new DaoAvion() ;
-	    	 DaoAeroport AeroPortModel  = new DaoAeroport();;
+	    	 DaoAeroport aeroPortModel  = new DaoAeroport();
+	    	 DaoPersonnel personnelModel  = new DaoPersonnel();
+	    	 
 	    	 PlannificationVolView plannificationVolView = new PlannificationVolView();
-	    	 
 	    	 plannificationVolView.setVisible(true);
+	    	 AvionMenuView avionMenuView = new AvionMenuView();
+	    	 avionMenuView.setVisible(false);
 	    	 
-	    	 PlannificationVolController volController = new PlannificationVolController(plannificationVolView,volModel,avionModel,AeroPortModel);
+	    	 PlannificationVolController volController = new PlannificationVolController(plannificationVolView, avionMenuView , volModel,  avionModel ,  aeroPortModel , personnelModel);
 	    	
 	    	 
 	    	 
