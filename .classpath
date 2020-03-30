@@ -6,5 +6,7 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="view"/>
+	<classpathentry kind="src" path="controller"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

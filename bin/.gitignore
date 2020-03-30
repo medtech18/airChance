@@ -1,3 +1,4 @@
-/controller/
+/gestionReservationViews/
+/gestionReservationControllers/
 /model/
-/view/
+/modelTables/

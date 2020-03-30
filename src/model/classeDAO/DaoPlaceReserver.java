@@ -5,7 +5,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import model.classes.Place;
 import model.classes.PlaceReserver;
+import model.classes.Reservation;
+import model.classes.Vol;
 
 
 
@@ -115,6 +118,29 @@ public class DaoPlaceReserver extends DAO<PlaceReserver> {
 			e.printStackTrace();
 		}
 		
+		return p;
+	}
+	
+public ArrayList<PlaceReserver> selectbyreservation(Reservation reserv,Vol vol) {
+		
+		ArrayList<PlaceReserver> p = new ArrayList<PlaceReserver>();
+		
+//		try {
+//			
+//			ResultSet result = connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE).executeQuery(
+//	                            "SELECT * FROM PlaceReserver where num_reservation="+reserv.getNumReservation()+"and num_vol="+vol.getNumVol());
+//			
+//			while(result.next())
+//				
+//				p.add(new PlaceReserver(DaoReservation.selectById(result.getInt("numReservation")),DaoPlace.selectById(result.getInt("numPlace")) , vol));
+//		
+//		} catch (SQLException e) {
+//			
+//			e.printStackTrace();
+//		}
+		
+		p.add(new PlaceReserver(reserv,new Place(1,"eco","hublot",new DaoAvion().selectById(5)) , vol));
+		p.add(new PlaceReserver(reserv,new Place(2,"affaire","couloir",new DaoAvion().selectById(5)) , vol));
 		return p;
 	}
 

@@ -51,8 +51,8 @@ public class Aeroport {
 	}
 	
 	
-	public void ToString() {
-		System.out.println("Aeroport nom : "+ nomAeroport + " - Numéro d'aeroport : " + numAeroport + " - Nom de la ville : "+ nomVille+" - Pays : "+ nomPays) ;
+	public String toString() {
+		return nomAeroport+", "+nomVille+", "+nomPays;
 	}
 	
 	

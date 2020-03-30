@@ -50,9 +50,9 @@ public class Place {
 		this.numAvion = numAvion;
 	}
 	
-	public void ToString() {
-		System.out.println("numéro de la place: " +numPlace +" Classe: "+classe+" position: "+ position +
-		"Le numéro d'avion : "+ numAvion.getNumAvion());
+	public String toString() {
+		return "place"+classe+" numero: " +numPlace +" position: "+ position +
+		"Le numéro d'avion : "+ numAvion;
 	}
 	
 	

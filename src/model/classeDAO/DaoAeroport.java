@@ -75,22 +75,23 @@ public class DaoAeroport extends DAO<Aeroport> {
 	public static Aeroport selectbyID(int numAeroport) {
 		Aeroport a = new Aeroport();
 		
-		try {
-			
-			ResultSet result = connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeQuery(
-	                            "SELECT * FROM Aeroport WHERE numAeroport  = '" + numAeroport + "'");
-			
-			
-			if(result.first())
-				
-				a = new Aeroport(numAeroport,result.getString("nomAeroport"),result.getString("nomVille"), result.getString("nomPays"));
-				
-		
-			} catch (SQLException e) {
-				
-				e.printStackTrace();
-			}
-		
+//		try {
+//			
+//			ResultSet result = connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeQuery(
+//	                            "SELECT * FROM Aeroport WHERE numAeroport  = '" + numAeroport + "'");
+//			
+//			
+//			if(result.first())
+//				
+//				a = new Aeroport(numAeroport,result.getString("nomAeroport"),result.getString("nomVille"), result.getString("nomPays"));
+//				
+//		
+//			} catch (SQLException e) {
+//				
+//				e.printStackTrace();
+//			}
+//		
+		a=new Aeroport(numAeroport,"MOHAMED 5 AEROPORT","CASA","MAROC");
 		return a;
 	}
 

@@ -1,15 +1,17 @@
 package model.classes;
 
+import java.sql.Date;
+
 public class Reservation {
 	
 	
 	private int numReservation ;
-	private String dateReservation ;
+	private Date dateReservation ;
 	private Client numClient ;
 	
 	public Reservation() {}
 	
-	public Reservation(int numReservation,String dateReservation,Client numClient) {
+	public Reservation(int numReservation,Date dateReservation,Client numClient) {
 		this.dateReservation = dateReservation ;
 		this.numClient = numClient ;
 		this.numReservation = numReservation; 
@@ -24,11 +26,11 @@ public class Reservation {
 		this.numReservation = numReservation;
 	}
 
-	public String getDateReservation() {
+	public Date getDateReservation() {
 		return dateReservation;
 	}
 
-	public void setDateReservation(String dateReservation) {
+	public void setDateReservation(Date dateReservation) {
 		this.dateReservation = dateReservation;
 	}
 
@@ -41,8 +43,8 @@ public class Reservation {
 	}
 	
 
-	public void ToString() {
-		System.out.println("Numéro de la Réservation :  "+ numReservation + "La date de la Réservation : " + dateReservation + " - Nom de la ville : " + " - Le numéro du client : "+ numClient.getNumClient()) ;
+	public String toString() {
+		return "num: " + numReservation + " date: " + dateReservation;
 	}
 	
 	

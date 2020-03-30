@@ -9,7 +9,7 @@ public class Client {
 	private Adresse numAdresse;
 
 
-	public Client() {}
+	public Client() {numClient=-1;}
 	
 	public Client(int numClient, String nom, String prenom, String numPasseport, int pointsFidelite,
 			Adresse numAdresse) {

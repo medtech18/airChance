@@ -80,21 +80,21 @@ public class DaoAvion extends DAO<Avion> {
 		Avion a = new Avion();
 
 		
-		try {
-			
-			ResultSet result =  connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeQuery(
-	                            "SELECT * FROM Avion WHERE numAvion = " + numA);
-			
-			if(result.first())
-				
-					
-				a = new Avion(numA,DaoModel.selectById(result.getInt("numModele")), result.getInt("nbrPlaceEco") ,result.getInt("nbrPlacePremiere"),result.getInt("nbrPlaceAffaire") );
-				
-		} catch (SQLException e) {
-			
-			e.printStackTrace();
-		}
-		
+//		try {
+//			
+//			ResultSet result =  connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeQuery(
+//	                            "SELECT * FROM Avion WHERE numAvion = " + numA);
+//			
+//			if(result.first())
+//				
+//					
+//				a = new Avion(numA,DaoModel.selectById(result.getInt("numModele")), result.getInt("nbrPlaceEco") ,result.getInt("nbrPlacePremiere"),result.getInt("nbrPlaceAffaire") );
+//				
+//		} catch (SQLException e) {
+//			
+//			e.printStackTrace();
+//		}
+		a.setNumAvion(numA);
 		return a;
 	}
 	

@@ -58,8 +58,8 @@ public class PlannificationVolController {
 		
 		aeroPorts = AeroPortModel.selectAll();
 		for (Aeroport element : aeroPorts) {
-			plannificationVolView.getComboBoxAeroDep().addItem(new ComboxItem(element.getNumAeroport(),element.getNomAeroport()));
-			plannificationVolView.getComboBoxAeroDest().addItem(new ComboxItem(element.getNumAeroport(),element.getNomAeroport()));
+			plannificationVolView.getComboBoxAeroDep().addItem(element);
+			plannificationVolView.getComboBoxAeroDest().addItem(element);
 			
 		}
 		

@@ -1,11 +1,13 @@
 package model.classeDAO;
 
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import model.classes.Client;
 import model.classes.Reservation;
 
 
@@ -23,7 +25,7 @@ public class DaoReservation extends DAO<Reservation> {
 			PreparedStatement prepare = connect.prepareStatement("INSERT INTO Place (numReservation, dateReservation, numClient) VALUES(?, ?, ?)");
 			
 			prepare.setInt(1, obj.getNumReservation());
-			prepare.setString(2, obj.getDateReservation());
+			prepare.setDate(2, obj.getDateReservation());
 			prepare.setInt(3, obj.getNumClient().getNumClient());
 
 	
@@ -89,7 +91,7 @@ public class DaoReservation extends DAO<Reservation> {
 				
 			if(result.first())
 				
-				rv = new Reservation(numReservation , result.getNString("dateReservation") , DaoClient.selectById(result.getInt("numClient")));
+				rv = new Reservation(numReservation , result.getDate("dateReservation"), DaoClient.selectById(result.getInt("numClient")));
 			    
 		
 			} catch (SQLException e) {
@@ -97,6 +99,29 @@ public class DaoReservation extends DAO<Reservation> {
 				e.printStackTrace();
 			}
 		
+		return rv;
+	}
+	
+	public static ArrayList<Reservation> selectByclient(Client numclient) {
+		
+		ArrayList<Reservation> rv=new ArrayList<Reservation>();
+//		
+//			try {
+//			
+//				ResultSet result = connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeQuery(
+//	                            "SELECT * FROM Reservation WHERE num_client = '" + numclient.getNumClient()+"'");
+//
+//				
+//			while(result.next())
+//				
+//				rv.add(new Reservation(result.getInt("num_reservation") , result.getDate("dateReservation") , numclient));
+//			    
+//		
+//			} catch (SQLException e) {
+//			
+//				e.printStackTrace();
+//			}
+		rv.add(new Reservation(numclient.getNumClient(),new Date(System.currentTimeMillis()),numclient));
 		return rv;
 	}
 	
@@ -113,7 +138,7 @@ public class DaoReservation extends DAO<Reservation> {
 			
 			while(result.next())
 				
-				rv.add(new Reservation(result.getInt("numReservation"),result.getString("dateReservation"),DaoClient.selectById(result.getInt("numClient"))));
+				rv.add(new Reservation(result.getInt("numReservation"),result.getDate("dateReservation"),DaoClient.selectById(result.getInt("numClient"))));
 		
 		} catch (SQLException e) {
 			

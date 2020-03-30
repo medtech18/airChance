@@ -9,6 +9,8 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+
+import model.classes.Aeroport;
  
 /**
  * JList basic tutorial and example
@@ -34,8 +36,8 @@ public class PlannificationVolView extends JFrame {
 	private JButton nextBtn;
     private JButton btnAnnuler;
     
-    private JComboBox comboBoxAeroDep;
-	private JComboBox comboBoxAeroDest;
+    private JComboBox<Aeroport> comboBoxAeroDep;
+	private JComboBox<Aeroport> comboBoxAeroDest;
 	private JFormattedTextField TextFieldDateVol;
 	private JComboBox comboBoxNumAvion;
 	private JButton btnBack;
