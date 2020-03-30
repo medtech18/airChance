@@ -71,19 +71,19 @@ public class DaoAdresse extends DAO<Adresse> {
 	public static Adresse selectbyID(int numAdresse) {
 		Adresse a = new Adresse();
 		
-		try {
-			ResultSet result = connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeQuery(
-	                            "SELECT * FROM Adresse WHERE numAdresse = " + numAdresse);
-			
-			if(result.first())
-				
-				a = new Adresse(numAdresse,result.getInt("numAllee"),result.getString("nomRue"),result.getString("codePostal"),
-					result.getString("nomVille"), result.getString("nomPays"));
-		
-		} catch (SQLException e) {
-			
-			e.printStackTrace();
-		}
+//		try {
+//			ResultSet result = connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeQuery(
+//	                            "SELECT * FROM Adresse WHERE numAdresse = " + numAdresse);
+//			
+//			if(result.first())
+//				
+//				a = new Adresse(numAdresse,result.getInt("numAllee"),result.getString("nomRue"),result.getString("codePostal"),
+//					result.getString("nomVille"), result.getString("nomPays"));
+//		
+//		} catch (SQLException e) {
+//			
+//			e.printStackTrace();
+//		}
 		
 		return a;
 	}

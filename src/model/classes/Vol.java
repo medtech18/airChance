@@ -1,16 +1,17 @@
 package model.classes;
 
+import java.sql.Date;
 
 public class Vol {
 
 	private int  numVol;
-	private String dateVol;
+	private Date dateVol;
 	
 	private Aeroport aeroportArrive ;
 	private Aeroport aeroportDepart ;
 	
-	private int duree;
-	private int distanceVol;
+	private double duree;
+	private double distanceVol;
 	private int nbrMinPlaceEco ;
 	private int nbrMinPlacePremiere ;
 	private int nbrMinPlaceAffaire ;
@@ -20,8 +21,8 @@ public class Vol {
 	
 	public Vol() {}
 	
-	public Vol(int numVol, String dateVol, Aeroport aeroportArrive, Aeroport aeroportDepart, 
-			int duree, int distanceVol, boolean terminaison , Avion numAvion,int nbrMinPlaceEco ,int nbrMinPlacePremiere , int nbrMinPlaceAffaire ) {
+	public Vol(int numVol, Date dateVol, Aeroport aeroportArrive, Aeroport aeroportDepart, 
+			double duree, double distanceVol, boolean terminaison , Avion numAvion,int nbrMinPlaceEco ,int nbrMinPlacePremiere , int nbrMinPlaceAffaire ) {
 		super();
 		this.numVol = numVol;
 		this.dateVol = dateVol;
@@ -85,27 +86,27 @@ public class Vol {
 		this.numVol = numVol;
 	}
 	
-	public String getDateVol() {
+	public Date getDateVol() {
 		return dateVol;
 	}
 	
-	public void setDateVol(String dateVol) {
+	public void setDateVol(Date dateVol) {
 		this.dateVol = dateVol;
 	}
 	
-	public int getDuree() {
+	public double getDuree() {
 		return duree;
 	}
 	
-	public void setDuree(int duree) {
+	public void setDuree(double duree) {
 		this.duree = duree;
 	}
 	
-	public int getDistanceVol() {
+	public double getDistanceVol() {
 		return distanceVol;
 	}
 	
-	public void setDistanceVol(int distanceVol) {
+	public void setDistanceVol(double distanceVol) {
 		this.distanceVol = distanceVol;
 	}
 	
@@ -125,12 +126,10 @@ public class Vol {
 		this.aeroportArrive = aeroportArrive;
 	}
 	
-	public void ToString() {
-		System.out.println("numéro vol: " + numVol + "date du vol: " + dateVol + " Aeroport d'arrivée: " + aeroportArrive.getNomAeroport()
-				+ " aeroport départ: " + aeroportDepart.getNomAeroport() +  " durée: " + duree
-				+ " distance du vol: " + distanceVol + " vol terminé ? " + terminaison + " numéro d'avion: " + numAvion.getNumAvion() + 
-				"le nombre de minimum de place en Eco " + nbrMinPlaceEco + "le nombre minimum de place Affaire"+
-				nbrMinPlaceAffaire + "le nombre minimum de place Première" + nbrMinPlacePremiere);
+	public String toString() {
+		return "vol: " + numVol + " date du vol: " + dateVol + " Aeroport d'arrivée: " + aeroportArrive
+				+ " aeroport départ: " + aeroportDepart+  " durée: " + duree
+				+ " distance du vol: " + distanceVol + " numéro d'avion: " + numAvion;
 	}
 	
 

@@ -1,4 +1,5 @@
 import controller.gestionPlannification.PlannificationVolController;
+import controller.gestionReservationControllers.ConsultationReservationController;
 import model.classeDAO.DaoAeroport;
 import model.classeDAO.DaoAvion;
 import model.classeDAO.DaoPersonnel;
@@ -6,6 +7,7 @@ import model.classeDAO.DaoVol;
 import view.gestionPlannification.AvionMenuView;
 import view.gestionPlannification.GenericTableView;
 import view.gestionPlannification.PlannificationVolView;
+import view.gestionReservationViews.ConsultationReservationView;
 
 	public class App {
 	    public static void main(String[] args) {
@@ -34,7 +36,10 @@ import view.gestionPlannification.PlannificationVolView;
 	    	 
 	    	 // gestion resrvation
 	    	 
-	    	 
+	    	 ConsultationReservationView reservationView=new ConsultationReservationView();
+	    	 reservationView.setVisible(true);
+	    	 ConsultationReservationController consultationController=new ConsultationReservationController(reservationView);
+
 
 	    }
 }

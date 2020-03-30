@@ -77,21 +77,21 @@ public class DaoClient extends DAO<Client> {
 		
 		Client c = new Client();
 		
-		try {
-			
-			ResultSet result = connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeQuery(
-	                            "SELECT * FROM Client WHERE numClient = " + numClient);
-			
-			if(result.first())
-
-				
-				c = new Client(numClient,result.getString("nom"),result.getString("prenom"),result.getString("numPasseport"),result.getInt("pointsFidelite"), DaoAdresse.selectbyID(result.getInt("numAdresse")));
-		
-		} catch (SQLException e) {
-			
-			e.printStackTrace();
-		}
-		
+//		try {
+//			
+//			ResultSet result = connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeQuery(
+//	                            "SELECT * FROM Client WHERE numClient = " + numClient);
+//			
+//			if(result.first())
+//
+//				
+//				c = new Client(numClient,result.getString("nom"),result.getString("prenom"),result.getString("numPasseport"),result.getInt("pointsFidelite"), DaoAdresse.selectbyID(result.getInt("numAdresse")));
+//		
+//		} catch (SQLException e) {
+//			
+//			e.printStackTrace();
+//		}
+		c=new Client(numClient,"nom","prenom","Passeport",0,DaoAdresse.selectbyID(0));
 		return c;
 	}
 	

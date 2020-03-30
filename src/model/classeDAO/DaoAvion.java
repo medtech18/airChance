@@ -80,21 +80,21 @@ public class DaoAvion extends DAO<Avion> {
 		Avion a = new Avion();
 
 		
-		try {
-			
-			ResultSet result =  connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeQuery(
-	                            "SELECT * FROM Avion WHERE numAvion = " + numA);
-			
-			if(result.first())
-				
-					
-				a = new Avion(numA,DaoModel.selectById(result.getInt("numModele")), result.getInt("nbrPlaceEco") ,result.getInt("nbrPlacePremiere"),result.getInt("nbrPlaceAffaire") );
-				
-		} catch (SQLException e) {
-			
-			e.printStackTrace();
-		}
-		
+//		try {
+//			
+//			ResultSet result =  connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeQuery(
+//	                            "SELECT * FROM Avion WHERE numAvion = " + numA);
+//			
+//			if(result.first())
+//				
+//					
+//				a = new Avion(numA,DaoModel.selectById(result.getInt("numModele")), result.getInt("nbrPlaceEco") ,result.getInt("nbrPlacePremiere"),result.getInt("nbrPlaceAffaire") );
+//				
+//		} catch (SQLException e) {
+//			
+//			e.printStackTrace();
+//		}
+		a.setNumAvion(numA);
 		return a;
 	}
 	
@@ -121,10 +121,8 @@ public class DaoAvion extends DAO<Avion> {
 	}
 	
 	
-	
 	public ArrayList<Avion> getAvionsWith(int nb_place_eco , int nb_place_premiere , int nb_place_affaire , int rayon_action){
 		
-		System.out.println("A : " + nb_place_eco + "B : " + nb_place_premiere + "C : " +  nb_place_affaire);
 //		try {
 //			
 //			ArrayList<Avion> listAvions = new ArrayList<Avion>();
@@ -147,7 +145,7 @@ public class DaoAvion extends DAO<Avion> {
 //							result.getInt("nb_place_premiere"),
 //							result.getInt("nb_place_eco")
 //							);
-//				 
+//				
 //				listAvions.add(newVol);
 //				
 //			}

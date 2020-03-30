@@ -1,6 +1,7 @@
 package model.classeDAO;
 
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -29,11 +30,11 @@ public class DaoVol extends DAO<Vol> {
 						")"
 						+ " VALUES(?, ?, ?, ?, ?, ?,?,?,?,?,?)");
 				prepare.setInt		(1, obj.getNumVol());
-				prepare.setString	(2, obj.getDateVol());
+				prepare.setDate	(2, obj.getDateVol());
 				prepare.setInt		(3,obj.getAeroportDepart().getNumAeroport());
 				prepare.setInt		(4, obj.getAeroportArrive().getNumAeroport());
-				prepare.setFloat	(5, obj.getDuree());
-				prepare.setFloat	(6, obj.getDistanceVol());
+				prepare.setDouble	(5, obj.getDuree());
+				prepare.setDouble	(6, obj.getDistanceVol());
 				prepare.setInt		(7, obj.getnbrMinPlaceEco());
 				prepare.setInt		(8, obj.getnbrMinPlacePremiere());
 				prepare.setInt		(9, obj.getnbrMinPlaceAffaire());
@@ -99,11 +100,11 @@ public class DaoVol extends DAO<Vol> {
 			
 					a = new Vol(
 							numVol,
-							result.getString("date_vol"),
+							result.getDate("date_vol"),
 							DaoAeroport.selectbyID(result.getInt(3)) ,
 							DaoAeroport.selectbyID(result.getInt(4)) ,
-							result.getInt("duree") ,
-							result.getInt("distance") , 
+							result.getDouble("duree") ,
+							result.getDouble("distance") , 
 							(result.getInt("terminaison")==1?true:false),
 							DaoAvion.selectById(result.getInt("num_avion")) , 
 							result.getInt("nbr_minplace_eco") ,
@@ -132,18 +133,18 @@ public class DaoVol extends DAO<Vol> {
 		
 		try {
 			
-			ResultSet result = this .connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeQuery("SELECT * FROM Adresse");
+			ResultSet result = this .connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeQuery("SELECT * FROM vol");
 			
 
 			while(result.next())
 			{
 				Vol newVol = new Vol(
 							result.getInt("num_vol"),
-							result.getString("date_vol"),
+							result.getDate("date_vol"),
 							DaoAeroport.selectbyID(result.getInt(3)) ,
 							DaoAeroport.selectbyID(result.getInt(4)) ,
-							result.getInt("duree") ,
-							result.getInt("distance") , 
+							result.getDouble("duree") ,
+							result.getDouble("distance") , 
 							(result.getInt("terminaison")==1?true:false),
 							DaoAvion.selectById(result.getInt("num_avion")) , 
 							result.getInt("nbr_minplace_eco") ,
@@ -159,6 +160,53 @@ public class DaoVol extends DAO<Vol> {
 			e.printStackTrace();
 		}
 		
+		return volList;
+	}
+	
+	public ArrayList<Vol> selectByReservation(int numreservation) {
+		ArrayList<Vol> volList = new ArrayList<Vol>();
+//		
+//		try {
+//			
+//			ResultSet result = this .connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeQuery("SELECT * FROM Adresse NATURAL JOIN place_reserver where num_reservation = "+numreservation);
+//			
+//
+//			while(result.next())
+//			{
+//				Vol newVol = new Vol(
+//							result.getInt("num_vol"),
+//							result.getDate("date_vol"),
+//							DaoAeroport.selectbyID(result.getInt(3)) ,
+//							DaoAeroport.selectbyID(result.getInt(4)) ,
+//							result.getDouble("duree") ,
+//							result.getDouble("distance") , 
+//							(result.getInt("terminaison")==1?true:false),
+//							DaoAvion.selectById(result.getInt("num_avion")) , 
+//							result.getInt("nbr_minplace_eco") ,
+//							result.getInt("nbr_minplace_premiere") ,
+//							result.getInt("nbr_minplace_affaire")
+//							);
+//				volList.add(newVol);
+//				
+//			}
+//			
+//		} catch (SQLException e) {
+//			
+//			e.printStackTrace();
+//		}
+				Vol newVol = new Vol(numreservation+100000,
+				new Date(System.currentTimeMillis()),
+				DaoAeroport.selectbyID(2) ,
+				DaoAeroport.selectbyID(3) ,
+				2.5,
+				500 , 
+				true,
+				DaoAvion.selectById(2) , 
+				500,
+				85,
+				652
+				);
+				volList.add(newVol);
 		return volList;
 	}
 	
