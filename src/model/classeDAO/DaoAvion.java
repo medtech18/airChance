@@ -121,8 +121,10 @@ public class DaoAvion extends DAO<Avion> {
 	}
 	
 	
+	
 	public ArrayList<Avion> getAvionsWith(int nb_place_eco , int nb_place_premiere , int nb_place_affaire , int rayon_action){
 		
+		System.out.println("A : " + nb_place_eco + "B : " + nb_place_premiere + "C : " +  nb_place_affaire);
 //		try {
 //			
 //			ArrayList<Avion> listAvions = new ArrayList<Avion>();
@@ -145,7 +147,7 @@ public class DaoAvion extends DAO<Avion> {
 //							result.getInt("nb_place_premiere"),
 //							result.getInt("nb_place_eco")
 //							);
-//				
+//				 
 //				listAvions.add(newVol);
 //				
 //			}

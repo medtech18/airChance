@@ -9,48 +9,78 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
+import javax.swing.table.TableModel;
 
+import controller.common.AlertMessages;
+import controller.common.AvionTableModel;
 import controller.common.ComboxItem;
-import controller.common.MySelectionModel;
+import controller.common.PersonnelTableModel;
 import model.classeDAO.DaoAeroport;
 import model.classeDAO.DaoAvion;
 import model.classeDAO.DaoPersonnel;
 import model.classeDAO.DaoVol;
+import model.classes.Adresse;
 import model.classes.Aeroport;
 import model.classes.Avion;
 import model.classes.Model;
+import model.classes.Personnel;
 import view.gestionPlannification.AvionMenuView;
+import view.gestionPlannification.GenericTableView;
 import view.gestionPlannification.PlannificationVolView;
 
 public class PlannificationVolController {
+	
+	// Models
 	private DaoVol volModel ;
 	private DaoAvion avionModel ;
 	private DaoAeroport AeroPortModel;
 	private DaoPersonnel personnelModel;
-	private PlannificationVolView plannificationVolView ;
-	private AvionMenuView avionMenuView ;
-	private Avion selectedAvion;
 	
-
-
-	private Map<String,String> inputsValues;
+	//Views
+	private PlannificationVolView plannificationVolView ;
+	private GenericTableView avionMenuView ;
+	private GenericTableView personnelMenuView;
 	
 	// Data variables
 	private ArrayList<Avion> avions;
 	private ArrayList<Aeroport> aeroPorts;
+	private Avion selectedAvion;
+	private ArrayList<Personnel> selectedPilots;
+	private ArrayList<Personnel> selectedHotesses;
+
+	private ArrayList<Personnel> personnels;
+	private Map<String,Object> inputsValues;
+	private ArrayList<Personnel> tempSelectedPersonnel;
+	private ActionListener perMenuViewListener ;
+	private boolean actionFromPiloteBtn;
 	
-	public PlannificationVolController(PlannificationVolView plannificationVolView,AvionMenuView avionMenuView ,DaoVol volModel, DaoAvion avionModel , DaoAeroport aeroPortModel ,DaoPersonnel personnelModel ) {
-		this.volModel = volModel;
-		this.avionModel = avionModel;
+	// Generic Jtable models 
+	private PersonnelTableModel personnelTableModel;
+	private AvionTableModel avionTableModel;
+
+
+	
+	public PlannificationVolController(PlannificationVolView plannificationVolView,GenericTableView avionMenuView, GenericTableView personnelMenuView ,DaoVol volModel, DaoAvion avionModel , DaoAeroport aeroPortModel ,DaoPersonnel personnelModel ) {
+		this.volModel 			   = volModel;
+		this.avionModel 		   = avionModel;
 		this.plannificationVolView = plannificationVolView;
-		this.avionMenuView = avionMenuView;
-		this.AeroPortModel = aeroPortModel;
-		this.personnelModel = personnelModel;
-		inputsValues = new HashMap<String,String>();
+		this.avionMenuView 	  	   = avionMenuView;
+		this.personnelMenuView 	   = personnelMenuView;
+		this.AeroPortModel    	   = aeroPortModel;
+		this.personnelModel   	   = personnelModel;
+		this.selectedPilots	  	   = new ArrayList<Personnel>() ;
+		this.selectedHotesses 	   = new ArrayList<Personnel>();
+		this.inputsValues 	  	   = new HashMap<String,Object>();
+		this.actionFromPiloteBtn = true;
+		this.personnelTableModel   = new PersonnelTableModel(this.personnels);
+		this.avionTableModel	   = new AvionTableModel(this.avions);
+
 		fetchDataFromModel();
 		createListenersPlannificationVolView();
+		createListenersPersonnelMenuView();
 	}
 	
 	public void fetchDataFromModel()
@@ -58,9 +88,11 @@ public class PlannificationVolController {
 		
 		aeroPorts = AeroPortModel.selectAll();
 		for (Aeroport element : aeroPorts) {
-			plannificationVolView.getComboBoxAeroDep().addItem(new ComboxItem(element.getNumAeroport(),element.getNomAeroport()));
-			plannificationVolView.getComboBoxAeroDest().addItem(new ComboxItem(element.getNumAeroport(),element.getNomAeroport()));
+			plannificationVolView.getComboBoxAeroDep().addItem(element);
+			plannificationVolView.getComboBoxAeroDest().addItem(element);
 			
+			System.out.println(element);
+
 		}
 		
 	}
@@ -69,26 +101,36 @@ public class PlannificationVolController {
 		// perfom some action when Next button is clicked
 		plannificationVolView.getNextBtn().addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent e) {
+	    		
+	    		
+		    	try {// if is number
+
 	    		inputsValues.put("textFieldDateVol", plannificationVolView.getTextFieldDateVol().getText());
-	    		inputsValues.put("comboBoxAeroDep", plannificationVolView.getComboBoxAeroDep().getSelectedItem().toString());
-	    		inputsValues.put("comboBoxAeroDest", plannificationVolView.getComboBoxAeroDest().getSelectedItem().toString());
-	    		inputsValues.put("textFieldDuree", plannificationVolView.getTextFieldDuree().getText());
-	    		inputsValues.put("textFieldDistance", plannificationVolView.getTextFieldDistance().getText());
-	    		inputsValues.put("editTextPlaceAff", plannificationVolView.getEditTextPlaceAff().getText());
-	    		inputsValues.put("editTextPlacePrem", plannificationVolView.getEditTextPlacePrem().getText());
-	    		inputsValues.put("editTextPlaceEco", plannificationVolView.getEditTextPlaceEco().getText());
-	    		
-	    		boolean isThereEmptyFields = false;
-	    		
-	    		for (Map.Entry<String, String> ele : inputsValues.entrySet()) {
-	    		    if(empty(ele.getValue().toString()) == true)
-	    		    	isThereEmptyFields = true;	
-	    		}
-	    		
-	    		if(isThereEmptyFields)
-	    			setFieldsState(true);
-	    		else
-	    			setFieldsState(false);
+	    		inputsValues.put("comboBoxAeroDep", plannificationVolView.getComboBoxAeroDep().getSelectedItem());
+	    		inputsValues.put("comboBoxAeroDest", plannificationVolView.getComboBoxAeroDest().getSelectedItem());
+	    		inputsValues.put("textFieldDuree", Integer.valueOf(plannificationVolView.getTextFieldDuree().getText()));
+	    		inputsValues.put("textFieldDistance", Integer.valueOf(plannificationVolView.getTextFieldDistance().getText()));
+	    		inputsValues.put("editTextPlaceAff", Integer.valueOf(plannificationVolView.getEditTextPlaceAff().getText()));
+	    		inputsValues.put("editTextPlacePrem", Integer.valueOf(plannificationVolView.getEditTextPlacePrem().getText()));
+	    		inputsValues.put("editTextPlaceEco", Integer.valueOf(plannificationVolView.getEditTextPlaceEco().getText()));
+	    		setFieldsState(false);
+		    	} catch (NumberFormatException e1) {
+	    	    // else then do blah
+	    		AlertMessages.ErrorBox("Error on the fields , Either you left empty fields or you typed characters on number fields ", "Input Error");    
+	    		setFieldsState(true);
+	    	}	    
+		    	
+//	    		boolean isThereEmptyFields = false;
+//	    		
+//	    		for (Map.Entry<String, Object> ele : inputsValues.entrySet()) {
+//	    		    if(empty(ele.getValue().toString()) == true)
+//	    		    	isThereEmptyFields = true;	
+//	    		}
+//	    		
+//	    		if(isThereEmptyFields)
+//	    			setFieldsState(true);
+//	    		else
+//	    			setFieldsState(false);
 	    	}
 	    });
 		
@@ -109,9 +151,9 @@ public class PlannificationVolController {
 			
 	    public void itemStateChanged(ItemEvent e) {
 	        if (e.getStateChange() == ItemEvent.SELECTED) {
-	        	ComboxItem item = (ComboxItem)e.getItem();
+	        	Aeroport item = (Aeroport)e.getItem();
 	            
-	            System.out.println("[ " + (item.getKey())+ "--" + item.getValue()+ "]"); ;
+	            System.out.println("[ " + item.getNomAeroport()+ "--" + item.getNumAeroport()+ "]"); ;
 	            
 	         }
 	    }
@@ -121,93 +163,130 @@ public class PlannificationVolController {
 		{
 		    public void popupMenuWillBecomeVisible(PopupMenuEvent e)
 		    {
-       		 			avions = avionModel.getAvionsWith(
-       		 			Integer.valueOf((String) inputsValues.get("editTextPlaceEco")),
-       		 			Integer.valueOf((String) inputsValues.get("editTextPlacePrem")),
-       		 			Integer.valueOf((String) inputsValues.get("editTextPlaceAff")),
-       		 			Integer.valueOf((String) inputsValues.get("textFieldDistance"))
-       		 		);
+//		    	try {// if is number
+   		 			avions = avionModel.getAvionsWith(
+				   		 			(int) inputsValues.get("editTextPlaceEco"),
+				   		 			(int) inputsValues.get("editTextPlacePrem"),
+				   		 			(int) inputsValues.get("editTextPlaceAff"),
+				   		 			(int) inputsValues.get("textFieldDistance")
+   		 					);
+
+
        		 			
-       		 		createListenersAvionView();
-       		 		
-       		 		plannificationVolView.getListModel().addElement("USA");
-       		 		plannificationVolView.getListModel().addElement("India");
-       		 		plannificationVolView.getListModel().addElement("Vietnam");
-       		 		plannificationVolView.getListModel().addElement("Canada");
-       		 		plannificationVolView.getListModel().addElement("Denmark");
-       				plannificationVolView.getListModel().addElement("France");
-       				plannificationVolView.getListModel().addElement("Great Britain");
-       				plannificationVolView.getListModel().addElement("Japan"); 
-       				plannificationVolView.getListModel().addElement("Canada");
-       				plannificationVolView.getListModel().addElement("Denmark");
-       				plannificationVolView.getListModel().addElement("France");
-       				plannificationVolView.getListModel().addElement("Great Britain");
-       				plannificationVolView.getListModel().addElement("Japan");
-       		        
-//       				plannificationVolView.getAvionList().setSelectionModel(new MySelectionModel(plannificationVolView.getAvionList(), 2));
-       				plannificationVolView.getAvionList().setEnabled(true);
+       		 		createListenersAvionView();	
+       		 			
 		    }
 
 		    public void popupMenuCanceled(PopupMenuEvent e) {}
 		    public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {}
 		});
 
+
+		plannificationVolView.getBtnChoixPilot().addActionListener(new ActionListener() {
+	    	public void actionPerformed(ActionEvent e) {
+                actionFromPiloteBtn = true;
+                personnelMenuView.setVisible(true);
+
+	    	}
+	    });
+		
+		plannificationVolView.getBtnChoixHotesse().addActionListener(new ActionListener() {
+	    	public void actionPerformed(ActionEvent e) {
+                actionFromPiloteBtn = false;
+                personnelMenuView.setVisible(true);
+	    	}
+	    });
+	
 	}
 
 	public void createListenersAvionView() {
+		
 		this.avionMenuView.setVisible(true); 
-//   		AvionMenuView a = new AvionMenuView(plannificationVolView,avions,getPlannificationVolController());		
 		this.avionMenuView.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-		for(Avion ele : avions){
-			avionMenuView.getModel().addRow( new Object[]
-	        		  		{   ele.getNumAvion(), 
-	        		  			ele.getNbrPlaceEco(),
-	        		  			ele.getNbrPlacePremiere(),
-	        		  			ele.getNbrPlaceAffaire(),
-	        		  			ele.getNumModele().getNumModele(),
-	        		  			ele.getNumModele().getNomModele(),
-	        		  			ele.getNumModele().getNbPiloteMin(),
-	        		  			ele.getNumModele().getRayonAction()
-	        		  		 });
-	      }
-		avionMenuView.getButton().addActionListener(new ActionListener() {
+		this.avionTableModel.setRowObjects(this.avions);
+		avionMenuView.getTable().setModel(this.avionTableModel );
+		avionMenuView.getTable().setAutoCreateRowSorter(true);
+
+		this.avionMenuView.getButton().addActionListener(new ActionListener() {
 	          @Override
 	          public void actionPerformed(ActionEvent ae) {
 	         	 
 	             // check for selected row first
 	             if(avionMenuView.getTable().getSelectedRow() != -1) {
 	             	
-	             	int column = 0;
 	             	int row = avionMenuView.getTable().getSelectedRow();
-	             	String value = avionMenuView.getTable().getModel().getValueAt(row, column).toString();
+	             	AvionTableModel tempModel = (AvionTableModel) avionMenuView.getTable().getModel();	             	
+	             	
+	             	
+	             	selectedAvion = tempModel.getValue(row);
+	             	
+	             	plannificationVolView.getComboBoxNumAvion().addItem(selectedAvion.getNumAvion());
 
-	             	
-//	             	selectedData = data.getDataVector().elementAt(table.getSelectedRow());
+	             	     	 
+       				plannificationVolView.getComboBoxNumAvion().setEnabled(false);
 
-	                // remove selected row from the model
-//	                model.removeRow(table.getSelectedRow());
-	             	
-	             	plannificationVolView.getEditTextPlaceAff().setText("Ssfdsfddsffds");
-	             	plannificationVolView.getComboBoxNumAvion().addItem(value);
-	             	
-	             	selectedAvion = new Avion(
-	             			(int)avionMenuView.getTable().getModel().getValueAt(row, 0),
-	             			new Model(avionMenuView.getTable().getModel().getValueAt(row,4).toString(),
-	             					  (int)avionMenuView.getTable().getModel().getValueAt(row,3),
-	             					  444,
-	             					  (int)avionMenuView.getTable().getModel().getValueAt(row,6)
-	             					),
-	             			(int)avionMenuView.getTable().getModel().getValueAt(row,1),
-	             			(int)avionMenuView.getTable().getModel().getValueAt(row,2),122112);
-	             	
-	             	inputsValues.put("comboBoxNumAvion",value);
-	             	plannificationVolView.getChoixPilotLabel().setText("Choisir au minimum " + value + " pilote(s)");
 	             }
 	             
 	             avionMenuView.dispose();
 	          }
 	       });
+		
+	
+	
+	}
+	
+	public void createListenersPersonnelMenuView() {
+		
+		tempSelectedPersonnel = new ArrayList<Personnel>();
+		this.personnelMenuView.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+		this.personnels = personnelModel.selectAll();
+		this.personnelTableModel.setRowObjects(this.personnels);
+		personnelMenuView.getTable().setModel(this.personnelTableModel );
+		personnelMenuView.getTable().setAutoCreateRowSorter(true);
+
+		
+		perMenuViewListener = new ActionListener() {
+	          @Override
+	          public void actionPerformed(ActionEvent ae) {
+	         	 
+	             // check for selected row first
+	        	  
+	             if(personnelMenuView.getTable().getSelectedRows().length > 0) {
+	            	 	PersonnelTableModel tempModel = (PersonnelTableModel) personnelMenuView.getTable().getModel();
+	            	 
+		                for (int nRow : personnelMenuView.getTable().getSelectedRows()) {
+		                	   
+		                	 tempSelectedPersonnel.add(tempModel.getValue(nRow));
+		                  }
+		                
+		                
+		                // action to apply on pilote 
+		                
+		                if(actionFromPiloteBtn)
+		                {	
+			             	plannificationVolView.getLabelChoixPilot().setText("Vous avez selection "+ personnelMenuView.getTable().getSelectedRows().length +" pilote(s)");
+			             	selectedPilots = tempSelectedPersonnel;
+		                }
+		                
+		                //action to apply on hotesses
+		                
+		                if(!actionFromPiloteBtn)
+		                {	
+			             	plannificationVolView.getLabelChoixHotesse().setText("Vous avez selection "+ personnelMenuView.getTable().getSelectedRows().length +" hotesse(s)");
+			             	selectedHotesses = tempSelectedPersonnel;
+		                }
+		                	     
+		                personnelMenuView.dispose();
+		          }
+	          }
+	            	              
+	        
+		};
+		
+		this.personnelMenuView.getButton().addActionListener(perMenuViewListener);
+		
 	}
 	
 	public void viewInit()
@@ -247,7 +326,6 @@ public class PlannificationVolController {
     	plannificationVolView.getEditTextPlaceAff().setEnabled(state);
     	plannificationVolView.getEditTextPlacePrem().setEnabled(state);
     	plannificationVolView.getEditTextPlaceEco().setEnabled(state);
-    	
     	plannificationVolView.getComboBoxNumAvion().setEnabled(!state);
 	}
 	
@@ -260,11 +338,11 @@ public class PlannificationVolController {
 		return this;
 	}
 
-	public Map<String, String> getInputsValues() {
+	public Map<String, Object> getInputsValues() {
 		return inputsValues;
 	}
 
-	public void setInputsValues(Map<String, String> inputsValues) {
+	public void setInputsValues(Map<String, Object> inputsValues) {
 		this.inputsValues = inputsValues;
 	}
 

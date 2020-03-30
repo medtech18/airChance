@@ -102,7 +102,6 @@ public class DaoPersonnel extends DAO<Personnel> {
 			
 			return p;
 		}
-		
 	
 		
 		public ArrayList<Personnel> selectAll() {
