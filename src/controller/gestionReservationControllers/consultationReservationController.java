@@ -1,4 +1,5 @@
-package gestionReservationControllers;
+package controller.gestionReservationControllers;
+
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -6,8 +7,6 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
-import gestionReservationViews.consultationReservationView;
-import gestionReservationViews.detailPlaceReserverView;
 import model.classeDAO.DaoClient;
 import model.classeDAO.DaoReservation;
 import model.classeDAO.DaoVol;
@@ -15,6 +14,9 @@ import model.classes.Client;
 import model.classes.Reservation;
 import model.classes.Vol;
 import modelTables.tablemodelvol;
+import view.gestionReservationViews.consultationReservationView;
+import view.gestionReservationViews.detailPlaceReserverView;
+
 
 public class consultationReservationController {
 	

@@ -1,11 +1,11 @@
-package gestionReservationControllers;
+package controller.gestionReservationControllers;
 
-import gestionReservationViews.detailPlaceReserverView;
 import model.classeDAO.DaoPlaceReserver;
 import model.classes.Client;
 import model.classes.Reservation;
 import model.classes.Vol;
 import modelTables.tableModelPlaceReserver;
+import view.gestionReservationViews.detailPlaceReserverView;
 
 public class detailPlaceReserverController {
 	detailPlaceReserverView view;

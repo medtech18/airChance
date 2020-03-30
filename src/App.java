@@ -1,12 +1,12 @@
 import controller.gestionPlannification.PlannificationVolController;
-import gestionReservationControllers.consultationReservationController;
-import gestionReservationViews.consultationReservationView;
+import controller.gestionReservationControllers.consultationReservationController;
 import model.classeDAO.DaoAeroport;
 import model.classeDAO.DaoAvion;
 import model.classeDAO.DaoPersonnel;
 import model.classeDAO.DaoVol;
 import view.gestionPlannification.AvionMenuView;
 import view.gestionPlannification.PlannificationVolView;
+import view.gestionReservationViews.consultationReservationView;
 
 	public class App {
 	    public static void main(String[] args) {
