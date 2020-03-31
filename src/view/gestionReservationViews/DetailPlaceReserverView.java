@@ -11,11 +11,12 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 
-
 public class DetailPlaceReserverView extends JFrame {
 	private JTable table;
-
+	
 	/**
+	 * 
+	 * 
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
@@ -31,6 +32,7 @@ public class DetailPlaceReserverView extends JFrame {
 		});
 	}
 
+	
 	/**
 	 * Create the frame.
 	 */

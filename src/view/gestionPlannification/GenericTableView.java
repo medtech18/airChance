@@ -12,8 +12,6 @@ import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
-
-
 public class GenericTableView extends JFrame {
 
 	   private JTable table;
