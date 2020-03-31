@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import model.classes.Avion;
 import model.classes.Place;
+import model.classes.Vol;
 
 public class DaoPlace extends DAO<Place> 
 {
@@ -113,6 +114,26 @@ public class DaoPlace extends DAO<Place>
 			
 			ResultSet result = connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE).executeQuery(
 	                            "SELECT * FROM Place");
+			
+			while(result.next())
+				
+				p.add(new Place(result.getInt("num_place"),result.getString("classe"),result.getString("position"),DaoAvion.selectById(result.getInt("num_avion"))));
+		
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
+		
+		return p;
+	}
+public ArrayList<Place> placedispo(Vol vol) {
+		
+		ArrayList<Place> p = new ArrayList<Place>();
+		
+		try {
+			
+			ResultSet result = connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE).executeQuery(
+	                            "SELECT * FROM TABLE(allplace_dispo_rows("+vol.getNumVol()+"))");
 			
 			while(result.next())
 				

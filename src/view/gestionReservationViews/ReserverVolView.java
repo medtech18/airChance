@@ -24,6 +24,8 @@ import javax.swing.border.EmptyBorder;
 import model.classes.AeroPort;
 
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.awt.event.ActionEvent;
 
 
@@ -38,15 +40,10 @@ public class ReserverVolView extends JFrame {
 	private JFormattedTextField txtDate;
 	private JScrollPane scrollPane;
 
-	/**
-	 * Launch the application.
-	 */
 
-	/**
-	 * Create the frame.
-	 */
+	
 	public ReserverVolView() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setBounds(100, 100, 800, 600);
 		JPanel contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -71,6 +68,8 @@ public class ReserverVolView extends JFrame {
 		txtDate.setBounds(265, 56, 225, 21);
 		contentPane.add(txtDate);
 		txtDate.setValue(new Date());
+		txtDate.setFocusLostBehavior(JFormattedTextField.PERSIST);
+		
 		
 		JLabel lblNewLabel = new JLabel("Date");
 		lblNewLabel.setBounds(190, 59, 65, 14);
