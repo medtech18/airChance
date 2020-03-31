@@ -13,7 +13,10 @@ public class DaoPersonnelVol extends DAO<PersonnelVol> {
 	
 	 public PersonnelVol insert(PersonnelVol obj) {
 		
-			
+		
+		 
+		 
+		 
 			try {
 				
 					connect.setTransactionIsolation(java.sql.Connection.TRANSACTION_SERIALIZABLE);
