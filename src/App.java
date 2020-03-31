@@ -8,6 +8,7 @@ import view.gestionPlannification.AvionMenuView;
 import view.gestionPlannification.GenericTableView;
 import view.gestionPlannification.PlannificationVolView;
 import view.gestionReservationViews.ConsultationReservationView;
+import view.gestionReservationViews.ReserverVolView;
 
 	public class App {
 	    public static void main(String[] args) {
@@ -38,8 +39,8 @@ import view.gestionReservationViews.ConsultationReservationView;
 	    	 
 	    	 ConsultationReservationView reservationView=new ConsultationReservationView();
 	    	 reservationView.setVisible(true);
-	    	 ConsultationReservationController consultationController=new ConsultationReservationController(reservationView);
-	    	 
+	    	 new ConsultationReservationController(reservationView);
+
 
 
 	    }

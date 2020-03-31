@@ -16,6 +16,7 @@ import model.classes.Reservation;
 import model.classes.Vol;
 import view.gestionReservationViews.ConsultationReservationView;
 import view.gestionReservationViews.DetailPlaceReserverView;
+import view.gestionReservationViews.ReserverVolView;
 
 
 public class ConsultationReservationController {
@@ -87,6 +88,14 @@ public class ConsultationReservationController {
 					viewPlaceReserver.setVisible(true);
 					
 				}
+				
+			}
+		});
+		cReservationview.getBtnReserver().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ReserverVolView reservationvol= new ReserverVolView();
+				reservationvol.setVisible(true);
+				new ReserverVolController(reservationvol,client);
 				
 			}
 		});

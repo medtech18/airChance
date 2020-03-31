@@ -20,6 +20,7 @@ import javax.swing.JComboBox;
 import java.awt.ScrollPane;
 import javax.swing.JScrollPane;
 import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
 
 public class ConsultationReservationView extends JFrame {
 	private JTable table;
@@ -28,6 +29,7 @@ public class ConsultationReservationView extends JFrame {
 	private JComboBox comboBox;
 	private JOptionPane jop;
 	private JButton btnDetail;
+	private JButton btnReserver;
 
 	/**
 	 * Launch the application.
@@ -82,6 +84,10 @@ public class ConsultationReservationView extends JFrame {
 		btnDetail.setEnabled(false);
 		btnDetail.setBounds(306, 529, 184, 23);
 		contentPane.add(btnDetail);
+		
+		btnReserver = new JButton("Reserver");
+		btnReserver.setBounds(572, 25, 89, 23);
+		contentPane.add(btnReserver);
 		jop = new JOptionPane();
 	}
 
@@ -149,5 +155,17 @@ public class ConsultationReservationView extends JFrame {
 
 	public void setTxtIdClient(JTextField txtIdClient) {
 		this.txtIdClient = txtIdClient;
+	}
+
+
+
+	public JButton getBtnReserver() {
+		return btnReserver;
+	}
+
+
+
+	public void setBtnReserver(JButton btnReserver) {
+		this.btnReserver = btnReserver;
 	}
 }

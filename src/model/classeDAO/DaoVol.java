@@ -7,6 +7,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import model.classes.Aeroport;
+import model.classes.Reservation;
 import model.classes.Vol;
 
 
@@ -196,8 +198,45 @@ public class DaoVol extends DAO<Vol> {
 		return volList;
 	}
 	
-	
-
-	
+	public ArrayList<Vol> selectbyCritere(Date dvol,Aeroport depart,Aeroport destination) {
+		ArrayList<Vol> volList = new ArrayList<Vol>();
+		
+		try {
+			PreparedStatement pstmt = this .connect.prepareStatement(
+					"SELECT * FROM vol where date_vol>= ? and aeroport_origine= ? and aeroport_destination= ? "
+					+ "and place_dispo(num_vol)>0"
+					);
+			pstmt.setDate(1, dvol);
+			pstmt.setInt(2,depart.getNumAeroport());
+			pstmt.setInt(3,destination.getNumAeroport());
+			pstmt.execute();
+			ResultSet result = pstmt.getResultSet();
+			
+			while(result.next())
+			{
+				Vol newVol = new Vol(
+						result.getInt("num_vol"),
+						result.getDate("date_vol"),
+						DaoAeroport.selectbyID(result.getInt("aeroport_origine")) ,
+						DaoAeroport.selectbyID(result.getInt("aeroport_destination")) ,
+						result.getFloat("duree") ,
+						result.getFloat("distance") , 
+						(result.getInt("terminaison")==1?true:false),
+						DaoAvion.selectById(result.getInt("num_avion")) , 
+						result.getInt("nbr_minplace_eco") ,
+						result.getInt("nbr_minplace_premiere") ,
+						result.getInt("nbr_minplace_affaire")
+						);
+				volList.add(newVol);
+				
+			}
+			
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
+		
+		return volList;
+	}
 
 }

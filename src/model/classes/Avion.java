@@ -60,9 +60,8 @@ public class Avion {
 		this.nbrPlaceAffaire = nbrPlaceAffaire;
 	}
 
-	public void ToString() { 
-		System.out.println("Avion numero : " + numAvion +  " Numéro du modele : "+ numModele.getNumModele() +
-				"Nombre place affaire : " + nbrPlaceAffaire + "Nombre de place Eco : " + nbrPlaceEco + "Nombre de place première : " +nbrPlacePremiere);
+	public String toString() { 
+		return ""+numAvion ;
 	}
 	
 
