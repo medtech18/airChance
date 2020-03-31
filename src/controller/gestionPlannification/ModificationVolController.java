@@ -24,12 +24,11 @@ import model.classeDAO.DaoAvion;
 import model.classeDAO.DaoPersonnel;
 import model.classeDAO.DaoVol;
 import model.classes.Adresse;
-import model.classes.Aeroport;
+import model.classes.AeroPort;
 import model.classes.Avion;
 import model.classes.Model;
 import model.classes.Personnel;
 import model.classes.Vol;
-import view.gestionPlannification.AvionMenuView;
 import view.gestionPlannification.GenericTableView;
 import view.gestionPlannification.ModificationVolView;
 import view.gestionPlannification.ModificationVolView;
@@ -49,13 +48,15 @@ public class ModificationVolController {
 
 	// Data variables
 	private ArrayList<Avion> avions;
-	private ArrayList<Aeroport> aeroPorts;
+	private ArrayList<AeroPort> aeroPorts;
 	private ArrayList<Vol> vols;
 
 	private Avion selectedAvion;
 	private Vol selectedVol;
 	private ArrayList<Personnel> selectedPilots;
 	private ArrayList<Personnel> selectedHotesses;
+	private AeroPort selectedAeroPortDep;
+	private AeroPort selectedAeroPortDest;
 
 	private ArrayList<Personnel> personnels;
 	private Map<String, Object> inputsValues;
@@ -82,6 +83,8 @@ public class ModificationVolController {
 		this.personnelModel = personnelModel;
 		this.selectedPilots = new ArrayList<Personnel>();
 		this.selectedHotesses = new ArrayList<Personnel>();
+		this.selectedAeroPortDep = new AeroPort();
+		this.selectedAeroPortDest = new AeroPort();
 		this.inputsValues = new HashMap<String, Object>();
 		this.actionFromPiloteBtn = true;
 		this.personnelTableModel = new PersonnelTableModel(this.personnels);
@@ -96,17 +99,20 @@ public class ModificationVolController {
 	public void fetchDataFromModel() {
 
 		aeroPorts = AeroPortModel.selectAll();
-		for (Aeroport element : aeroPorts) {
-			modificationVolView.getComboBoxAeroDep().addItem(element);
-			modificationVolView.getComboBoxAeroDest().addItem(element);
-
-			System.out.println(element);
-
+		for(AeroPort e : aeroPorts)
+		{
+			System.out.println(e);
 		}
+//		for (Aeroport element : aeroPorts) {
+			modificationVolView.getComboBoxAeroDep().addItem(aeroPorts);
+			modificationVolView.getComboBoxAeroDest().addItem(aeroPorts);
+//		}
 		
-		vols = volModel.selectByReservation(11);
-		this.volTableModel.setRowObjects(this.vols);
-		modificationVolView.getTable().setModel(this.volTableModel);
+		vols = volModel.selectAll();
+		
+//		this.volTableModel.setRowObjects(this.vols);
+//		modificationVolView.getTable().setModel(this.volTableModel);
+		modificationVolView.getTable().setModel(new VolTableModel(vols));
 		modificationVolView.getTable().setAutoCreateRowSorter(true);
 
 	}
@@ -122,9 +128,9 @@ public class ModificationVolController {
 					inputsValues.put("comboBoxAeroDep", modificationVolView.getComboBoxAeroDep().getSelectedItem());
 					inputsValues.put("comboBoxAeroDest", modificationVolView.getComboBoxAeroDest().getSelectedItem());
 					inputsValues.put("textFieldDuree",
-							Integer.valueOf(modificationVolView.getTextFieldDuree().getText()));
+							Double.valueOf(modificationVolView.getTextFieldDuree().getText()));
 					inputsValues.put("textFieldDistance",
-							Integer.valueOf(modificationVolView.getTextFieldDistance().getText()));
+							Double.valueOf(modificationVolView.getTextFieldDistance().getText()));
 					inputsValues.put("editTextPlaceAff",
 							Integer.valueOf(modificationVolView.getEditTextPlaceAff().getText()));
 					inputsValues.put("editTextPlacePrem",
@@ -176,9 +182,18 @@ public class ModificationVolController {
 
 			public void itemStateChanged(ItemEvent e) {
 				if (e.getStateChange() == ItemEvent.SELECTED) {
-					Aeroport item = (Aeroport) e.getItem();
+					selectedAeroPortDep = (AeroPort) modificationVolView.getComboBoxAeroDep().getSelectedItem();
+					;
 
-					System.out.println("[ " + item.getNomAeroport() + "--" + item.getNumAeroport() + "]");
+				}
+			}
+		});
+		
+		modificationVolView.getComboBoxAeroDest().addItemListener(new ItemListener() {
+
+			public void itemStateChanged(ItemEvent e) {
+				if (e.getStateChange() == ItemEvent.SELECTED) {
+					selectedAeroPortDest = (AeroPort) modificationVolView.getComboBoxAeroDest().getSelectedItem();
 					;
 
 				}
@@ -241,6 +256,10 @@ public class ModificationVolController {
 							modificationVolView.getEditTextPlaceEco().setText(String.valueOf(selectedVol.getnbrMinPlaceEco()));
 							modificationVolView.getEditTextPlacePrem().setText(String.valueOf(selectedVol.getnbrMinPlacePremiere()));
 							modificationVolView.getComboBoxNumAvion().addItem(selectedVol.getNumAvion());
+							
+//							modificationVolView.getComboBoxAeroDep().addItem(element);
+//							modificationVolView.getComboBoxAeroDest().addItem(element);
+
 
 							
 						} catch (NumberFormatException e1) {

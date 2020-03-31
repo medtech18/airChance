@@ -2,6 +2,8 @@ package view.gestionPlannification;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Random;
 
 import javax.swing.JButton;
@@ -11,9 +13,13 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
+
+import model.classes.AeroPort;
+
 import javax.swing.JLabel;
 import javax.swing.JFormattedTextField;
 import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
 
 public class ModificationVolView extends JFrame {
 
@@ -30,8 +36,8 @@ public class ModificationVolView extends JFrame {
 	private JFormattedTextField editTextPlacePrem;
 	private JFormattedTextField editTextPlaceEco;
 	private JComboBox comboBoxNumAvion;
-	private JComboBox comboBoxAeroDest;
-	private JComboBox comboBoxAeroDep;
+	private JComboBox<AeroPort> comboBoxAeroDest;
+	private JComboBox<AeroPort> comboBoxAeroDep;
 	private JButton btnChoixPilot;
 	private JButton btnChoixHotesse;
 	private JLabel labelChoixPilot;
@@ -60,7 +66,8 @@ public class ModificationVolView extends JFrame {
 		label.setBounds(611, 28, 113, 16);
 		getContentPane().add(label);
 
-		TextFieldDateVol = new JFormattedTextField();
+	    DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		TextFieldDateVol = new JFormattedTextField(format);
 		TextFieldDateVol.setEnabled(false);
 		TextFieldDateVol.setBounds(763, 23, 151, 26);
 		getContentPane().add(TextFieldDateVol);
@@ -69,7 +76,8 @@ public class ModificationVolView extends JFrame {
 		label_1.setBounds(611, 54, 124, 16);
 		getContentPane().add(label_1);
 
-		comboBoxAeroDep = new JComboBox();
+		comboBoxAeroDep = new JComboBox<AeroPort>();
+		comboBoxAeroDep.setModel(new DefaultComboBoxModel(new String[] {"Item", "Item", "Item"}));
 		comboBoxAeroDep.setEnabled(false);
 		comboBoxAeroDep.setBounds(763, 50, 158, 27);
 		getContentPane().add(comboBoxAeroDep);
@@ -78,7 +86,9 @@ public class ModificationVolView extends JFrame {
 		label_2.setBounds(611, 83, 135, 16);
 		getContentPane().add(label_2);
 
-		comboBoxAeroDest = new JComboBox();
+		comboBoxAeroDest = new JComboBox<AeroPort>();
+		
+		comboBoxAeroDest.setModel(new DefaultComboBoxModel(new String[] {"Item", "Item", "Item"}));
 		comboBoxAeroDest.setEnabled(false);
 		comboBoxAeroDest.setBounds(763, 79, 158, 27);
 		getContentPane().add(comboBoxAeroDest);
