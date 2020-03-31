@@ -10,8 +10,8 @@ public class Vol {
 	private Aeroport aeroportArrive ;
 	private Aeroport aeroportDepart ;
 	
-	private double duree;
-	private double distanceVol;
+	private Float duree;
+	private Float distanceVol;
 	private int nbrMinPlaceEco ;
 	private int nbrMinPlacePremiere ;
 	private int nbrMinPlaceAffaire ;
@@ -22,7 +22,7 @@ public class Vol {
 	public Vol() {}
 	
 	public Vol(int numVol, Date dateVol, Aeroport aeroportArrive, Aeroport aeroportDepart, 
-			double duree, double distanceVol, boolean terminaison , Avion numAvion,int nbrMinPlaceEco ,int nbrMinPlacePremiere , int nbrMinPlaceAffaire ) {
+			Float duree, Float distanceVol, boolean terminaison , Avion numAvion,int nbrMinPlaceEco ,int nbrMinPlacePremiere , int nbrMinPlaceAffaire ) {
 		super();
 		this.numVol = numVol;
 		this.dateVol = dateVol;
@@ -94,19 +94,19 @@ public class Vol {
 		this.dateVol = dateVol;
 	}
 	
-	public double getDuree() {
+	public Float getDuree() {
 		return duree;
 	}
 	
-	public void setDuree(double duree) {
+	public void setDuree(Float duree) {
 		this.duree = duree;
 	}
 	
-	public double getDistanceVol() {
+	public Float getDistanceVol() {
 		return distanceVol;
 	}
 	
-	public void setDistanceVol(double distanceVol) {
+	public void setDistanceVol(Float distanceVol) {
 		this.distanceVol = distanceVol;
 	}
 	

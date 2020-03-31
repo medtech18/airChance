@@ -32,7 +32,7 @@ import model.classes.Vol;
 import view.gestionPlannification.AvionMenuView;
 import view.gestionPlannification.GenericTableView;
 import view.gestionPlannification.ModificationVolView;
-import view.gestionPlannification.ModificationVolView;
+
 
 public class ModificationVolController {
 
@@ -105,8 +105,8 @@ public class ModificationVolController {
 		}
 		
 		vols = volModel.selectByReservation(11);
-		this.volTableModel.setRowObjects(this.vols);
-		modificationVolView.getTable().setModel(this.volTableModel);
+		volTableModel=new VolTableModel(vols);
+		modificationVolView.getTable().setModel(volTableModel);
 		modificationVolView.getTable().setAutoCreateRowSorter(true);
 
 	}

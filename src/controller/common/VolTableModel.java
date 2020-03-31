@@ -8,14 +8,14 @@ import javax.swing.table.AbstractTableModel;
 import model.classes.Vol;
 
 
-public class Tablemodelvol extends AbstractTableModel{
+public class VolTableModel extends AbstractTableModel{
 
 	private final String[] entetes = { "num vol", "date depart", "aeroport depart", "aeroport arrivee", "duree", "distance", "num avion" };
 	private ArrayList<Vol>vols;
 	
 	
 	
-	public Tablemodelvol(ArrayList<Vol> vols) {
+	public VolTableModel(ArrayList<Vol> vols) {
 		super();
 		this.vols = vols;
 	}
@@ -55,7 +55,7 @@ public class Tablemodelvol extends AbstractTableModel{
 				return vols.get(rowIndex).getDistanceVol();
 			case 6:
 				// num avion 
-				return vols.get(rowIndex).getNumAvion().getNumAvion();
+				return vols.get(rowIndex).getNumAvion();
 			default:
 				throw new IllegalArgumentException();
 		}

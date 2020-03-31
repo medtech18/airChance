@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
-import controller.common.Tablemodelvol;
+import controller.common.VolTableModel;
 import model.classeDAO.DaoClient;
 import model.classeDAO.DaoReservation;
 import model.classeDAO.DaoVol;
@@ -34,9 +34,10 @@ public class ConsultationReservationController {
 		cReservationview.getBtnRecherche().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				cReservationview.getComboBox().removeAllItems();
+				cReservationview.getTable().setModel(new VolTableModel(new ArrayList<Vol>()));
 				cReservationview.getBtnDetail().setEnabled(false);
 				client=DaoClient.selectById(Integer.parseInt(cReservationview.getTxtIdClient().getText()));
-				if(client.getNumClient()==-1)
+				if(client==null)
 					cReservationview.getJop().showMessageDialog(null, "client inexistant!", "Attention", JOptionPane.INFORMATION_MESSAGE);
 				else
 				{
@@ -58,12 +59,14 @@ public class ConsultationReservationController {
 			}
 		}); 
 		cReservationview.getComboBox().addActionListener(new ActionListener() {
+			ArrayList<Vol> vols;
 			public void actionPerformed(ActionEvent e) {
 				if( cReservationview.getComboBox().getSelectedItem()!=null) {
 					selectedReservation=(Reservation) cReservationview.getComboBox().getSelectedItem();
-					Tablemodelvol modele=new Tablemodelvol(vol.selectByReservation(selectedReservation.getNumReservation()));
-					cReservationview.getTable().setModel(modele);
-					cReservationview.getTable().setAutoCreateRowSorter(true);
+					vols=vol.selectByReservation(selectedReservation.getNumReservation());
+						VolTableModel modele=new VolTableModel(vols);
+						cReservationview.getTable().setModel(modele);
+						cReservationview.getTable().setAutoCreateRowSorter(true);
 				}
 				
 				
@@ -75,10 +78,10 @@ public class ConsultationReservationController {
 			public void actionPerformed(ActionEvent e) {
 				if(cReservationview.getTable().getSelectedRow()==-1)
 				{
-					cReservationview.getJop().showMessageDialog(null, "aucun vol selectionn�!", "Attention", JOptionPane.INFORMATION_MESSAGE);
+					cReservationview.getJop().showMessageDialog(null, "aucun vol selectionnee!", "Attention", JOptionPane.INFORMATION_MESSAGE);
 				}else
 				{
-					Vol selectedVol=((Tablemodelvol) cReservationview.getTable().getModel()).getValue(cReservationview.getTable().getSelectedRow());
+					Vol selectedVol=((VolTableModel) cReservationview.getTable().getModel()).getValue(cReservationview.getTable().getSelectedRow());
 					DetailPlaceReserverView viewPlaceReserver=new DetailPlaceReserverView();
 					new DetailPlaceReserverController(viewPlaceReserver,selectedReservation,selectedVol);
 					viewPlaceReserver.setVisible(true);

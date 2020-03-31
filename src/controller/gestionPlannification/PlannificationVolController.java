@@ -168,7 +168,7 @@ public class PlannificationVolController {
 				   		 			(int) inputsValues.get("editTextPlaceEco"),
 				   		 			(int) inputsValues.get("editTextPlacePrem"),
 				   		 			(int) inputsValues.get("editTextPlaceAff"),
-				   		 			(int) inputsValues.get("textFieldDistance")
+				   		 			(Double) inputsValues.get("textFieldDistance")
    		 					);
 
 

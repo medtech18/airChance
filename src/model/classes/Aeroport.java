@@ -51,7 +51,7 @@ public class Aeroport {
 	}
 	
 	public String toString() {
-		return this.nomAeroport ;
+		return nomAeroport+", "+nomVille+", "+nomPays ;
 	}
 	
 }
