@@ -13,8 +13,7 @@ public class DaoPersonnelVol extends DAO<PersonnelVol> {
 	
 	 public PersonnelVol insert(PersonnelVol obj) {
 		
-		
-		 
+
 		 
 		 
 			try {
