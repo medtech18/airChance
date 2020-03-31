@@ -143,6 +143,26 @@ public ArrayList<PlaceReserver> selectbyreservation(Reservation reserv,Vol vol) 
 		return p;
 	}
 
+public ArrayList<PlaceReserver> placedispo(Vol vol) {
+	
+	ArrayList<PlaceReserver> p = new ArrayList<PlaceReserver>();
+	Vol v = new Vol();
+	try {
+		
+		ResultSet result = connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE).executeQuery(
+                            "SELECT * FROM place_reserver");
+		
+		while(result.next())
+			v=DaoVol.selectbyID(result.getInt("num_vol"));
+			p.add(new PlaceReserver(DaoReservation.selectById(result.getInt("num_reservation")),DaoPlace.selectById(result.getInt("num_place"),v.getNumAvion()) ,v));
+	
+	} catch (SQLException e) {
+		
+		e.printStackTrace();
+	}
+	
+	return p;
+}
 
 
 

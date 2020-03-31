@@ -70,9 +70,6 @@ public class ConsultationReservationController {
 						VolTableModel modele=new VolTableModel(vols);
 						cReservationview.getTable().setModel(modele);
 						cReservationview.getTable().setAutoCreateRowSorter(true);
-						
-						
-						System.out.print(modele.getValue(0).getNumVol() + "------" );
 				}
 				
 				
