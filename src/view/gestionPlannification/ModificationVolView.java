@@ -66,7 +66,7 @@ public class ModificationVolView extends JFrame {
 		label.setBounds(611, 28, 113, 16);
 		getContentPane().add(label);
 
-	    DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+	    DateFormat format = new SimpleDateFormat("dd/MM/YYYY HH:MM");
 		TextFieldDateVol = new JFormattedTextField(format);
 		TextFieldDateVol.setEnabled(false);
 		TextFieldDateVol.setBounds(763, 23, 151, 26);
@@ -77,7 +77,6 @@ public class ModificationVolView extends JFrame {
 		getContentPane().add(label_1);
 
 		comboBoxAeroDep = new JComboBox<AeroPort>();
-		comboBoxAeroDep.setModel(new DefaultComboBoxModel(new String[] {"Item", "Item", "Item"}));
 		comboBoxAeroDep.setEnabled(false);
 		comboBoxAeroDep.setBounds(763, 50, 158, 27);
 		getContentPane().add(comboBoxAeroDep);
@@ -87,8 +86,6 @@ public class ModificationVolView extends JFrame {
 		getContentPane().add(label_2);
 
 		comboBoxAeroDest = new JComboBox<AeroPort>();
-		
-		comboBoxAeroDest.setModel(new DefaultComboBoxModel(new String[] {"Item", "Item", "Item"}));
 		comboBoxAeroDest.setEnabled(false);
 		comboBoxAeroDest.setBounds(763, 79, 158, 27);
 		getContentPane().add(comboBoxAeroDest);
