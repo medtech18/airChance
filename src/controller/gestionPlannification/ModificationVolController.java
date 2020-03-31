@@ -305,7 +305,6 @@ public class ModificationVolController {
 	}
 
 		
-
 	public void createListenersAvionView() {
 
 		this.avionMenuView.setVisible(true);
@@ -335,7 +334,7 @@ public class ModificationVolController {
 					modificationVolView.getBtnChoixHotesse().setEnabled(true);
 					modificationVolView.getBtnChoixPilot().setEnabled(true);
 
-				}
+			}
 
 				avionMenuView.dispose();
 			}
