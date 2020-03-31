@@ -41,8 +41,9 @@ public class PlannificationVolView extends JFrame {
 		return btnBack;
 	}
 
-	public PlannificationVolView() {
+	public PlannificationVolView(String title) {
 		setResizable(false);
+		setTitle(title);
 		// create the model and add elementss
 
 		getContentPane().setLayout(null);

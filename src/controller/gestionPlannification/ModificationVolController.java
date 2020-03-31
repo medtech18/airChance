@@ -4,6 +4,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -126,8 +129,11 @@ public class ModificationVolController {
 			public void actionPerformed(ActionEvent e) {
 
 				try {// if is number
+					Date dvol;
+					SimpleDateFormat dfFormat = new SimpleDateFormat("dd/MM/YYYY HH:MM");  
+					dvol = new Date(dfFormat.parse(modificationVolView.getTextFieldDateVol().getText()).getTime());
 
-					inputsValues.put("textFieldDateVol", modificationVolView.getTextFieldDateVol().getText());
+					inputsValues.put("textFieldDateVol", dvol);
 					inputsValues.put("comboBoxAeroDep", modificationVolView.getComboBoxAeroDep().getSelectedItem());
 					inputsValues.put("comboBoxAeroDest", modificationVolView.getComboBoxAeroDest().getSelectedItem());
 					inputsValues.put("textFieldDuree",
@@ -147,6 +153,9 @@ public class ModificationVolController {
 					AlertMessages.ErrorBox(
 							"Error on the fields , Either you left empty fields or you typed characters on number fields ",
 							"Input Error");
+				} catch (ParseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
 				}
 				
 				
@@ -225,6 +234,11 @@ public class ModificationVolController {
 		modificationVolView.getBtnChoixPilot().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				actionFromPiloteBtn = true;
+				
+				personnels = personnelModel.getPersonnelWith((Date)inputsValues.get("textFieldDateVol"), selectedAeroPortDep);
+				personnelTableModel.setRowObjects(personnels);
+				personnelMenuView.getTable().setModel(personnelTableModel);
+				personnelMenuView.getTable().setAutoCreateRowSorter(true);
 				personnelMenuView.setVisible(true);
 
 			}
@@ -245,7 +259,7 @@ public class ModificationVolController {
 
 					int nRow = modificationVolView.getTable().getSelectedRow();
 						
-						selectedVol = (Vol)volTableModel.getValue(nRow+1);
+						selectedVol = (Vol)volTableModel.getValue(nRow);
 						setFieldsState(true);
 						try
 						{

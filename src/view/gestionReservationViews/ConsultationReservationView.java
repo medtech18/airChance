@@ -40,6 +40,7 @@ public class ConsultationReservationView extends JFrame {
 	 * Create the frame.
 	 */
 	public ConsultationReservationView() {
+		setTitle("consultation de reservation");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 600);
 		JPanel contentPane = new JPanel();

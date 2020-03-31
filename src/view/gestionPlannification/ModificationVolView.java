@@ -3,6 +3,7 @@ package view.gestionPlannification;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Random;
 
@@ -11,6 +12,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
@@ -71,6 +73,7 @@ public class ModificationVolView extends JFrame {
 		TextFieldDateVol = new JFormattedTextField(format);
 		TextFieldDateVol.setEnabled(false);
 		TextFieldDateVol.setBounds(763, 23, 151, 26);
+		TextFieldDateVol.setFocusLostBehavior(JFormattedTextField.PERSIST);
 		getContentPane().add(TextFieldDateVol);
 
 		JLabel label_1 = new JLabel("Aeroport depart");

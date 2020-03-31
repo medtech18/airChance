@@ -116,8 +116,6 @@ public class DaoAeroport extends DAO<AeroPort> {
 			e.printStackTrace();
 		}
 		
-		for(AeroPort e : aeroPorts)
-			System.out.println(e);
 		
 		
 		return aeroPorts;

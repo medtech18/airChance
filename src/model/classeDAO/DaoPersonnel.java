@@ -1,11 +1,12 @@
 package model.classeDAO;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import model.classes.Adresse;
+import model.classes.AeroPort;
 import model.classes.Personnel;
 
 public class DaoPersonnel extends DAO<Personnel> {
@@ -101,16 +102,47 @@ public class DaoPersonnel extends DAO<Personnel> {
 			
 			return p;
 		}
-		
-//		SELECT * FROM Personnel
-//		WHERE position_pilot_aeroport(num_personnel) = ? AND DATEDISPONIBILITE >= ? ;
-		
-//		public ArrayList<Personnel> getPersonnelWith() {
-//			
-//			
-//			
-//			
-//		}
+				
+		public ArrayList<Personnel> getPersonnelWith(Date dateDisponibilite , AeroPort aeroPortDep) {
+			ArrayList<Personnel> prs = new ArrayList<Personnel>();
+
+			
+			try {
+				PreparedStatement pstmt = this .connect.prepareStatement("SELECT * FROM Personnel where DATEDISPONIBILITE >= to_date('10/02/20','dd/mm/yy') and position_pilot_aeroport(num_personnel) = 2");
+			   
+
+				pstmt.setDate(1, dateDisponibilite);
+				pstmt.setInt(1,2);
+				pstmt.execute();
+				ResultSet result = pstmt.getResultSet();
+				
+
+
+				while(result.next())
+				{
+
+					
+					
+						prs.add( new Personnel(
+								result.getInt("NUM_PERSONNEL"),
+								result.getString("nom"),
+								result.getString("prenom"),
+								result.getInt("TOTAL_HEURES_VOL"),
+								result.getString("DATEDISPONIBILITE"),
+						        DaoAdresse.selectbyID(result.getInt("NUM_ADRESSE")),
+						        result.getString("genre"))
+								);
+					
+				}	
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			
+			return prs;
+			
+		}
 
 		public ArrayList<Personnel> selectAll() {
 			ArrayList<Personnel> p = new ArrayList<Personnel>();
@@ -126,9 +158,6 @@ public class DaoPersonnel extends DAO<Personnel> {
 			                DaoAdresse.selectbyID(result.getInt("NUM_ADRESSE")),result.getString("genre")));
 				
 				
-				for(Personnel e : p )
-					System.out.println(p);
-			
 			} catch (SQLException e) {
 				
 				e.printStackTrace();
@@ -136,12 +165,6 @@ public class DaoPersonnel extends DAO<Personnel> {
 			
 			return p;
 			
-//			for(int i= 0 ; i < 100 ; i++)
-//			p.add(new Personnel(100+i,"ADAM" , "EVE", DaoAvion.generateRandomInt(10),"12/02/2021",
-//					new Adresse(),"MALE") 
-//				);
-//			
-//			return p;
 		}
 
 

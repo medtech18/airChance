@@ -23,6 +23,7 @@ public class GenericTableView extends JFrame {
 	public GenericTableView(String title) {
 	      setTitle(title);
 	      setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+	      this.setVisible(false);
 	      this.setResizable(false);
 	      table = new JTable();
 	      table.setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
