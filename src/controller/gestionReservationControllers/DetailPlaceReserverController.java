@@ -1,6 +1,6 @@
 package controller.gestionReservationControllers;
 
-import controller.common.RableModelPlaceReserver;
+import controller.common.TableModelPlaceReserver;
 import model.classeDAO.DaoPlaceReserver;
 import model.classes.Client;
 import model.classes.Reservation;
@@ -19,7 +19,7 @@ public class DetailPlaceReserverController {
 		this.client=client;
 		this.selectedvol=selectedVol;
 		placeReserver.selectbyreservation(reserv, selectedVol);
-		RableModelPlaceReserver model=new RableModelPlaceReserver(placeReserver.selectbyreservation(reserv, selectedVol));
+		TableModelPlaceReserver model=new TableModelPlaceReserver(placeReserver.selectbyreservation(reserv, selectedVol));
 		view.getTable().setModel(model);
 		view.getTable().setAutoCreateRowSorter(true);
 	}

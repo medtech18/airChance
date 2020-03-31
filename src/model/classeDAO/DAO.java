@@ -14,6 +14,6 @@ public abstract class DAO<T> {
 	public abstract T modify(T obj);
 	public abstract void delete(T obj);
 	public abstract ArrayList<T> selectAll();
-
+	
 	
 }

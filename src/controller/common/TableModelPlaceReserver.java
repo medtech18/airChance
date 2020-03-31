@@ -6,12 +6,12 @@ import javax.swing.table.AbstractTableModel;
 
 import model.classes.PlaceReserver;
 
-public class RableModelPlaceReserver extends  AbstractTableModel{
+public class TableModelPlaceReserver extends  AbstractTableModel{
 	private final String[] entetes = { "num place", "classe", "position" };
 	private ArrayList<PlaceReserver> PlacesReserver;
 	
 	
-	public RableModelPlaceReserver(ArrayList<PlaceReserver> PlacesReserver) {
+	public TableModelPlaceReserver(ArrayList<PlaceReserver> PlacesReserver) {
 		super();
 		this.PlacesReserver = PlacesReserver;
 	}
