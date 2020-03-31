@@ -5,7 +5,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import model.classes.Place;
 import model.classes.PlaceReserver;
+import model.classes.Reservation;
+import model.classes.Vol;
 
 
 
@@ -18,15 +21,16 @@ public class DaoPlaceReserver extends DAO<PlaceReserver> {
 			
 			
 			connect.setTransactionIsolation(java.sql.Connection.TRANSACTION_SERIALIZABLE);
-			PreparedStatement prepare = connect.prepareStatement("INSERT INTO Place (numPlace, numVol, numReservation) VALUES(?, ?, ?)");
+			PreparedStatement prepare = connect.prepareStatement("INSERT INTO place_reserver (num_reservation, num_place, num_avion,num_vol) VALUES(?, ?, ?,?)");
 			
-			prepare.setInt(1, obj.getNumPlace().getNumPlace());
-			prepare.setInt(2, obj.getNumVol().getNumVol());
-			prepare.setInt(3, obj.getNumReservation().getNumReservation());
+			prepare.setInt(1, obj.getNumReservation().getNumReservation());
+			prepare.setInt(2, obj.getNumPlace().getNumPlace());
+			prepare.setInt(3, obj.getNumVol().getNumAvion().getNumAvion());
+			prepare.setInt(4, obj.getNumVol().getNumVol());
 
 	
 			prepare.executeUpdate();
-			obj = this.selectById(obj.getNumPlace().getNumPlace(),obj.getNumVol().getNumVol());
+			obj = this.selectById(obj.getNumPlace().getNumPlace(),obj.getNumVol());
 			
 		} catch (SQLException e) {
 			
@@ -39,21 +43,22 @@ public class DaoPlaceReserver extends DAO<PlaceReserver> {
 	
 	public PlaceReserver modify(PlaceReserver obj) {
 	
-	
-		try{	
+	//pas necessaire a implementer du coup c'est pas la peine de corriger les erreurs
 		
-			connect.setTransactionIsolation(java.sql.Connection.TRANSACTION_SERIALIZABLE);
-			connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeUpdate(
-            	
-				"UPDATE PlaceReserver SET place = '" + obj.getNumPlace().getNumPlace() + "',"+
-            	", " + " numReservation = " + obj.getNumReservation().getNumReservation() +
-            	" WHERE numVol = " +  obj.getNumVol().getNumVol()
-           );
-
-		} catch (SQLException e) {
-			
-            e.printStackTrace();
-		}
+//		try{	
+//		
+//			connect.setTransactionIsolation(java.sql.Connection.TRANSACTION_SERIALIZABLE);
+//			connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeUpdate(
+//            	
+//				"UPDATE PlaceReserver SET place = '" + obj.getNumPlace().getNumPlace() + "',"+
+//            	", " + " numReservation = " + obj.getNumReservation().getNumReservation() +
+//            	" WHERE numVol = " +  obj.getNumVol().getNumVol()
+//           );
+//
+//		} catch (SQLException e) {
+//			
+//            e.printStackTrace();
+//		}
     
 		return obj ;
 	}
@@ -65,7 +70,7 @@ public class DaoPlaceReserver extends DAO<PlaceReserver> {
 		try {
 	
 			connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeUpdate(
-					"DELETE FROM PlaceReserver WHERE numPlace = '" +  obj.getNumPlace().getNumPlace() + "' AND numReservation = " + obj.getNumReservation().getNumReservation());
+					"DELETE FROM place_reserver WHERE num_place = '" +  obj.getNumPlace().getNumPlace() + "' AND num_vol = " + obj.getNumVol().getNumVol());
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -74,18 +79,18 @@ public class DaoPlaceReserver extends DAO<PlaceReserver> {
 	}
 	
 	
-	public PlaceReserver selectById(int numPlace , int numVol) {
+	public PlaceReserver selectById(int numPlace , Vol vol) {
 		
 		PlaceReserver a = new PlaceReserver();
 		
 			try {
 			
 				ResultSet result = connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeQuery(
-						"SELECT * FROM PlaceReserver WHERE numPlace = '" + numPlace + "' AND numVol = " + numVol);
+						"SELECT * FROM place_reserver WHERE num_place = '" + numPlace + "' AND num_vol = " + vol.getNumVol());
 			
 			if(result.first())
 				
-				a = new  PlaceReserver(DaoReservation.selectById(result.getInt("numReservation")), DaoPlace.selectById(result.getInt("numPlace")),  DaoVol.selectbyID(result.getInt("numVol")));
+				a = new  PlaceReserver(DaoReservation.selectById(result.getInt("num_reservation")), DaoPlace.selectById(result.getInt("num_place"),vol.getNumAvion()), vol);
 			    
 		
 			} catch (SQLException e) {
@@ -100,15 +105,36 @@ public class DaoPlaceReserver extends DAO<PlaceReserver> {
 	public ArrayList<PlaceReserver> selectAll() {
 		
 		ArrayList<PlaceReserver> p = new ArrayList<PlaceReserver>();
+		Vol v = new Vol();
+		try {
+			
+			ResultSet result = connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE).executeQuery(
+	                            "SELECT * FROM place_reserver");
+			
+			while(result.next())
+				v=DaoVol.selectbyID(result.getInt("num_vol"));
+				p.add(new PlaceReserver(DaoReservation.selectById(result.getInt("num_reservation")),DaoPlace.selectById(result.getInt("num_place"),v.getNumAvion()) ,v));
+		
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
+		
+		return p;
+	}
+	
+public ArrayList<PlaceReserver> selectbyreservation(Reservation reserv,Vol vol) {
+		
+		ArrayList<PlaceReserver> p = new ArrayList<PlaceReserver>();
 		
 		try {
 			
 			ResultSet result = connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE).executeQuery(
-	                            "SELECT * FROM PlaceReserver");
+	                            "SELECT * FROM place_reserver where num_reservation="+reserv.getNumReservation()+"and num_vol="+vol.getNumVol());
 			
 			while(result.next())
 				
-				p.add(new PlaceReserver(DaoReservation.selectById(result.getInt("numReservation")),DaoPlace.selectById(result.getInt("numPlace")) , DaoVol.selectbyID(result.getInt("numVol"))));
+				p.add(new PlaceReserver(reserv,DaoPlace.selectById(result.getInt("num_place"),vol.getNumAvion()) , vol));
 		
 		} catch (SQLException e) {
 			

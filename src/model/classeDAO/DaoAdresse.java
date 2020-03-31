@@ -18,7 +18,7 @@ public class DaoAdresse extends DAO<Adresse> {
 		try {
 			
 				connect.setTransactionIsolation(java.sql.Connection.TRANSACTION_SERIALIZABLE);
-				PreparedStatement prepare = connect.prepareStatement("INSERT INTO Adresse (numAdresse, numRue, nomRue, codePostal, nomVille, nomPays) VALUES(?, ?, ?, ?, ?, ?)");
+				PreparedStatement prepare = connect.prepareStatement("INSERT INTO Adresse (num_adresse, num_allee, rue, code_postal, ville, pays) VALUES(?, ?, ?, ?, ?, ?)");
 				
 				prepare.setInt(1, obj.getNumAdresse());
 				prepare.setInt(2, obj.getNumAllee());
@@ -49,12 +49,12 @@ public class DaoAdresse extends DAO<Adresse> {
 			
 			connect.setTransactionIsolation(java.sql.Connection.TRANSACTION_SERIALIZABLE);
 			connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeUpdate(
-                	"UPDATE Adresse SET nomVille = '" + obj.getNomVille() + "',"+
-                    " nomPays = '" +  obj.getNomPays() + "',"+
-                    " nomRue = '" + obj.getNomRue() + "',"+
+                	"UPDATE Adresse SET ville = '" + obj.getNomVille() + "',"+
+                    " pays = '" +  obj.getNomPays() + "',"+
+                    " rue = '" + obj.getNomRue() + "',"+
                     " numAllee = " + obj.getNumAllee() + ","+
-                	" codePostal = '" + obj.getCodePostal() + "'"+
-                	" WHERE numAdresse = " + obj.getNumAdresse()
+                	" code_postal = '" + obj.getCodePostal() + "'"+
+                	" WHERE num_adresse = " + obj.getNumAdresse()
                  );
 
 			obj = selectbyID(obj.getNumAdresse());
@@ -73,12 +73,12 @@ public class DaoAdresse extends DAO<Adresse> {
 		
 		try {
 			ResultSet result = connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeQuery(
-	                            "SELECT * FROM Adresse WHERE numAdresse = " + numAdresse);
+	                            "SELECT * FROM Adresse WHERE num_adresse = " + numAdresse);
 			
 			if(result.first())
 				
-				a = new Adresse(numAdresse,result.getInt("numAllee"),result.getString("nomRue"),result.getString("codePostal"),
-					result.getString("nomVille"), result.getString("nomPays"));
+				a = new Adresse(numAdresse,result.getInt("num_allee"),result.getString("rue"),result.getString("code_postal"),
+					result.getString("ville"), result.getString("pays"));
 		
 		} catch (SQLException e) {
 			
@@ -105,7 +105,7 @@ public class DaoAdresse extends DAO<Adresse> {
 			
 			while(result.next())
 				
-				a.add(new Adresse(result.getInt("numAdresse"),result.getInt("numAllee"),result.getString("nomRue"),result.getString("codePostal"),result.getString("nomVille"), result.getString("nomPays")));
+				a.add(new Adresse(result.getInt("num_adresse"),result.getInt("num_allee"),result.getString("rue"),result.getString("code_postal"),result.getString("ville"), result.getString("pays")));
 		
 		} catch (SQLException e) {
 			
