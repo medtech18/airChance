@@ -11,7 +11,6 @@ public class RableModelPlaceReserver extends  AbstractTableModel{
 	private ArrayList<PlaceReserver> PlacesReserver;
 	
 	
-	
 	public RableModelPlaceReserver(ArrayList<PlaceReserver> PlacesReserver) {
 		super();
 		this.PlacesReserver = PlacesReserver;

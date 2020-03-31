@@ -8,7 +8,6 @@ public abstract class GenericTableModel<T> extends AbstractTableModel {
 
 	protected String[] columnsHeaders;
 	protected ArrayList<T> rowObjects;
-
 	
 	public GenericTableModel(ArrayList<T> rowObjects , final String[] columnsHeaders) {
 		super();

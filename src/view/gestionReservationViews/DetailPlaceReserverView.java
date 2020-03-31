@@ -10,6 +10,8 @@ import java.awt.FlowLayout;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
+
+
 public class DetailPlaceReserverView extends JFrame {
 	private JTable table;
 

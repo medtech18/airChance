@@ -6,7 +6,6 @@ import model.classes.Personnel;
 
 public class PersonnelTableModel extends GenericTableModel<Personnel>{
 
-	
 	public PersonnelTableModel(ArrayList rowObjects) {
 		super(rowObjects, new String[] {"NUM PERSONNEL ", "NOM" , "PRENOM" , "TOTAL HEURES DE VOL", "DATE DE DISPONIBLITE" ," ADRESSE DE PERSON","SEX" });
 		// TODO Auto-generated constructor stub

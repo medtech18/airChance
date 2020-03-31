@@ -11,8 +11,6 @@ import model.classes.AeroPort;
 import model.classes.Reservation;
 import model.classes.Vol;
 
-
-
 public class DaoVol extends DAO<Vol> {
 	
 	public Vol insert(Vol obj) {

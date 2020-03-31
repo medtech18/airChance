@@ -4,7 +4,6 @@ import java.sql.Date;
 
 public class Reservation {
 	
-	
 	private int numReservation ;
 	private Date dateReservation ;
 	private Client numClient ;

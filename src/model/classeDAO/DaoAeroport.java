@@ -10,6 +10,7 @@ import model.classes.AeroPort;
 
 public class DaoAeroport extends DAO<AeroPort> {
 	
+	
 
 	@Override
 	public AeroPort insert(AeroPort obj) {

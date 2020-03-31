@@ -11,7 +11,6 @@ import model.classes.Reservation;
 import model.classes.Vol;
 
 
-
 public class DaoPlaceReserver extends DAO<PlaceReserver> {
 	
 	

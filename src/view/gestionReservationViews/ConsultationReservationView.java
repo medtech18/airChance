@@ -22,6 +22,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
 
+
+
 public class ConsultationReservationView extends JFrame {
 	private JTable table;
 	private JTextField txtIdClient;

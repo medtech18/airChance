@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import model.classes.Client;
 
 
+
 public class DaoClient extends DAO<Client> {
 	
 	public Client insert(Client obj) {

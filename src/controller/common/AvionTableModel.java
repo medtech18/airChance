@@ -7,7 +7,6 @@ import model.classes.Personnel;
 
 public class AvionTableModel extends GenericTableModel<Avion>{
 
-	
 	public AvionTableModel(ArrayList rowObjects) {
 		super(rowObjects, new String[] {"NUM AVION ", "nb place_eco" , "nb place premiere" , "Num Model", "nom_modele" ,"nb_min_pilote","rayon_action" });
 		// TODO Auto-generated constructor stub

@@ -11,6 +11,8 @@ import model.classes.Avion;
 import model.classes.Model;
 
 
+
+
 public class DaoAvion extends DAO<Avion> {
 	
 	public Avion insert(Avion obj) {

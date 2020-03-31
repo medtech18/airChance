@@ -22,6 +22,5 @@ public class DetailPlaceReserverController {
 		view.getTable().setModel(model);
 		view.getTable().setAutoCreateRowSorter(true);
 	}
-	
 
 }

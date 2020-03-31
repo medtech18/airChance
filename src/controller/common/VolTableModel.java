@@ -14,6 +14,7 @@ public class VolTableModel extends AbstractTableModel{
 	
 	
 	
+	
 	public VolTableModel(ArrayList<Vol> vols) {
 		super();
 		this.vols = vols;

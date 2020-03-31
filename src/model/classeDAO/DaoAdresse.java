@@ -11,8 +11,7 @@ import model.classes.Adresse;
 
 public class DaoAdresse extends DAO<Adresse> {
 	
-	
-	
+
 	public Adresse insert(Adresse obj) {
 
 		try {

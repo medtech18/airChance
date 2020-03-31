@@ -12,11 +12,7 @@ import javax.swing.JTextField;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-/**
- * JList basic tutorial and example
- *
- * @author wwww.codejava.net
- */
+
 public class PlannificationVolView extends JFrame {
 	private JFormattedTextField textFieldDuree;
 	private JFormattedTextField textFieldDistance;
