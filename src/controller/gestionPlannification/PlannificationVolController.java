@@ -4,6 +4,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -52,6 +55,9 @@ public class PlannificationVolController {
 	private Avion selectedAvion;
 	private ArrayList<Personnel> selectedPilots;
 	private ArrayList<Personnel> selectedHotesses;
+	private AeroPort selectedAeroPortDep;
+	private AeroPort selectedAeroPortDest;
+
 
 	private ArrayList<Personnel> personnels;
 	private Map<String, Object> inputsValues;
@@ -75,6 +81,8 @@ public class PlannificationVolController {
 		this.personnelModel = personnelModel;
 		this.selectedPilots = new ArrayList<Personnel>();
 		this.selectedHotesses = new ArrayList<Personnel>();
+		this.selectedAeroPortDep = new AeroPort();
+		this.selectedAeroPortDest = new AeroPort();
 		this.inputsValues = new HashMap<String, Object>();
 		this.actionFromPiloteBtn = true;
 		this.personnelTableModel = new PersonnelTableModel(this.personnels);
@@ -104,34 +112,43 @@ public class PlannificationVolController {
 			public void actionPerformed(ActionEvent e) {
 
 				try {// if is number
+					Date dvol;
+					SimpleDateFormat dfFormat = new SimpleDateFormat("dd/MM/YYYY HH:MM");  
+					dvol = new Date(dfFormat.parse(plannificationVolView.getTextFieldDateVol().getText()).getTime());
 
-					inputsValues.put("textFieldDateVol", plannificationVolView.getTextFieldDateVol().getText());
+					inputsValues.put("textFieldDateVol", dvol);
 					inputsValues.put("comboBoxAeroDep", plannificationVolView.getComboBoxAeroDep().getSelectedItem());
 					inputsValues.put("comboBoxAeroDest", plannificationVolView.getComboBoxAeroDest().getSelectedItem());
 					inputsValues.put("textFieldDuree",
-							Integer.valueOf(plannificationVolView.getTextFieldDuree().getText()));
-					inputsValues.put("textFieldDistance",
-							Integer.valueOf(plannificationVolView.getTextFieldDistance().getText()));
+							Double.valueOf(plannificationVolView.getTextFieldDuree().getText()));
+					inputsValues.put("textFieldDuree",
+							Double.valueOf(plannificationVolView.getTextFieldDistance().getText()));
 					inputsValues.put("editTextPlaceAff",
 							Integer.valueOf(plannificationVolView.getEditTextPlaceAff().getText()));
 					inputsValues.put("editTextPlacePrem",
 							Integer.valueOf(plannificationVolView.getEditTextPlacePrem().getText()));
 					inputsValues.put("editTextPlaceEco",
 							Integer.valueOf(plannificationVolView.getEditTextPlaceEco().getText()));
+					inputsValues.put("textFieldDistance", Double.valueOf(plannificationVolView.getTextFieldDistance().getText()));
 					setFieldsState(false);
 				} catch (NumberFormatException e1) {
 					// else then do blah
+					setFieldsState(true);
 					AlertMessages.ErrorBox(
 							"Error on the fields , Either you left empty fields or you typed characters on number fields ",
 							"Input Error");
-					setFieldsState(true);
+				} catch (ParseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
 				}
+				
 			}
 		});
 
 		plannificationVolView.getBtnBack().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setFieldsState(true);
+				plannificationVolView.getTextFieldDateVol().setValue(new java.util.Date());
 			}
 		});
 
@@ -145,9 +162,19 @@ public class PlannificationVolController {
 
 			public void itemStateChanged(ItemEvent e) {
 				if (e.getStateChange() == ItemEvent.SELECTED) {
-					AeroPort item = (AeroPort) e.getItem();
+					selectedAeroPortDep = (AeroPort) plannificationVolView.getComboBoxAeroDep().getSelectedItem();
+					;
 
-					System.out.println("[ " + item.getNomAeroport() + "--" + item.getNumAeroport() + "]");
+				}
+			}
+		});
+
+		
+		plannificationVolView.getComboBoxAeroDest().addItemListener(new ItemListener() {
+
+			public void itemStateChanged(ItemEvent e) {
+				if (e.getStateChange() == ItemEvent.SELECTED) {
+					selectedAeroPortDest = (AeroPort) plannificationVolView.getComboBoxAeroDest().getSelectedItem();
 					;
 
 				}
@@ -175,6 +202,11 @@ public class PlannificationVolController {
 		plannificationVolView.getBtnChoixPilot().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				actionFromPiloteBtn = true;
+				personnels = personnelModel.getPersonnelWith((Date)inputsValues.get("textFieldDateVol"), selectedAeroPortDep," pilots ");
+
+				personnelTableModel.setRowObjects(personnels);
+				personnelMenuView.getTable().setModel(personnelTableModel);
+				personnelMenuView.getTable().setAutoCreateRowSorter(true);
 				personnelMenuView.setVisible(true);
 
 			}
@@ -182,6 +214,11 @@ public class PlannificationVolController {
 
 		plannificationVolView.getBtnChoixHotesse().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				personnels = personnelModel.getPersonnelWith((Date)inputsValues.get("textFieldDateVol"), selectedAeroPortDep," hotesse ");
+				personnelTableModel.setRowObjects(personnels);
+				personnelMenuView.getTable().setModel(personnelTableModel);
+				personnelMenuView.getTable().setAutoCreateRowSorter(true);
+
 				actionFromPiloteBtn = false;
 				personnelMenuView.setVisible(true);
 			}
@@ -210,9 +247,13 @@ public class PlannificationVolController {
 
 					selectedAvion = tempModel.getValue(row);
 
-					plannificationVolView.getComboBoxNumAvion().addItem(selectedAvion.getNumAvion());
-
+					plannificationVolView.getComboBoxNumAvion().removeAllItems();
+					plannificationVolView.getComboBoxNumAvion().addItem(selectedAvion);
+					
 					plannificationVolView.getComboBoxNumAvion().setEnabled(false);
+					plannificationVolView.getBtnChoixHotesse().setEnabled(true);
+					plannificationVolView.getBtnChoixPilot().setEnabled(true);
+
 
 				}
 

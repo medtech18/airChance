@@ -103,16 +103,16 @@ public class DaoPersonnel extends DAO<Personnel> {
 			return p;
 		}
 				
-		public ArrayList<Personnel> getPersonnelWith(Date dateDisponibilite , AeroPort aeroPortDep) {
+		public ArrayList<Personnel> getPersonnelWith(Date dateDisponibilite , AeroPort aeroPortDep, String personnel) {
 			ArrayList<Personnel> prs = new ArrayList<Personnel>();
 
 			
 			try {
-				PreparedStatement pstmt = this .connect.prepareStatement("SELECT * FROM Personnel where DATEDISPONIBILITE >= to_date('10/02/20','dd/mm/yy') and position_pilot_aeroport(num_personnel) = 2");
+				PreparedStatement pstmt = this .connect.prepareStatement("SELECT * FROM "+personnel +"where DATEDISPONIBILITE >= ? and position_pilot_aeroport(num_personnel) = ?");
 			   
 
 				pstmt.setDate(1, dateDisponibilite);
-				pstmt.setInt(1,2);
+				pstmt.setInt(2,aeroPortDep.getNumAeroport());
 				pstmt.execute();
 				ResultSet result = pstmt.getResultSet();
 				

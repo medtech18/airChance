@@ -10,9 +10,14 @@ import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import java.awt.event.ActionListener;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.awt.event.ActionEvent;
 
 public class PlannificationVolView extends JFrame {
+	
+	private JFormattedTextField textFieldDateVol;
 	private JFormattedTextField textFieldDuree;
 	private JFormattedTextField textFieldDistance;
 	private JFormattedTextField editTextPlaceAff;
@@ -20,16 +25,13 @@ public class PlannificationVolView extends JFrame {
 	private JFormattedTextField editTextPlacePrem;
 	private JFormattedTextField editTextPlaceEco;
 
-	public JButton getNextBtn() {
-		return nextBtn;
-	}
+
 
 	private JButton nextBtn;
 	private JButton btnAnnuler;
 
 	private JComboBox comboBoxAeroDep;
 	private JComboBox comboBoxAeroDest;
-	private JFormattedTextField TextFieldDateVol;
 	private JComboBox comboBoxNumAvion;
 	private JButton btnBack;
 	private JButton btnChoixPilot;
@@ -37,13 +39,11 @@ public class PlannificationVolView extends JFrame {
 	private JLabel labelChoixPilot;
 	private JLabel labelChoixHotesse;
 
-	public JButton getBtnBack() {
-		return btnBack;
-	}
+
 
 	public PlannificationVolView(String title) {
 		setResizable(false);
-		setTitle(title);
+		this.setTitle(title);
 		// create the model and add elementss
 
 		getContentPane().setLayout(null);
@@ -96,9 +96,6 @@ public class PlannificationVolView extends JFrame {
 		lblNombrePlacePremium.setBounds(15, 248, 158, 16);
 		getContentPane().add(lblNombrePlacePremium);
 
-		TextFieldDateVol = new JFormattedTextField();
-		TextFieldDateVol.setBounds(167, 68, 151, 26);
-		getContentPane().add(TextFieldDateVol);
 
 		comboBoxAeroDep = new JComboBox();
 		comboBoxAeroDep.setBounds(167, 95, 158, 27);
@@ -156,6 +153,15 @@ public class PlannificationVolView extends JFrame {
 		labelChoixHotesse = new JLabel("vous n'avez choisi aucun(e) Hotesse");
 		labelChoixHotesse.setBounds(370, 273, 213, 16);
 		getContentPane().add(labelChoixHotesse);
+		
+		Date exampleDate = new Date();
+	    DateFormat format = new SimpleDateFormat("dd/MM/YYYY HH:MM");
+		textFieldDateVol = new JFormattedTextField(format);
+		textFieldDateVol.setBounds(763, 23, 151, 26);
+		textFieldDateVol.setFocusLostBehavior(JFormattedTextField.PERSIST);
+		textFieldDateVol.setValue(exampleDate);
+		textFieldDateVol.setBounds(167, 68, 151, 26);
+		getContentPane().add(textFieldDateVol);
 
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setTitle("JList Example");
@@ -204,9 +210,6 @@ public class PlannificationVolView extends JFrame {
 		return comboBoxAeroDest;
 	}
 
-	public JFormattedTextField getTextFieldDateVol() {
-		return TextFieldDateVol;
-	}
 
 	public JComboBox getComboBoxNumAvion() {
 		return comboBoxNumAvion;
@@ -243,5 +246,15 @@ public class PlannificationVolView extends JFrame {
 	public void setLabelChoixHotesse(JLabel labelChoixHotesse) {
 		this.labelChoixHotesse = labelChoixHotesse;
 	}
+	public JButton getNextBtn() {
+		return nextBtn;
+	}
+	
+	public JButton getBtnBack() {
+		return btnBack;
+	}
 
+	public JFormattedTextField getTextFieldDateVol() {
+		return textFieldDateVol;
+	}
 }

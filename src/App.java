@@ -23,29 +23,29 @@ public class App {
 		DaoAeroport aeroPortModel = new DaoAeroport();
 		DaoPersonnel personnelModel = new DaoPersonnel();
 
-//		PlannificationVolView plannificationVolView = new PlannificationVolView("Plannification d'un vol ");
+		PlannificationVolView plannificationVolView = new PlannificationVolView("Plannification d'un vol ");
 		GenericTableView avionMenuView = new GenericTableView("Choix D'avion");
 		avionMenuView.setVisible(false);
 		GenericTableView personnelMenuView = new GenericTableView("Choix des pilotes");
 		personnelMenuView.setVisible(false);
 		
-//		plannificationVolView.setVisible(true);
+		plannificationVolView.setVisible(true);
 //
-//		PlannificationVolController volController = new PlannificationVolController(plannificationVolView,avionMenuView, personnelMenuView, volModel, avionModel, aeroPortModel, personnelModel);
+		PlannificationVolController volController = new PlannificationVolController(plannificationVolView,avionMenuView, personnelMenuView, volModel, avionModel, aeroPortModel, personnelModel);
 
 		// MODIFICATION VOL
-//		
-		ModificationVolView modificationVolView = new ModificationVolView("Modification de Vol");
-		ModificationVolController modificationVolController = new ModificationVolController(modificationVolView,avionMenuView, personnelMenuView, volModel, avionModel, aeroPortModel, personnelModel);
-		modificationVolView.setVisible(true);
-
 		
+//		ModificationVolView modificationVolView = new ModificationVolView("Modification de Vol");
+//		ModificationVolController modificationVolController = new ModificationVolController(modificationVolView,avionMenuView, personnelMenuView, volModel, avionModel, aeroPortModel, personnelModel);
+//		modificationVolView.setVisible(true);
+//
+//		
 
 // gestion resrvation
 
-	    	 ConsultationReservationView reservationView=new ConsultationReservationView();
-	    	 reservationView.setVisible(true);
-	    	 ConsultationReservationController consultationController=new ConsultationReservationController(reservationView);
+//	    	 ConsultationReservationView reservationView=new ConsultationReservationView();
+//	    	 reservationView.setVisible(true);
+//	    	 ConsultationReservationController consultationController=new ConsultationReservationController(reservationView);
 
 
 	}

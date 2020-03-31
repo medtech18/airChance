@@ -235,7 +235,8 @@ public class ModificationVolController {
 			public void actionPerformed(ActionEvent e) {
 				actionFromPiloteBtn = true;
 				
-				personnels = personnelModel.getPersonnelWith((Date)inputsValues.get("textFieldDateVol"), selectedAeroPortDep);
+				personnels = personnelModel.getPersonnelWith((Date)inputsValues.get("textFieldDateVol"), selectedAeroPortDep," pilots ");
+
 				personnelTableModel.setRowObjects(personnels);
 				personnelMenuView.getTable().setModel(personnelTableModel);
 				personnelMenuView.getTable().setAutoCreateRowSorter(true);
@@ -246,6 +247,12 @@ public class ModificationVolController {
 
 		modificationVolView.getBtnChoixHotesse().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				personnels = personnelModel.getPersonnelWith((Date)inputsValues.get("textFieldDateVol"), selectedAeroPortDep," hotesse ");
+				personnelTableModel.setRowObjects(personnels);
+				personnelMenuView.getTable().setModel(personnelTableModel);
+				personnelMenuView.getTable().setAutoCreateRowSorter(true);
+				personnelMenuView.setVisible(true);
+
 				actionFromPiloteBtn = false;
 				personnelMenuView.setVisible(true);
 			}
@@ -324,7 +331,7 @@ public class ModificationVolController {
 					modificationVolView.getComboBoxNumAvion().removeAllItems();
 					modificationVolView.getComboBoxNumAvion().addItem(selectedAvion);
 					
-					modificationVolView.getComboBoxNumAvion().setEnabled(false);
+//					modificationVolView.getComboBoxNumAvion().setEnabled(false);
 					modificationVolView.getBtnChoixHotesse().setEnabled(true);
 					modificationVolView.getBtnChoixPilot().setEnabled(true);
 
