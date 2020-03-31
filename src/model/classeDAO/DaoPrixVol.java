@@ -7,8 +7,6 @@ import java.util.ArrayList;
 
 import model.classes.PrixVol;
 
-
-
 public class DaoPrixVol extends DAO<PrixVol> {
 	
 	

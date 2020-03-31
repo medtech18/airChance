@@ -2,6 +2,8 @@ package model.classes;
 
 public class Client {
 	
+	
+	
 	private int numClient;
 	private String nom, prenom;
 	private String numPasseport;
@@ -82,9 +84,9 @@ public class Client {
 	}
 	
 	
-	public void ToString() {
-		System.out.println(numClient + " - Nom client : "+nom+ " Prénom: "+ prenom+ " Numéro de passeport: "+ numPasseport+" nombre de points fidélité: "+ 
-				pointsFidelite+" Adresse: "+numAdresse.getNumAdresse());
+	public String toString() {
+		return numClient + " - Nom client : "+nom+ " Prénom: "+ prenom+ " Numéro de passeport: "+ numPasseport+" nombre de points fidélité: "+ 
+				pointsFidelite;
 	}
 	
 

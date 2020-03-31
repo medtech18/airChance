@@ -2,6 +2,8 @@ package model.classes;
 
 public class Personnel {
 
+	
+	
 	private int numPersonnel ;
 	private String nom , prenom ;
 	private int totalHeureVol ;
@@ -85,10 +87,10 @@ public class Personnel {
 		this.genre = genre;
 	}
 
-	
-	public void ToString() {
-		System.out.println(numPersonnel + " - Nom Personnel : "+nom+ " Prénom: "+ prenom+ " Date de disponibilité : "+dateDisponibilie+" Nombre total des heures de vol : "+ 
-				totalHeureVol +"Genre : " + genre +" Adresse: "+numAdresse.getNumAdresse());
+	@Override
+	public String toString() {
+		return numPersonnel + " - Nom Personnel : "+nom+ " Prénom: "+ prenom+ " Date de disponibilité : "+dateDisponibilie+" Nombre total des heures de vol : "+ 
+				totalHeureVol +"Genre : " + genre +" Adresse: "+numAdresse.getNumAdresse();
 	}
 	
 

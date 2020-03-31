@@ -2,6 +2,8 @@ package model.classes;
 
 public class Place {
 	
+	
+	
 	private int numPlace; 
 	private String classe;
 	private String position;

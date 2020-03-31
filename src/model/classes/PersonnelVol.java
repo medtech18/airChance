@@ -1,6 +1,8 @@
 package model.classes;
 
 public class PersonnelVol {
+
+	
 	
 	private Personnel numPersonnel ;
 	private Vol numVol ;
@@ -28,8 +30,9 @@ public class PersonnelVol {
 		this.numVol = numVol;
 	}
 	
-	public void ToString() {
-		System.out.println("numéro de vol : "+numVol.getNumVol()+" Numero du personnel  : "+numPersonnel.getNumPersonnel());
+	@Override
+	public String toString() {
+		return "numéro de vol : "+numVol.getNumVol()+" Numero du personnel  : "+numPersonnel.getNumPersonnel();
 	}
 	
 

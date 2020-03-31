@@ -7,8 +7,6 @@ import java.util.ArrayList;
 
 import model.classes.LangueHotesse;
 
-
-
 public class DaoLangueHotesse extends DAO<LangueHotesse> {
 	
 	public LangueHotesse insert(LangueHotesse obj) {

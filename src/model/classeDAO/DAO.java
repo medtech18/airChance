@@ -4,10 +4,12 @@ package model.classeDAO;
 import java.sql.Connection;
 import java.util.ArrayList;
 
+import model.connection.OracleConnection;
+
 
 public abstract class DAO<T> {
-//	protected static Connection connect = OracleConnection.getInstance();
-	protected static Connection connect;
+	protected static Connection connect = OracleConnection.getInstance();
+//	protected static Connection connect;
 	public abstract T insert(T obj);
 	public abstract T modify(T obj);
 	public abstract void delete(T obj);

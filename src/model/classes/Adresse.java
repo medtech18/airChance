@@ -3,6 +3,8 @@ package model.classes;
 
 public class Adresse {
 	
+	
+	
 	private int numAdresse;
 	private int numAllee;
 	private String nomRue;
@@ -70,10 +72,10 @@ public class Adresse {
 		this.nomPays = nomPays;
 	}
 	
-	
-	public void ToString() {
-		System.out.println(" Adresse : "+" Numéro de l'adresse : "+ numAdresse +" Code Postal: "+codePostal+" numéro de la rue : "+ numAllee +" Nom de la ville : "+ 
-		   nomVille + " Pays : "+ nomPays);
+	@Override
+	public String toString() {
+		return  "Allee"+ numAllee+","+ 
+		   nomVille + ","+ nomPays;
 		}
 	
 	

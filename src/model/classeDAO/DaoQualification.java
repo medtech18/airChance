@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import model.classes.Qualification;
 
 
+
+
 public class DaoQualification extends DAO<Qualification> {
 	
 	public Qualification insert(Qualification obj) {

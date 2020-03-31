@@ -2,6 +2,7 @@ package model.classes;
 
 public class Model {
 	
+	
 	private String nomModele ;
 	private int numModele;
 	private int nbPiloteMin;

@@ -2,6 +2,8 @@ package model.classes;
 
 public class LangueHotesse {
 	
+	
+	
 	private Personnel numPersonnel ;
 	private Langue  numLangue ;
 	

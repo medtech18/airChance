@@ -2,6 +2,7 @@ package model.classes;
 
 public class Qualification {
 	
+	
 	private Model  numModele ;
 	private Personnel numPersonnel ;
 	private int nbHeures ;

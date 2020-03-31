@@ -3,8 +3,6 @@ package controller.common;
 import javax.swing.DefaultListSelectionModel;
 import javax.swing.JList;
 
-
-
 public class MySelectionModel extends DefaultListSelectionModel
 {
     private JList list;

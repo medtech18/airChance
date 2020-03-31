@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import model.classes.Adresse;
 import model.classes.Personnel;
 
-
 public class DaoPersonnel extends DAO<Personnel> {
 	
 	 public Personnel insert(Personnel obj) {
@@ -103,34 +102,46 @@ public class DaoPersonnel extends DAO<Personnel> {
 			return p;
 		}
 		
-	
+//		SELECT * FROM Personnel
+//		WHERE position_pilot_aeroport(num_personnel) = ? AND DATEDISPONIBILITE >= ? ;
 		
+//		public ArrayList<Personnel> getPersonnelWith() {
+//			
+//			
+//			
+//			
+//		}
+
 		public ArrayList<Personnel> selectAll() {
 			ArrayList<Personnel> p = new ArrayList<Personnel>();
 			
-//			try {
-//				
-//				ResultSet result = connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeQuery(
-//		                            "SELECT * FROM Personnel");
-//				
-//				while(result.next())
-//					
-//					p.add(new Personnel(result.getInt("numPersonnel"),result.getString("nom"),result.getString("prenom"),result.getInt("totalHeureVol"),result.getString("dateDisponibilite"),
-//			                DaoAdresse.selectbyID(result.getInt("numAdresse")),result.getString("genre")));
-//			
-//			} catch (SQLException e) {
-//				
-//				e.printStackTrace();
-//			}
-//			
-//			return p;
+			try {
+				
+				ResultSet result = connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeQuery(
+		                            "SELECT * FROM Personnel ");
+				
+				while(result.next())
+					
+					p.add(new Personnel(result.getInt("NUM_PERSONNEL"),result.getString("nom"),result.getString("prenom"),result.getInt("TOTAL_HEURES_VOL"),result.getString("DATEDISPONIBILITE"),
+			                DaoAdresse.selectbyID(result.getInt("NUM_ADRESSE")),result.getString("genre")));
+				
+				
+				for(Personnel e : p )
+					System.out.println(p);
 			
-			for(int i= 0 ; i < 100 ; i++)
-			p.add(new Personnel(100+i,"ADAM" , "EVE", DaoAvion.generateRandomInt(10),"12/02/2021",
-					new Adresse(),"MALE") 
-				);
+			} catch (SQLException e) {
+				
+				e.printStackTrace();
+			}
 			
 			return p;
+			
+//			for(int i= 0 ; i < 100 ; i++)
+//			p.add(new Personnel(100+i,"ADAM" , "EVE", DaoAvion.generateRandomInt(10),"12/02/2021",
+//					new Adresse(),"MALE") 
+//				);
+//			
+//			return p;
 		}
 
 

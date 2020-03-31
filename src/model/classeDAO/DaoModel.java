@@ -8,6 +8,8 @@ import java.util.ArrayList;
 
 import model.classes.Model;
 
+
+
 public class DaoModel extends DAO<Model>{
 	
 	public Model insert(Model obj) {
@@ -17,7 +19,7 @@ public class DaoModel extends DAO<Model>{
 			
 				connect.setTransactionIsolation(java.sql.Connection.TRANSACTION_SERIALIZABLE);
 			
-				PreparedStatement prepare =  connect.prepareStatement("INSERT INTO Modele (numModele, nomModele, nbPiloteMin, rayonAction) VALUES(?, ?, ?, ?)");
+				PreparedStatement prepare =  connect.prepareStatement("INSERT INTO Model (num_modele, nom_modele, nb_min_pilote, rayon_action) VALUES(?, ?, ?, ?)");
 				prepare.setInt(1, obj.getNumModele());
 				prepare.setString(2, obj.getNomModele());
 				prepare.setInt(3, obj.getNbPiloteMin());
@@ -42,10 +44,10 @@ public class DaoModel extends DAO<Model>{
 			
 			connect.setTransactionIsolation(java.sql.Connection.TRANSACTION_SERIALIZABLE);
 			connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeUpdate(
-                	"UPDATE Modele SET numModele = " + obj.getNumModele() + ","+
-                    " rayonAction = " + obj.getRayonAction() + ","+
-                    " nbPiloteMin = " + obj.getNbPiloteMin() + ","+
-                	" WHERE nomModele = '" + obj.getNomModele() + "'" 
+                	"UPDATE Model SET nom_modele = " + obj.getNomModele() + ","+
+                    " rayon_action = " + obj.getRayonAction() + ","+
+                    " nb_min_pilote = " + obj.getNbPiloteMin() + ","+
+                	" WHERE num_modele = '" + obj.getNumModele() + "'" 
                  );
 
 			obj = selectById(obj.getNumModele());
@@ -62,7 +64,7 @@ public class DaoModel extends DAO<Model>{
 		try{
 			
 			connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeUpdate(
-                	"DELETE FROM Model WHERE numModele = '" + obj.getNumModele() + "'"
+                	"DELETE FROM Model WHERE num_modele = '" + obj.getNumModele() + "'"
                  );
 			
 	    } catch (SQLException e) {
@@ -77,11 +79,11 @@ public class DaoModel extends DAO<Model>{
 		try {
 			
 			ResultSet result = connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeQuery(
-	                            "SELECT * FROM Modele WHERE numModele = '" + numModele + "'");
+	                            "SELECT * FROM Model WHERE num_modele = '" + numModele + "'");
 			
 			if(result.first())
 				
-				m = new Model(result.getString("nomModele"),numModele,result.getInt("nbPiloteMin"),result.getInt("rayonAction"));
+				m = new Model(result.getString("nom_modele"),numModele,result.getInt("nb_min_pilote"),result.getInt("rayon_action"));
 		
 		} catch (SQLException e) {
 		e.printStackTrace();
@@ -97,11 +99,11 @@ public class DaoModel extends DAO<Model>{
 		try {
 			
 			ResultSet result =  connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeQuery(
-	                            "SELECT * FROM Modele");
+	                            "SELECT * FROM Model");
 			
 			while(result.next()) {
 				
-				m.add(new Model(result.getString("nomModele"),result.getInt("nbPiloteMin"),result.getInt("numModele"),result.getInt("rayonAction")));
+				m.add(new Model(result.getString("nom_modele"),result.getInt("nb_min_pilote"),result.getInt("num_modele"),result.getInt("rayon_action")));
 			}
 			
 		} catch (SQLException e) {

@@ -2,7 +2,6 @@ package model.classes;
 
 public class PrixVol {
 	
-	
 	private String datePrix ;
 	private String classe ;
 	private double prix; 

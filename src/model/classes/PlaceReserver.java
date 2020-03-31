@@ -1,6 +1,8 @@
 package model.classes;
 
 public class PlaceReserver {
+
+	
 	
 	private Reservation numReservation ;
 	private Place numPlace ;

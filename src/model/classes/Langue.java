@@ -2,6 +2,8 @@ package model.classes;
 
 public class Langue {
 	
+	
+	
 	private int numLangue ;
 	private String nom ;
 	
