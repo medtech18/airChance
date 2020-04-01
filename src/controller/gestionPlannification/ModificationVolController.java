@@ -28,15 +28,12 @@ import model.classeDAO.DaoAvion;
 import model.classeDAO.DaoPersonnel;
 import model.classeDAO.DaoPersonnelVol;
 import model.classeDAO.DaoVol;
-import model.classes.Adresse;
 import model.classes.AeroPort;
 import model.classes.Avion;
-import model.classes.Model;
 import model.classes.Personnel;
 import model.classes.PersonnelVol;
 import model.classes.Vol;
 import view.gestionPlannification.GenericTableView;
-import view.gestionPlannification.ModificationVolView;
 import view.gestionPlannification.ModificationVolView;
 
 public class ModificationVolController {

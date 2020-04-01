@@ -24,6 +24,8 @@ public class DaoQualification extends DAO<Qualification> {
 
 				prepare.executeUpdate();
 				obj = selectById(obj.getNumModele().getNumModele(), obj.getNumPersonnel().getNumPersonnel());
+				
+				prepare.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -83,6 +85,8 @@ public class DaoQualification extends DAO<Qualification> {
 				q = new Qualification(DaoModel.selectById(result.getInt("numModele")),DaoPersonnel.selectById(result.getInt("numPersonnel")), result.getInt("nbHeures"));
 			    
 		
+			result.close();
+
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
@@ -106,6 +110,8 @@ public class DaoQualification extends DAO<Qualification> {
 				
 				q.add(new Qualification(DaoModel.selectById(result.getInt("numModele")) ,DaoPersonnel.selectById(result.getInt("numPersonnel")), result.getInt("nbHeures")));
 		
+			
+			result.close();
 		} catch (SQLException e) {
 			
 			e.printStackTrace();

@@ -31,6 +31,8 @@ public class DaoReservation extends DAO<Reservation> {
 			ResultSet result = connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeQuery("select seq_num_reservation.currval from dual");
 			result.next();
 			obj.setNumReservation(result.getInt(1));
+			
+			result.close();
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
@@ -92,7 +94,7 @@ public class DaoReservation extends DAO<Reservation> {
 				
 				rv = new Reservation(numReservation , result.getDate("date_reservation"), DaoClient.selectById(result.getInt("num_client")),result.getFloat("prix_reservation"));
 			    
-		
+			result.close();
 			} catch (SQLException e) {
 			
 				e.printStackTrace();
@@ -115,7 +117,7 @@ public class DaoReservation extends DAO<Reservation> {
 				
 				rv.add(new Reservation(result.getInt("num_reservation") , result.getDate("date_reservation") , numclient,result.getFloat("prix_reservation")));
 			    
-		
+			result.close();
 			} catch (SQLException e) {
 			
 				e.printStackTrace();
@@ -139,6 +141,8 @@ public class DaoReservation extends DAO<Reservation> {
 				
 				rv.add(new Reservation(result.getInt("num_reservation"),result.getDate("date_reservation"),DaoClient.selectById(result.getInt("num_client")),result.getFloat("prix_reservation")));
 		
+			
+			result.close();
 		} catch (SQLException e) {
 			
 			e.printStackTrace();

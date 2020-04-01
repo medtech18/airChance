@@ -31,6 +31,7 @@ public class DaoAdresse extends DAO<Adresse> {
 				
 			
 			
+				prepare.close();
 			} catch (SQLException e) {
 				
 				e.printStackTrace();
@@ -77,7 +78,12 @@ public class DaoAdresse extends DAO<Adresse> {
 			if(result.first())
 				
 				a = new Adresse(numAdresse,result.getInt("num_allee"),result.getString("rue"),result.getString("code_postal"),
-					result.getString("ville"), result.getString("pays"));
+			
+
+						result.getString("ville"), result.getString("pays"));
+			
+			
+			result.close();
 		
 		} catch (SQLException e) {
 			
@@ -106,6 +112,8 @@ public class DaoAdresse extends DAO<Adresse> {
 				
 				a.add(new Adresse(result.getInt("num_adresse"),result.getInt("num_allee"),result.getString("rue"),result.getString("code_postal"),result.getString("ville"), result.getString("pays")));
 		
+			
+			result.close();
 		} catch (SQLException e) {
 			
 			e.printStackTrace();

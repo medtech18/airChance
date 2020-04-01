@@ -31,6 +31,8 @@ public class DaoPersonnelVol extends DAO<PersonnelVol> {
 					
 					obj = this.selectById(obj.getNumVol().getNumVol(),obj.getNumPersonnel().getNumPersonnel());
 					
+					
+					prepare.close();
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
@@ -52,6 +54,7 @@ public class DaoPersonnelVol extends DAO<PersonnelVol> {
 	                 );
 
 				obj = this.selectById(obj.getNumVol().getNumVol() ,obj.getNumPersonnel().getNumPersonnel());
+				
 				
 		    } catch (SQLException e) {
 		    	
@@ -134,6 +137,7 @@ public class DaoPersonnelVol extends DAO<PersonnelVol> {
 					prs.add( DaoVol.selectbyID(result.getInt("NUM_VOL")));
 					
 				}	
+				
 				result.close();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block

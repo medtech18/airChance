@@ -25,6 +25,7 @@ public class DaoPrixVol extends DAO<PrixVol> {
 			prepare.executeUpdate();
 			obj = selectById(obj.getDatePrix(),obj.getClasse(),obj.getNumVol().getNumVol());
 			
+			prepare.close();
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
@@ -87,6 +88,7 @@ public class DaoPrixVol extends DAO<PrixVol> {
 				p = new PrixVol(result.getString("datePrix") ,result.getString("classe"),result.getDouble("prix"),DaoVol.selectbyID(result.getInt("numVol")));
 			    
 		
+			result.close();
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
@@ -109,6 +111,8 @@ public class DaoPrixVol extends DAO<PrixVol> {
 				
 				p.add(new PrixVol(result.getString("datePrix") ,result.getString("classe"),result.getDouble("prix"),DaoVol.selectbyID(result.getInt("numVol"))));
 		
+			result.close();
+
 		} catch (SQLException e) {
 			
 			e.printStackTrace();

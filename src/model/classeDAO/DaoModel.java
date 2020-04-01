@@ -27,7 +27,9 @@ public class DaoModel extends DAO<Model>{
 
 				prepare.executeUpdate();
 				obj = selectById(obj.getNumModele());
+			
 				
+				prepare.close();
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
@@ -51,6 +53,7 @@ public class DaoModel extends DAO<Model>{
                  );
 
 			obj = selectById(obj.getNumModele());
+			
 	    } catch (SQLException e) {
 	    	
 	            e.printStackTrace();
@@ -85,6 +88,8 @@ public class DaoModel extends DAO<Model>{
 				
 				m = new Model(result.getString("nom_modele"),numModele,result.getInt("nb_min_pilote"),result.getInt("rayon_action"));
 		
+			
+			result.close();
 		} catch (SQLException e) {
 		e.printStackTrace();
 		}
@@ -106,6 +111,8 @@ public class DaoModel extends DAO<Model>{
 				m.add(new Model(result.getString("nom_modele"),result.getInt("nb_min_pilote"),result.getInt("num_modele"),result.getInt("rayon_action")));
 			}
 			
+			result.close();
+
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
