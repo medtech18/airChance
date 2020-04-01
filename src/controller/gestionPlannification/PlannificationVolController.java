@@ -76,9 +76,6 @@ public class PlannificationVolController {
 		this.volModel = volModel;
 		this.avionModel = avionModel;
 		this.plannificationVolView = plannificationVolView;
-		this.avionMenuView = new GenericTableView("Choix D'avion");
-		this.avionMenuView.setVisible(false);
-		this.avionMenuView.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.personnelMenuView = new GenericTableView("Choix des pilotes");
 		this.personnelMenuView.setVisible(false);
 		this.personnelMenuView.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -120,7 +117,7 @@ public class PlannificationVolController {
 
 				try {// if is number
 					Date dvol;
-					SimpleDateFormat dfFormat = new SimpleDateFormat("dd/MM/YYYY HH:MM");  
+					SimpleDateFormat dfFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");  
 					dvol = new Date(dfFormat.parse(plannificationVolView.getTextFieldDateVol().getText()).getTime());
 
 					inputsValues.put("textFieldDateVol", dvol);
@@ -273,11 +270,10 @@ public class PlannificationVolController {
 	}
 
 	public void createListenersAvionView() {
-
-		this.avionMenuView.setVisible(true);
-		this.avionMenuView.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-		this.avionTableModel.setRowObjects(this.avions);
+		avionMenuView = new GenericTableView("Choix D'avion");
+		avionMenuView.setVisible(true);
+		
+		avionTableModel.setRowObjects(this.avions);
 		avionMenuView.getTable().setModel(this.avionTableModel);
 		avionMenuView.getTable().setAutoCreateRowSorter(true);
 

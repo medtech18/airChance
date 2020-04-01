@@ -156,7 +156,7 @@ public class PlannificationVolView extends JFrame {
 		getContentPane().add(labelChoixHotesse);
 		
 		Date exampleDate = new Date();
-	    DateFormat format = new SimpleDateFormat("dd/MM/YYYY HH:MM");
+	    DateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 		textFieldDateVol = new JFormattedTextField(format);
 		textFieldDateVol.setBounds(763, 23, 151, 26);
 		textFieldDateVol.setFocusLostBehavior(JFormattedTextField.PERSIST);
