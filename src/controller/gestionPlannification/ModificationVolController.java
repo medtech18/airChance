@@ -486,8 +486,7 @@ public class ModificationVolController {
 			inputsValues.put("textFieldDateVol", dvol);
 			inputsValues.put("comboBoxAeroDep", modificationVolView.getComboBoxAeroDep().getSelectedItem());
 			inputsValues.put("comboBoxAeroDest", modificationVolView.getComboBoxAeroDest().getSelectedItem());
-			inputsValues.put("textFieldDuree",
-					Double.valueOf(modificationVolView.getTextFieldDistance().getText()));
+			inputsValues.put("textFieldDuree",Double.valueOf(modificationVolView.getTextFieldDuree().getText()));
 			inputsValues.put("editTextPlaceAff",
 					Integer.valueOf(modificationVolView.getEditTextPlaceAff().getText()));
 			inputsValues.put("editTextPlacePrem",
