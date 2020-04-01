@@ -20,16 +20,17 @@ public class DaoReservation extends DAO<Reservation> {
 			
 			
 			connect.setTransactionIsolation(java.sql.Connection.TRANSACTION_SERIALIZABLE);
-			PreparedStatement prepare = connect.prepareStatement("INSERT INTO Place (num_reservation, date_reservation, num_client) VALUES(?, ?, ?)");
+			PreparedStatement prepare = connect.prepareStatement("INSERT INTO reservation (num_reservation, date_reservation, num_client,prix_reservation) VALUES(?, ?, ?,?)");
 			
 			prepare.setInt(1, obj.getNumReservation());
 			prepare.setDate(2, obj.getDateReservation());
 			prepare.setInt(3, obj.getNumClient().getNumClient());
-
+			prepare.setFloat(4, obj.getPrix_reservation());
 	
 			prepare.executeUpdate();
-			obj = selectById(obj.getNumReservation());
-			
+			ResultSet result = connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeQuery("select seq_num_reservation.currval from dual");
+			result.next();
+			obj.setNumReservation(result.getInt(1));
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
@@ -49,9 +50,9 @@ public class DaoReservation extends DAO<Reservation> {
 			connect.setTransactionIsolation(java.sql.Connection.TRANSACTION_SERIALIZABLE);
 			connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeUpdate(
             	
-				"UPDATE Reservation SET num_reservation = '" + obj.getNumReservation()+ "',"+
-            	", " + " date_reservation = " + obj.getDateReservation() +
-            	" WHERE num_client = " + obj.getNumClient().getNumClient()
+				"UPDATE Reservation SET num_client = '" + obj.getNumClient().getNumClient()+ "',"+
+            	"prix_reservation= '"+ obj.getPrix_reservation()+ "', date_reservation = " + obj.getDateReservation() +
+            	" WHERE num_reservation = " + obj.getNumReservation()
            );
 
 		} catch (SQLException e) {
@@ -68,7 +69,7 @@ public class DaoReservation extends DAO<Reservation> {
 		try {
 	
 			connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeUpdate(
-					"DELETE FROM Reservation WHERE num_reservation = '" +  obj.getNumReservation());
+					"DELETE FROM Reservation WHERE num_reservation = " +  obj.getNumReservation());
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -84,12 +85,12 @@ public class DaoReservation extends DAO<Reservation> {
 			try {
 			
 				ResultSet result = connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeQuery(
-	                            "SELECT * FROM Reservation WHERE num_reservation = '" + numReservation);
+	                            "SELECT * FROM Reservation WHERE num_reservation = " + numReservation);
 
 				
 			if(result.first())
 				
-				rv = new Reservation(numReservation , result.getDate("date_reservation"), DaoClient.selectById(result.getInt("num_client")));
+				rv = new Reservation(numReservation , result.getDate("date_reservation"), DaoClient.selectById(result.getInt("num_client")),result.getFloat("prix_reservation"));
 			    
 		
 			} catch (SQLException e) {
@@ -112,7 +113,7 @@ public class DaoReservation extends DAO<Reservation> {
 				
 			while(result.next())
 				
-				rv.add(new Reservation(result.getInt("num_reservation") , result.getDate("date_reservation") , numclient));
+				rv.add(new Reservation(result.getInt("num_reservation") , result.getDate("date_reservation") , numclient,result.getFloat("prix_reservation")));
 			    
 		
 			} catch (SQLException e) {
@@ -136,7 +137,7 @@ public class DaoReservation extends DAO<Reservation> {
 			
 			while(result.next())
 				
-				rv.add(new Reservation(result.getInt("num_reservation"),result.getDate("date_reservation"),DaoClient.selectById(result.getInt("num_client"))));
+				rv.add(new Reservation(result.getInt("num_reservation"),result.getDate("date_reservation"),DaoClient.selectById(result.getInt("num_client")),result.getFloat("prix_reservation")));
 		
 		} catch (SQLException e) {
 			

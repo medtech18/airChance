@@ -7,14 +7,24 @@ public class Reservation {
 	private int numReservation ;
 	private Date dateReservation ;
 	private Client numClient ;
+	private float prix_reservation;
 	
 	public Reservation() {}
 	
-	public Reservation(int numReservation,Date dateReservation,Client numClient) {
+	public Reservation(int numReservation,Date dateReservation,Client numClient,float prix_reservation) {
 		this.dateReservation = dateReservation ;
 		this.numClient = numClient ;
 		this.numReservation = numReservation; 
+		this.prix_reservation=prix_reservation;
 		
+	}
+
+	public float getPrix_reservation() {
+		return prix_reservation;
+	}
+
+	public void setPrix_reservation(float prix_reservation) {
+		this.prix_reservation = prix_reservation;
 	}
 
 	public int getNumReservation() {
@@ -43,7 +53,7 @@ public class Reservation {
 	
 
 	public String toString() {
-		return "num: " + numReservation + " date: " + dateReservation;
+		return "num: " + numReservation + " date: " + dateReservation+" prix: "+prix_reservation;
 	}
 	
 	

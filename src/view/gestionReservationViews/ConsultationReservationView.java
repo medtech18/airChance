@@ -31,6 +31,7 @@ public class ConsultationReservationView extends JFrame {
 	private JOptionPane jop;
 	private JButton btnDetail;
 	private JButton btnReserver;
+	private JButton btnsupprimer;
 
 	/**
 	 * Launch the application.
@@ -65,13 +66,13 @@ public class ConsultationReservationView extends JFrame {
 		
 		JLabel lblNewLabel = new JLabel("reservation:");
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblNewLabel.setBounds(187, 63, 94, 21);
+		lblNewLabel.setBounds(59, 64, 94, 21);
 		contentPane.add(lblNewLabel);
 		
 		comboBox = new JComboBox();
 		comboBox.setEnabled(false);
 		comboBox.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		comboBox.setBounds(286, 64, 258, 21);
+		comboBox.setBounds(163, 64, 373, 21);
 		contentPane.add(comboBox);
 		
 		JScrollPane scrollPane = new JScrollPane();
@@ -88,8 +89,14 @@ public class ConsultationReservationView extends JFrame {
 		contentPane.add(btnDetail);
 		
 		btnReserver = new JButton("Reserver");
+		btnReserver.setEnabled(false);
 		btnReserver.setBounds(572, 25, 89, 23);
 		contentPane.add(btnReserver);
+		
+		btnsupprimer = new JButton("Supprimer Reservation");
+		btnsupprimer.setEnabled(false);
+		btnsupprimer.setBounds(557, 65, 119, 23);
+		contentPane.add(btnsupprimer);
 		jop = new JOptionPane();
 	}
 
@@ -169,5 +176,17 @@ public class ConsultationReservationView extends JFrame {
 
 	public void setBtnReserver(JButton btnReserver) {
 		this.btnReserver = btnReserver;
+	}
+
+
+
+	public JButton getBtnsupprimer() {
+		return btnsupprimer;
+	}
+
+
+
+	public void setBtnsupprimer(JButton btnsupprimer) {
+		this.btnsupprimer = btnsupprimer;
 	}
 }

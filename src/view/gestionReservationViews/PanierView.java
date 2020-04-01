@@ -21,62 +21,44 @@ public class PanierView extends JFrame {
 	private JButton btnValider;
 	private JButton btnAnnuler;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					PanierView frame = new PanierView();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
+	
 	public PanierView() {
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-		setBounds(100, 100, 493, 441);
+		setBounds(100, 100, 718, 626);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(37, 33, 390, 261);
+		scrollPane.setBounds(10, 33, 684, 418);
 		contentPane.add(scrollPane);
 		
 		table = new JTable();
 		scrollPane.setViewportView(table);
 		
 		Reduction = new JComboBox();
-		Reduction.setBounds(239, 306, 30, 22);
+		Reduction.setBounds(338, 480, 69, 22);
 		contentPane.add(Reduction);
 		
-		JLabel lblNewLabel = new JLabel("reduction %");
-		lblNewLabel.setBounds(167, 310, 62, 14);
+		JLabel lblNewLabel = new JLabel("reduction:");
+		lblNewLabel.setBounds(251, 484, 77, 14);
 		contentPane.add(lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("Prix total:");
-		lblNewLabel_1.setBounds(167, 350, 62, 14);
+		lblNewLabel_1.setBounds(251, 524, 62, 14);
 		contentPane.add(lblNewLabel_1);
 		
 		Prix = new JLabel("");
-		Prix.setBounds(239, 350, 49, 14);
+		Prix.setBounds(338, 524, 82, 14);
 		contentPane.add(Prix);
 		
 		btnValider = new JButton("Valider");
-		btnValider.setBounds(122, 381, 89, 23);
+		btnValider.setBounds(221, 555, 89, 23);
 		contentPane.add(btnValider);
 		
-		btnAnnuler = new JButton("Annuler");
-		btnAnnuler.setBounds(260, 381, 89, 23);
+		btnAnnuler = new JButton("Quitter");
+		btnAnnuler.setBounds(359, 555, 89, 23);
 		contentPane.add(btnAnnuler);
 	}
 
