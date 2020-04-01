@@ -39,16 +39,25 @@ public class ConsultationReservationController {
 				cReservationview.getComboBox().removeAllItems();
 				cReservationview.getTable().setModel(new VolTableModel(new ArrayList<Vol>()));
 				cReservationview.getBtnDetail().setEnabled(false);
+				cReservationview.getComboBox().setEnabled(false);
+				cReservationview.getBtnReserver().setEnabled(false);
+				cReservationview.getBtnsupprimer().setEnabled(false);
+				
 				client=DaoClient.selectById(Integer.parseInt(cReservationview.getTxtIdClient().getText()));
 				if(client==null)
+				{
 					cReservationview.getJop().showMessageDialog(null, "client inexistant!", "Attention", JOptionPane.INFORMATION_MESSAGE);
+					client=new Client();
+				}
 				else
 				{
+					cReservationview.getBtnReserver().setEnabled(true);
 					ArrayList<Reservation> listreservation=reservation.selectByclient(client);
 					if(listreservation.size()==0)
 						cReservationview.getJop().showMessageDialog(null, "pas de reservation pour ce client!", "Attention", JOptionPane.INFORMATION_MESSAGE);
 					else
 					{
+						cReservationview.getBtnsupprimer().setEnabled(true);
 						
 						for(Reservation r:listreservation)
 						cReservationview.getComboBox().addItem(r);
@@ -70,6 +79,7 @@ public class ConsultationReservationController {
 						VolTableModel modele=new VolTableModel(vols);
 						cReservationview.getTable().setModel(modele);
 						cReservationview.getTable().setAutoCreateRowSorter(true);
+						
 				}
 				
 				
@@ -101,7 +111,48 @@ public class ConsultationReservationController {
 				
 			}
 		});
+		cReservationview.getBtnsupprimer().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if( selectedReservation!=null) {
+					reservation.delete(selectedReservation);
 
+					cReservationview.getComboBox().removeAllItems();
+					cReservationview.getTable().setModel(new VolTableModel(new ArrayList<Vol>()));
+					cReservationview.getBtnDetail().setEnabled(false);
+					cReservationview.getComboBox().setEnabled(false);
+					cReservationview.getBtnReserver().setEnabled(false);
+					cReservationview.getBtnsupprimer().setEnabled(false);
+					
+					client=DaoClient.selectById(Integer.parseInt(cReservationview.getTxtIdClient().getText()));
+					if(client==null)
+					{
+						cReservationview.getJop().showMessageDialog(null, "client inexistant!", "Attention", JOptionPane.INFORMATION_MESSAGE);
+						client=new Client();
+					}
+					else
+					{
+						cReservationview.getBtnReserver().setEnabled(true);
+						ArrayList<Reservation> listreservation=reservation.selectByclient(client);
+						if(listreservation.size()==0)
+							cReservationview.getJop().showMessageDialog(null, "pas de reservation pour ce client!", "Attention", JOptionPane.INFORMATION_MESSAGE);
+						else
+						{
+							cReservationview.getBtnsupprimer().setEnabled(true);
+							
+							for(Reservation r:listreservation)
+							cReservationview.getComboBox().addItem(r);
+							cReservationview.getComboBox().setEnabled(true);
+							cReservationview.getBtnDetail().setEnabled(true);
+						}
+					}
+					
+				}
+				
+			}
+		});
+
+		
+		
 	}
 	
 

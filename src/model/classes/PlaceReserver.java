@@ -46,6 +46,14 @@ public class PlaceReserver {
 	public void ToString() {
 		System.out.println(" - Place resrvée  : "+numReservation.getNumReservation() +" - Numéro de Place : "+numPlace.getNumPlace() +" - le numéro du Vol  : "+ numVol.getNumVol());
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		// TODO Auto-generated method stub
+		PlaceReserver place=(PlaceReserver)obj;
+		return numPlace.getNumPlace()==place.getNumPlace().getNumPlace() && numVol.getNumVol()==place.getNumVol().getNumVol() ;
+	}
+	
 	
 
 }

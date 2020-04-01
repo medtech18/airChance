@@ -60,6 +60,26 @@ public class DaoClient extends DAO<Client> {
 	    
 		return obj;
 	}
+	public void updatePoint(Client client,int pointreduc) {
+		try {
+			
+			connect.setTransactionIsolation(java.sql.Connection.TRANSACTION_SERIALIZABLE);
+			PreparedStatement prepare = connect.prepareStatement("UPDATE Client SET point=point-? where num_client=?");
+			
+			prepare.setInt(1, pointreduc);
+			prepare.setInt(2, client.getNumClient());
+			
+
+			prepare.executeUpdate();
+			client.setPointsFidelite(selectById(client.getNumClient()).getPointsFidelite());
+			
+	} catch (SQLException e) {
+		
+		e.printStackTrace();
+	}
+		
+	}
+	
 	
 	public void delete(Client obj) {
 		try {

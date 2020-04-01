@@ -29,7 +29,7 @@ public class ReserverVolController {
 	private DaoReservation daoreservation=new DaoReservation();
 	private DaoVol daoVol=new DaoVol();
 	private Client client=new Client();
-	private Reservation newReservation=new Reservation(1,new Date(System.currentTimeMillis()), client);
+	private Reservation newReservation;
 	private DaoAeroport daoAeroport=new DaoAeroport();
 	private ArrayList<Vol> vols=new ArrayList<Vol>();
 	private ArrayList<PlaceReserver> panier=new ArrayList<PlaceReserver>();
@@ -40,6 +40,7 @@ public class ReserverVolController {
 		super();
 		this.client=client;
 		this.reservationview = reservationview;
+		newReservation=new Reservation(1,new Date(System.currentTimeMillis()), client,0);
 		ArrayList<AeroPort> aeroports=daoAeroport.selectAll();
 		for(AeroPort a:aeroports) {
 			reservationview.getCbxarrive().addItem(a);
@@ -80,7 +81,7 @@ public class ReserverVolController {
 					Vol selectedVol=((VolTableModel) reservationview.getTable().getModel()).getValue(reservationview.getTable().getSelectedRow());
 					ReservationPlaceView reserVolView=new ReservationPlaceView();
 					reserVolView.setVisible(true);
-					new ReserverPlaceVol(reserVolView,selectedVol,r,newReservation);
+					new ReserverPlaceVolController(reserVolView,selectedVol,r,newReservation);
 				}
 				
 			}
@@ -90,7 +91,7 @@ public class ReserverVolController {
 			public void actionPerformed(ActionEvent e) {
 				PanierView panierView=new PanierView();
 				panierView.setVisible(true);
-				new PanierController(panierView, panier);
+				new PanierController(panierView, panier,client,r,newReservation);
 			}
 		});
 		
@@ -105,4 +106,19 @@ public class ReserverVolController {
 	public void setPanier(ArrayList<PlaceReserver> panier) {
 		this.panier = panier;
 	}
+
+
+
+	public ReserverVolView getReservationview() {
+		return reservationview;
+	}
+
+
+
+	public void setReservationview(ReserverVolView reservationview) {
+		this.reservationview = reservationview;
+	}
+
+
+
 }
