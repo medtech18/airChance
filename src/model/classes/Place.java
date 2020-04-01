@@ -56,6 +56,13 @@ public class Place {
 		System.out.println("numéro de la place: " +numPlace +" Classe: "+classe+" position: "+ position +
 		"Le numéro d'avion : "+ numAvion.getNumAvion());
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		// TODO Auto-generated method stub
+		Place p=(Place) obj;
+		return numPlace==p.getNumPlace() && numAvion.getNumAvion()==p.getNumAvion().getNumAvion();
+	}
 	
 	
 

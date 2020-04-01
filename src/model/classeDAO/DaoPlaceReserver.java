@@ -153,8 +153,11 @@ public ArrayList<PlaceReserver> placedispo(Vol vol) {
                             "SELECT * FROM place_reserver");
 		
 		while(result.next())
+		{
 			v=DaoVol.selectbyID(result.getInt("num_vol"));
 			p.add(new PlaceReserver(DaoReservation.selectById(result.getInt("num_reservation")),DaoPlace.selectById(result.getInt("num_place"),v.getNumAvion()) ,v));
+		}
+			
 	
 	} catch (SQLException e) {
 		
@@ -164,6 +167,36 @@ public ArrayList<PlaceReserver> placedispo(Vol vol) {
 	return p;
 }
 
+public float getprix(ArrayList<PlaceReserver> places) {
+	float prix = 0;
+	try {
+		
+//		(datereservation in date,
+//                id_place in integer,
+//                id_avion in integer,
+//                id_vol in integer )
+		ResultSet result;
+		PreparedStatement prepare = connect.prepareStatement(
+                "SELECT prix_place(?,?,?,?) FROM dual");
+		
+		for(PlaceReserver p:places)
+		{
+			prepare.setDate(1, p.getNumReservation().getDateReservation());
+			prepare.setInt(2, p.getNumPlace().getNumPlace());
+			prepare.setInt(3, p.getNumVol().getNumAvion().getNumAvion());
+			prepare.setInt(4, p.getNumVol().getNumVol());
+			result=prepare.executeQuery();
+			if(result.next())
+				prix+=result.getFloat(1);
+		}
+			
+	
+	} catch (SQLException e) {
+		
+		e.printStackTrace();
+	}
+	return prix;
+}
 
 
 	
