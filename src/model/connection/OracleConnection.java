@@ -15,10 +15,10 @@ public class OracleConnection {
 
 	static  String USER = "*********";
 	static  String PASSWD = "********";
-
+	static  boolean areCredentialsSet = false;
 	public static Connection getInstance() {
 
-		if (connect == null) {
+		if (connect == null && areCredentialsSet) {
 			try {
 
 	 	    // Enregistrement du driver Oracle
@@ -31,24 +31,24 @@ public class OracleConnection {
 		    
 	  	    // Etablissement de la connection
 	  	  connect = DriverManager.getConnection(CONN_URL, USER,PASSWD);
-	  	    DataBaseProperties dap = new DataBaseProperties(configurationFile);
+//	  	    DataBaseProperties dap = new DataBaseProperties(configurationFile);
 	  	    System.out.print("Connecting to the database... "); 
-	  	    connect = DriverManager.getConnection(dap.getDatabaseUrl(), dap.getUsername(),dap.getPassword());
+//	  	    connect = DriverManager.getConnection(dap.getDatabaseUrl(), dap.getUsername(),dap.getPassword());
 	   	    System.out.println("connected");
 			AlertMessages.InfoBox("DATABASE SUCCESSFULLY CONNECTED ","CONNECTION SUCCESS");
 	   	    connect.setAutoCommit(true);
 	   	    
 			} catch (ClassNotFoundException e) {
-//				AlertMessages.ErrorBox(
-//						e.getMessage(),"SQL EXCEPTION");
+				AlertMessages.ErrorBox(
+						e.getMessage(),"SQL EXCEPTION");
 
-					e.printStackTrace();
+//					e.printStackTrace();
 			} catch (SQLException e) {
-//				AlertMessages.ErrorBox(
-//						e.getMessage(),"SQL EXCEPTION");
+				AlertMessages.ErrorBox(
+						e.getMessage(),"SQL EXCEPTION");
 
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+//				e.printStackTrace();
 			}
 		}
 		return connect;
@@ -58,6 +58,7 @@ public class OracleConnection {
 	{
 		USER = _USER;
 		PASSWD = _PASSWD;
+		areCredentialsSet = true;
 	}
 
 }

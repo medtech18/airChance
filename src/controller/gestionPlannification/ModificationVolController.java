@@ -490,7 +490,7 @@ public class ModificationVolController {
 	{
 		try {// if is number
 			Date dvol;
-			SimpleDateFormat dfFormat = new SimpleDateFormat("dd/MM/YYYY HH:MM");  
+			SimpleDateFormat dfFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");  
 			dvol = new Date(dfFormat.parse(modificationVolView.getTextFieldDateVol().getText()).getTime());
 
 			inputsValues.put("textFieldDateVol", dvol);
