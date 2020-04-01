@@ -48,6 +48,15 @@ public class ModificationVolView extends JFrame {
 	private JButton nextBtn;
 	private JButton btnAnnuler;
 	private JButton btnBack;
+	private  JButton btnValiderModfi;
+
+	public JButton getBtnValiderModfi() {
+		return btnValiderModfi;
+	}
+
+	public void setBtnValiderModfi(JButton btnValiderModfi) {
+		this.btnValiderModfi = btnValiderModfi;
+	}
 
 	public ModificationVolView(String title) {
 		setTitle(title);
@@ -71,7 +80,6 @@ public class ModificationVolView extends JFrame {
 
 	    DateFormat format = new SimpleDateFormat("dd/MM/YYYY HH:MM");
 		TextFieldDateVol = new JFormattedTextField(format);
-		TextFieldDateVol.setEnabled(false);
 		TextFieldDateVol.setBounds(763, 23, 151, 26);
 		TextFieldDateVol.setFocusLostBehavior(JFormattedTextField.PERSIST);
 		getContentPane().add(TextFieldDateVol);
@@ -173,16 +181,20 @@ public class ModificationVolView extends JFrame {
 
 		nextBtn = new JButton("NEXT");
 		nextBtn.setEnabled(false);
-		nextBtn.setBounds(824, 297, 158, 37);
+		nextBtn.setBounds(736, 297, 135, 37);
 		getContentPane().add(nextBtn);
 
 		btnAnnuler = new JButton("ANNULER");
-		btnAnnuler.setBounds(1016, 297, 158, 37);
+		btnAnnuler.setBounds(1055, 297, 124, 37);
 		getContentPane().add(btnAnnuler);
 
 		btnBack = new JButton("RESET");
-		btnBack.setBounds(626, 297, 166, 37);
+		btnBack.setBounds(595, 297, 129, 37);
 		getContentPane().add(btnBack);
+		
+		 btnValiderModfi = new JButton("Valider Modfi");
+		btnValiderModfi.setBounds(883, 297, 135, 37);
+		getContentPane().add(btnValiderModfi);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(1200, 377);
 		setLocationRelativeTo(null);

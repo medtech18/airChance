@@ -86,7 +86,7 @@ public class DaoAeroport extends DAO<AeroPort> {
 				
 				a = new AeroPort(numAeroport,result.getString("nom"),result.getString("ville"), result.getString("pays"));
 				
-		
+			result.close();
 			} catch (SQLException e) {
 				
 				e.printStackTrace();
@@ -111,6 +111,7 @@ public class DaoAeroport extends DAO<AeroPort> {
 					result.getString("pays")));
 		
 			
+			result.close();
 		} catch (SQLException e) {
 			
 			e.printStackTrace();

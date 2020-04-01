@@ -26,12 +26,14 @@ import controller.common.VolTableModel;
 import model.classeDAO.DaoAeroport;
 import model.classeDAO.DaoAvion;
 import model.classeDAO.DaoPersonnel;
+import model.classeDAO.DaoPersonnelVol;
 import model.classeDAO.DaoVol;
 import model.classes.Adresse;
 import model.classes.AeroPort;
 import model.classes.Avion;
 import model.classes.Model;
 import model.classes.Personnel;
+import model.classes.PersonnelVol;
 import model.classes.Vol;
 import view.gestionPlannification.GenericTableView;
 import view.gestionPlannification.ModificationVolView;
@@ -47,6 +49,7 @@ public class ModificationVolController {
 	private DaoAvion avionModel;
 	private DaoAeroport AeroPortModel;
 	private DaoPersonnel personnelModel;
+	private DaoPersonnelVol daoPersonnelVol;
 
 	// Views
 	private ModificationVolView modificationVolView;
@@ -76,6 +79,7 @@ public class ModificationVolController {
 	private PersonnelTableModel personnelTableModel;
 	private AvionTableModel avionTableModel;
 	private VolTableModel volTableModel;
+	
 
 
 	public ModificationVolController(ModificationVolView modificationVolView, GenericTableView avionMenuView,
@@ -97,6 +101,7 @@ public class ModificationVolController {
 		this.personnelTableModel = new PersonnelTableModel(this.personnels);
 		this.avionTableModel = new AvionTableModel(this.avions);
 		this.volTableModel	= new VolTableModel(this.vols);
+		this.daoPersonnelVol = new DaoPersonnelVol();
 
 		fetchDataFromModel();
 		createListenersModificationVolView();
@@ -128,37 +133,11 @@ public class ModificationVolController {
 		modificationVolView.getNextBtn().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				try {// if is number
-					Date dvol;
-					SimpleDateFormat dfFormat = new SimpleDateFormat("dd/MM/YYYY HH:MM");  
-					dvol = new Date(dfFormat.parse(modificationVolView.getTextFieldDateVol().getText()).getTime());
+				getInputs();
+				
+				modificationVolView.getBtnChoixHotesse().setEnabled(true);
+				modificationVolView.getBtnChoixPilot().setEnabled(true);
 
-					inputsValues.put("textFieldDateVol", dvol);
-					inputsValues.put("comboBoxAeroDep", modificationVolView.getComboBoxAeroDep().getSelectedItem());
-					inputsValues.put("comboBoxAeroDest", modificationVolView.getComboBoxAeroDest().getSelectedItem());
-					inputsValues.put("textFieldDuree",
-							Double.valueOf(modificationVolView.getTextFieldDuree().getText()));
-					inputsValues.put("textFieldDistance",
-							Double.valueOf(modificationVolView.getTextFieldDistance().getText()));
-					inputsValues.put("editTextPlaceAff",
-							Integer.valueOf(modificationVolView.getEditTextPlaceAff().getText()));
-					inputsValues.put("editTextPlacePrem",
-							Integer.valueOf(modificationVolView.getEditTextPlacePrem().getText()));
-					inputsValues.put("editTextPlaceEco",
-							Integer.valueOf(modificationVolView.getEditTextPlaceEco().getText()));
-					inputsValues.put("textFieldDistance", Double.valueOf(modificationVolView.getTextFieldDistance().getText()));
-					setFieldsState(false);
-				} catch (NumberFormatException e1) {
-					// else then do blah
-					AlertMessages.ErrorBox(
-							"Error on the fields , Either you left empty fields or you typed characters on number fields ",
-							"Input Error");
-				} catch (ParseException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				
-				
 
 //	    		boolean isThereEmptyFields = false;
 //	    		
@@ -173,6 +152,36 @@ public class ModificationVolController {
 //	    			setFieldsState(false);
 			}
 		});
+		
+		
+		modificationVolView.getBtnValiderModfi().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setFieldsState(false);
+				modificationVolView.getComboBoxNumAvion().setEnabled(false);
+				modificationVolView.getBtnChoixPilot().setEnabled(false);
+				modificationVolView.getBtnChoixHotesse().setEnabled(false);
+
+				getInputs();
+				
+				if(selectedAvion == null)
+				{
+					selectedAvion = avionModel.selectById(selectedVol.getNumAvion().getNumAvion());
+				}
+				selectedVol.setNumAvion(selectedAvion);
+				volModel.modify(selectedVol);
+				for(Personnel ele : selectedHotesses)
+				{
+					daoPersonnelVol.modify(new PersonnelVol(ele,selectedVol));
+				}
+				for(Personnel ele : selectedPilots)
+				{
+					daoPersonnelVol.modify(new PersonnelVol(ele,selectedVol));
+				}
+				
+
+			}
+		});
+
 
 		modificationVolView.getBtnBack().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -241,6 +250,8 @@ public class ModificationVolController {
 				personnelMenuView.getTable().setModel(personnelTableModel);
 				personnelMenuView.getTable().setAutoCreateRowSorter(true);
 				personnelMenuView.setVisible(true);
+				modificationVolView.getNextBtn().setEnabled(true);
+
 
 			}
 		});
@@ -255,6 +266,8 @@ public class ModificationVolController {
 
 				actionFromPiloteBtn = false;
 				personnelMenuView.setVisible(true);
+				modificationVolView.getNextBtn().setEnabled(true);
+
 			}
 		});
 		
@@ -276,8 +289,6 @@ public class ModificationVolController {
 							modificationVolView.getTextFieldDateVol().setValue(selectedVol.getDateVol());
 							modificationVolView.getComboBoxAeroDep().setSelectedIndex(aeroPorts.indexOf(selectedAeroPortDep));
 							modificationVolView.getComboBoxAeroDest().setSelectedIndex(aeroPorts.indexOf(selectedAeroPortDest));
-//							modificationVolView.getComboBoxAeroDep().addItem(selectedVol.getAeroportDepart());
-//							modificationVolView.getComboBoxAeroDest().addItem(selectedVol.getAeroportArrive());
 							modificationVolView.getTextFieldDuree().setText(String.valueOf(selectedVol.getDuree()));
 							modificationVolView.getTextFieldDistance().setText(String.valueOf(selectedVol.getDistanceVol()));
 							modificationVolView.getEditTextPlaceAff().setText(String.valueOf(selectedVol.getnbrMinPlaceAffaire()));
@@ -289,7 +300,6 @@ public class ModificationVolController {
 //							modificationVolView.getComboBoxAeroDest().addItem(element);
 
 
-							
 						} catch (NumberFormatException e1) {
 							// else then do blah
 							AlertMessages.ErrorBox(
@@ -380,6 +390,8 @@ public class ModificationVolController {
 						modificationVolView.getLabelChoixHotesse().setText("Vous avez selection "
 								+ personnelMenuView.getTable().getSelectedRows().length + " hotesse(s)");
 						selectedHotesses = tempSelectedPersonnel;
+						
+						
 					}
 
 					personnelMenuView.dispose();
@@ -471,5 +483,46 @@ public class ModificationVolController {
 		}
 		return obj;
 		
+	}
+	
+	public void getInputs()
+	{
+		try {// if is number
+			Date dvol;
+			SimpleDateFormat dfFormat = new SimpleDateFormat("dd/MM/YYYY HH:MM");  
+			dvol = new Date(dfFormat.parse(modificationVolView.getTextFieldDateVol().getText()).getTime());
+
+			inputsValues.put("textFieldDateVol", dvol);
+			inputsValues.put("comboBoxAeroDep", modificationVolView.getComboBoxAeroDep().getSelectedItem());
+			inputsValues.put("comboBoxAeroDest", modificationVolView.getComboBoxAeroDest().getSelectedItem());
+			inputsValues.put("textFieldDuree",
+					Double.valueOf(modificationVolView.getTextFieldDistance().getText()));
+			inputsValues.put("editTextPlaceAff",
+					Integer.valueOf(modificationVolView.getEditTextPlaceAff().getText()));
+			inputsValues.put("editTextPlacePrem",
+					Integer.valueOf(modificationVolView.getEditTextPlacePrem().getText()));
+			inputsValues.put("editTextPlaceEco",
+					Integer.valueOf(modificationVolView.getEditTextPlaceEco().getText()));
+			inputsValues.put("textFieldDistance", Double.valueOf(modificationVolView.getTextFieldDistance().getText()));
+			setFieldsState(false);
+			
+			selectedVol.setAeroportArrive(this.selectedAeroPortDest);
+			selectedVol.setAeroportDepart(this.selectedAeroPortDep);
+			selectedVol.setDateVol(dvol);
+			selectedVol.setDuree(((Double)inputsValues.get("textFieldDuree")).floatValue());
+			selectedVol.setDistanceVol(((Double)inputsValues.get("textFieldDistance")).floatValue());
+			selectedVol.setnbrMinPlaceEco((int)inputsValues.get("editTextPlaceEco"));
+			selectedVol.setnbrMinPlacePremiere((int)inputsValues.get("editTextPlacePrem"));
+			selectedVol.setnbrMinPlaceAffaire((int)inputsValues.get("editTextPlaceAff"));
+
+		} catch (NumberFormatException e1) {
+			// else then do blah
+			AlertMessages.ErrorBox(
+					"Error on the fields , Either you left empty fields or you typed characters on number fields ",
+					"Input Error");
+		} catch (ParseException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 	}
 }

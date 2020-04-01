@@ -30,6 +30,8 @@ import model.classes.AeroPort;
 import model.classes.Avion;
 import model.classes.Model;
 import model.classes.Personnel;
+import model.classes.PersonnelVol;
+import model.classes.Vol;
 import view.gestionPlannification.GenericTableView;
 import view.gestionPlannification.PlannificationVolView;
 
@@ -121,7 +123,7 @@ public class PlannificationVolController {
 					inputsValues.put("comboBoxAeroDest", plannificationVolView.getComboBoxAeroDest().getSelectedItem());
 					inputsValues.put("textFieldDuree",
 							Double.valueOf(plannificationVolView.getTextFieldDuree().getText()));
-					inputsValues.put("textFieldDuree",
+					inputsValues.put("distanceVol",
 							Double.valueOf(plannificationVolView.getTextFieldDistance().getText()));
 					inputsValues.put("editTextPlaceAff",
 							Integer.valueOf(plannificationVolView.getEditTextPlaceAff().getText()));
@@ -144,7 +146,37 @@ public class PlannificationVolController {
 				
 			}
 		});
+		
+		
 
+		plannificationVolView.getBtnValiderAff().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+//				setFieldsState(false);
+				plannificationVolView.getComboBoxNumAvion().setEnabled(false);
+				plannificationVolView.getBtnChoixPilot().setEnabled(false);
+				plannificationVolView.getBtnChoixHotesse().setEnabled(false);
+				
+				volModel.insert( new Vol(
+							0000,
+							(Date)inputsValues.get("textFieldDateVol"),
+							selectedAeroPortDest,
+							selectedAeroPortDep,
+							((Double)inputsValues.get("textFieldDuree")).floatValue(),
+							((Double)inputsValues.get("textFieldDistance")).floatValue(),
+							false ,
+							selectedAvion,
+							(int)inputsValues.get("editTextPlaceEco"),
+							(int)inputsValues.get("editTextPlacePrem"),
+							(int)inputsValues.get("editTextPlaceAff")
+							)
+						);
+				
+				
+				plannificationVolView.dispose();
+		
+			}
+		});
+		
 		plannificationVolView.getBtnBack().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setFieldsState(true);
@@ -162,6 +194,7 @@ public class PlannificationVolController {
 
 			public void itemStateChanged(ItemEvent e) {
 				if (e.getStateChange() == ItemEvent.SELECTED) {
+					if(plannificationVolView.getComboBoxAeroDep().getSelectedItem() != null)
 					selectedAeroPortDep = (AeroPort) plannificationVolView.getComboBoxAeroDep().getSelectedItem();
 					;
 
@@ -174,6 +207,7 @@ public class PlannificationVolController {
 
 			public void itemStateChanged(ItemEvent e) {
 				if (e.getStateChange() == ItemEvent.SELECTED) {
+					if(plannificationVolView.getComboBoxAeroDest().getSelectedItem() != null)
 					selectedAeroPortDest = (AeroPort) plannificationVolView.getComboBoxAeroDest().getSelectedItem();
 					;
 

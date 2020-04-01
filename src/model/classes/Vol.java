@@ -38,7 +38,7 @@ public class Vol {
 		this.nbrMinPlaceEco = nbrMinPlaceEco ;
 	}
 	
-	public void setnbrMinPlaceAffaire() {
+	public void setnbrMinPlaceAffaire(int nbrMinPlaceAffaire) {
 		this.nbrMinPlaceAffaire = nbrMinPlaceAffaire ;
 	}
 	
@@ -46,7 +46,7 @@ public class Vol {
 		return nbrMinPlaceAffaire ;
 	}
 	
-	public void setnbrMinPlacePremiere() {
+	public void setnbrMinPlacePremiere(int nbrMinPlacePremiere) {
 		this.nbrMinPlacePremiere = nbrMinPlacePremiere ;
 	}
 	
@@ -54,7 +54,7 @@ public class Vol {
 		return nbrMinPlacePremiere ;
 	}
 	
-	public void setnbrMinPlaceEco() {
+	public void setnbrMinPlaceEco(int nbrMinPlaceEco) {
 		this.nbrMinPlaceEco = nbrMinPlaceEco ;
 	}
 	

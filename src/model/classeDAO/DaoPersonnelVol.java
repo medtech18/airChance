@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import controller.common.AlertMessages;
 import model.classes.Personnel;
 import model.classes.PersonnelVol;
 import model.classes.Vol;
@@ -20,7 +21,7 @@ public class DaoPersonnelVol extends DAO<PersonnelVol> {
 				
 					connect.setTransactionIsolation(java.sql.Connection.TRANSACTION_SERIALIZABLE);
 
-					PreparedStatement prepare = connect.prepareStatement("INSERT INTO Client (numVol, numPersonnel) VALUES(?, ?)");
+					PreparedStatement prepare = connect.prepareStatement("INSERT INTO PERSONNEL_VOL (NUM_VOL, NUM_PERSONNEL) VALUES(?, ?)");
 					
 					prepare.setInt(1, obj.getNumVol().getNumVol());
 					prepare.setInt(2, obj.getNumPersonnel().getNumPersonnel());
@@ -46,8 +47,8 @@ public class DaoPersonnelVol extends DAO<PersonnelVol> {
 				
 				connect.setTransactionIsolation(java.sql.Connection.TRANSACTION_SERIALIZABLE);
 				connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeUpdate(
-	                	"UPDATE Avion SET numVol = '" + obj.getNumVol().getNumVol() + "',"+
-	                	" WHERE numPersonnel = '" + obj.getNumPersonnel().getNumPersonnel() + "'"
+	                	"UPDATE PERSONNEL_VOL SET NUM_VOL = '" + obj.getNumVol().getNumVol() + "',"+
+	                	" WHERE NUM_PERSONNEL = '" + obj.getNumPersonnel().getNumPersonnel() + "'"
 	                 );
 
 				obj = this.selectById(obj.getNumVol().getNumVol() ,obj.getNumPersonnel().getNumPersonnel());
@@ -65,6 +66,26 @@ public class DaoPersonnelVol extends DAO<PersonnelVol> {
 
 		public void delete(PersonnelVol obj) {
 			// On peut pas supprimer le numero d'un vol lié au personnel 
+							
+				try{
+					
+					PreparedStatement prepare = connect.prepareStatement("DELETE FROM PERSONNEL_VOL WHERE NUM_PERSONNEL = ? AND NUM_VOL = ? ");
+					
+					
+					prepare.setInt(1, obj.getNumPersonnel().getNumPersonnel());
+					prepare.setInt(2, obj.getNumVol().getNumVol());
+
+					prepare.execute();
+					ResultSet result = prepare.getResultSet();
+					
+					AlertMessages.InfoBox("DELETE WITH SUCCES" , "DELETE INSERSION");
+					
+			    } catch (SQLException e) {
+			    	
+					AlertMessages.ErrorBox("ECHEC SUPPERESION DU VOL [N: " + obj.getNumVol().getNumVol()+ " , :P" + obj.getNumPersonnel().getNumPersonnel()+ "]","ECHEC INSERSION");
+
+			            e.printStackTrace();
+			    }
 		}
 		
 		
@@ -78,15 +99,15 @@ public class DaoPersonnelVol extends DAO<PersonnelVol> {
 			try {
 				
 				ResultSet result = connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeQuery(
-						"SELECT * FROM PersonnelVol WHERE numVol = '" + numVol + "' AND numPersonnel = " + numPersonnel);
+						"SELECT DISTINCT * FROM PERSONNEL_VOL WHERE NUM_VOL = '" + numVol + "' AND NUM_PERSONNEL = " + numPersonnel);
 				
 				if(result.first())
 					
-					p = DaoPersonnel.selectById(result.getInt("numPersonnel"));
-					v = DaoVol.selectbyID(result.getInt("numVol"));
+					p = DaoPersonnel.selectById(result.getInt("NUM_PERSONNEL"));
+					v = DaoVol.selectbyID(result.getInt("NUM_VOL"));
 					
 					pr = new PersonnelVol(p,v);
-					
+					result.close();	
 			} catch (SQLException e) {
 				
 				e.printStackTrace();
@@ -95,37 +116,40 @@ public class DaoPersonnelVol extends DAO<PersonnelVol> {
 			return pr;
 		}
 		
-		public ArrayList<PersonnelVol> selectAll() {
+		public ArrayList<Vol> selectAllPersonnelVols() {
 			
-			ArrayList<PersonnelVol> a = new ArrayList<PersonnelVol>();
-			
-			Vol v = null ;
-			Personnel p = null ;
-			
+			ArrayList<Vol> prs = new ArrayList<Vol>();
+					
 			
 			try {
 				
-				ResultSet result = connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeQuery(
-		                            "SELECT * FROM PersonnelVol");
+				PreparedStatement prepare = connect.prepareStatement("SELECT DISTINCT NUM_VOL FROM PERSONNEL_VOL ");
 				
-				while(result.next()) {
+				prepare.execute();
+				ResultSet result = prepare.getResultSet();
+
+				while(result.next())
+				{
+					prs.add( DaoVol.selectbyID(result.getInt("NUM_VOL")));
 					
-					p = DaoPersonnel.selectById(result.getInt("numPersonnel"));
-					v = DaoVol.selectbyID(result.getInt("numVol"));
-					
-					a.add(new PersonnelVol(p,v));
-				}
+				}	
+				result.close();
 			} catch (SQLException e) {
-				
+				// TODO Auto-generated catch block
 				e.printStackTrace();
-				
 			}
 			
-			return a;
+			
+			return prs;
 		}
-	
-	
-	
-	
+
+
+		@Override
+		public ArrayList<PersonnelVol> selectAll() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+		
+			
 
 }

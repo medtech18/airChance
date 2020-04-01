@@ -9,4 +9,10 @@ public class AlertMessages {
 	        JOptionPane.showMessageDialog(null, infoMessage, titleBar, JOptionPane.ERROR_MESSAGE);
 
 	    }
+	    
+	    public static void InfoBox(String infoMessage, String titleBar)
+	    {
+	        JOptionPane.showMessageDialog(null, infoMessage, titleBar, JOptionPane.INFORMATION_MESSAGE);
+
+	    }
 	}

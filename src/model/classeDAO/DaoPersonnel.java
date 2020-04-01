@@ -8,6 +8,8 @@ import java.util.ArrayList;
 
 import model.classes.AeroPort;
 import model.classes.Personnel;
+import model.classes.PersonnelVol;
+import model.classes.Vol;
 
 public class DaoPersonnel extends DAO<Personnel> {
 	
@@ -69,7 +71,7 @@ public class DaoPersonnel extends DAO<Personnel> {
 				
 				
 				connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeUpdate(
-	                	"DELETE FROM Personnel WHERE numPersonnel = " + obj.getNumPersonnel()
+	                	"DELETE FROM Personnel WHERE NUM_PERSONNEL = " + obj.getNumPersonnel()
 	                 );
 				
 		    } catch (SQLException e) {
@@ -89,12 +91,13 @@ public class DaoPersonnel extends DAO<Personnel> {
 			try {
 				
 				ResultSet result = connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeQuery(
-		                            "SELECT * FROM Personnel WHERE numPersonnel = " + numP);
+		                            "SELECT * FROM Personnel WHERE NUM_PERSONNEL = " + numP);
 				
 				if(result.first())
 				
-					p = new Personnel(numP,result.getString("nom"),result.getString("prenom"),result.getInt("totalHeureVol"),result.getString("dateDisponibilie"),DaoAdresse.selectbyID(result.getInt("numAdresse")),result.getString("genre"));
-					
+					p = new Personnel(numP,result.getString("nom"),result.getString("prenom"),result.getInt("TOTAL_HEURES_VOL"),result.getString("DATEDISPONIBILITE"),DaoAdresse.selectbyID(result.getInt("NUM_ADRESSE")),result.getString("GENRE"));
+				
+				result.close();
 			} catch (SQLException e) {
 				
 				e.printStackTrace();
@@ -117,7 +120,7 @@ public class DaoPersonnel extends DAO<Personnel> {
 				ResultSet result = pstmt.getResultSet();
 				
 
-
+				
 				while(result.next())
 				{
 
@@ -134,6 +137,7 @@ public class DaoPersonnel extends DAO<Personnel> {
 								);
 					
 				}	
+				result.close();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -157,7 +161,7 @@ public class DaoPersonnel extends DAO<Personnel> {
 					p.add(new Personnel(result.getInt("NUM_PERSONNEL"),result.getString("nom"),result.getString("prenom"),result.getInt("TOTAL_HEURES_VOL"),result.getString("DATEDISPONIBILITE"),
 			                DaoAdresse.selectbyID(result.getInt("NUM_ADRESSE")),result.getString("genre")));
 				
-				
+				result.close();
 			} catch (SQLException e) {
 				
 				e.printStackTrace();
@@ -166,7 +170,77 @@ public class DaoPersonnel extends DAO<Personnel> {
 			return p;
 			
 		}
+		
+		
+		public ArrayList<Personnel> selectAllPersonnelWith(int numVol) {
+			
+			ArrayList<Personnel> prs = new ArrayList<Personnel>();
+					
+			
+			try {
+				
+				PreparedStatement prepare = connect.prepareStatement("SELECT DISTINCT * FROM PERSONNEL_VOL NATURAL JOIN PERSONNEL WHERE NUM_VOL = ?");
+				
+				prepare.setInt(1, numVol);
+				prepare.execute();
+				ResultSet result = prepare.getResultSet();
 
+				while(result.next())
+				{
+					prs.add( new Personnel(
+								result.getInt("NUM_PERSONNEL"),
+								result.getString("nom"),
+								result.getString("prenom"),
+								result.getInt("TOTAL_HEURES_VOL"),
+								result.getString("DATEDISPONIBILITE"),
+						        DaoAdresse.selectbyID(result.getInt("NUM_ADRESSE")),
+						        result.getString("genre"))
+								);
+					
+				}	
+				result.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			
+			return prs;
+		}
+		
+		
+		public ArrayList<Personnel> selectAllVOLPersonnelWith(int numVol) {
+			
+			ArrayList<Personnel> prs = new ArrayList<Personnel>();
+					
+			
+			try {
+				
+				PreparedStatement prepare = connect.prepareStatement("SELECT DISTINCT NUM_PERSONNEL FROM PERSONNEL_VOL WHERE NUM_VOL = ?");
+				
+				prepare.setInt(1, numVol);
+				prepare.execute();
+				ResultSet result = prepare.getResultSet();
+
+				
+				while(result.next())
+				{
+					prs.add( this.selectById(result.getInt("NUM_PERSONNEL")));
+					
+				}	
+				
+				result.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			
+			return prs;
+		}
+	
+		
+		
 
 	
 

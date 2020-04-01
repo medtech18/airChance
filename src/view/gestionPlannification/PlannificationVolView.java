@@ -38,6 +38,7 @@ public class PlannificationVolView extends JFrame {
 	private JButton btnChoixHotesse;
 	private JLabel labelChoixPilot;
 	private JLabel labelChoixHotesse;
+	private JButton btnValiderAff;
 
 
 
@@ -126,15 +127,15 @@ public class PlannificationVolView extends JFrame {
 
 		nextBtn = new JButton("NEXT");
 
-		nextBtn.setBounds(217, 354, 183, 37);
+		nextBtn.setBounds(156, 354, 142, 37);
 		getContentPane().add(nextBtn);
 
 		btnAnnuler = new JButton("ANNULER");
-		btnAnnuler.setBounds(424, 354, 183, 37);
+		btnAnnuler.setBounds(465, 354, 151, 37);
 		getContentPane().add(btnAnnuler);
 
 		btnBack = new JButton("RESET");
-		btnBack.setBounds(15, 354, 183, 37);
+		btnBack.setBounds(15, 354, 129, 37);
 		getContentPane().add(btnBack);
 
 		btnChoixPilot = new JButton("Select La Liste Pilote");
@@ -162,6 +163,10 @@ public class PlannificationVolView extends JFrame {
 		textFieldDateVol.setValue(exampleDate);
 		textFieldDateVol.setBounds(167, 68, 151, 26);
 		getContentPane().add(textFieldDateVol);
+		
+		btnValiderAff = new JButton("Valider Affect");
+		btnValiderAff.setBounds(310, 354, 151, 37);
+		getContentPane().add(btnValiderAff);
 
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setTitle("JList Example");
@@ -256,5 +261,13 @@ public class PlannificationVolView extends JFrame {
 
 	public JFormattedTextField getTextFieldDateVol() {
 		return textFieldDateVol;
+	}
+
+	public JButton getBtnValiderAff() {
+		return btnValiderAff;
+	}
+
+	public void setBtnValiderAff(JButton btnValiderAff) {
+		this.btnValiderAff = btnValiderAff;
 	}
 }
