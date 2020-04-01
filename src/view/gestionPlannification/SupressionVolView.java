@@ -32,11 +32,11 @@ public class SupressionVolView extends JFrame {
 	      scrollPane.setBounds(0, 0, 750, 268);
 	      getContentPane().add(scrollPane);
 	      
-	      btnDeleteVol = new JButton("delete this vol");
-	      btnDeleteVol.setBounds(149, 273, 333, 29);
+	      btnDeleteVol = new JButton("supprimer le vol");
+	      btnDeleteVol.setBounds(208, 284, 333, 29);
 	      getContentPane().add(btnDeleteVol);
 	      setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	      setSize(756, 330);
+	      setSize(756, 351);
 	      setLocationRelativeTo(null);
 	      setVisible(true);
 	}

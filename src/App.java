@@ -104,11 +104,11 @@ public class App extends JFrame{
 		passwordField.setBounds(525, 414, 132, 26);
 		getContentPane().add(passwordField);
 		
-		lblNewLabel_1 = new JLabel("USERNAME");
+		lblNewLabel_1 = new JLabel("Utilisateur");
 		lblNewLabel_1.setBounds(434, 390, 79, 16);
 		getContentPane().add(lblNewLabel_1);
 		
-		lblNewLabel_2 = new JLabel("PASSWORD");
+		lblNewLabel_2 = new JLabel("Mot de passe");
 		lblNewLabel_2.setBounds(434, 419, 79, 16);
 		getContentPane().add(lblNewLabel_2);
 		

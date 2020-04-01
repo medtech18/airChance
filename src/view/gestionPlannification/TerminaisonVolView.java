@@ -35,7 +35,7 @@ public class TerminaisonVolView extends JFrame {
 	      getContentPane().add(scrollPane);
 	      getContentPane().add(btnTerminateThisVol);
 	      setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	      setSize(756, 330);
+	      setSize(756, 346);
 	      setLocationRelativeTo(null);
 	      setVisible(true);
 	}
