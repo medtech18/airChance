@@ -47,7 +47,6 @@ public class ModificationVolView extends JFrame {
 	private JLabel labelChoixHotesse;
 	private JButton nextBtn;
 	private JButton btnAnnuler;
-	private JButton btnBack;
 	private  JButton btnValiderModfi;
 
 	public JButton getBtnValiderModfi() {
@@ -181,19 +180,15 @@ public class ModificationVolView extends JFrame {
 
 		nextBtn = new JButton("NEXT");
 		nextBtn.setEnabled(false);
-		nextBtn.setBounds(736, 297, 135, 37);
+		nextBtn.setBounds(634, 297, 135, 37);
 		getContentPane().add(nextBtn);
 
 		btnAnnuler = new JButton("ANNULER");
-		btnAnnuler.setBounds(1055, 297, 124, 37);
+		btnAnnuler.setBounds(1035, 297, 124, 37);
 		getContentPane().add(btnAnnuler);
-
-		btnBack = new JButton("RESET");
-		btnBack.setBounds(595, 297, 129, 37);
-		getContentPane().add(btnBack);
 		
-		 btnValiderModfi = new JButton("Valider Modfi");
-		btnValiderModfi.setBounds(883, 297, 135, 37);
+		 btnValiderModfi = new JButton("Valider Modfication");
+		btnValiderModfi.setBounds(832, 297, 135, 37);
 		getContentPane().add(btnValiderModfi);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(1200, 377);
@@ -265,9 +260,6 @@ public class ModificationVolView extends JFrame {
 		return btnAnnuler;
 	}
 
-	public JButton getBtnBack() {
-		return btnBack;
-	}
 
 	public void setBtnChoisirUnVol(JButton btnChoisirUnVol) {
 		this.btnChoisirUnVol = btnChoisirUnVol;
@@ -333,9 +325,6 @@ public class ModificationVolView extends JFrame {
 		this.btnAnnuler = btnAnnuler;
 	}
 
-	public void setBtnBack(JButton btnBack) {
-		this.btnBack = btnBack;
-	}
 
 	public static int generateRandomInt(int upperRange) {
 		Random random = new Random();

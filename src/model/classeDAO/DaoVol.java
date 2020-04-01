@@ -91,7 +91,6 @@ public class DaoVol extends DAO<Vol> {
 
 			
 
-	    
 		return obj;
 	}
 
@@ -136,7 +135,28 @@ public class DaoVol extends DAO<Vol> {
 	}
 
 	@Override
-	public void delete(Vol object) {} // ici  On interdit la suppression d'une adresse
+	public void delete(Vol object) {
+		PreparedStatement prepare = null;
+		try{
+
+		prepare = this.connect.prepareStatement("execute delete_vol(?)");
+		prepare.setInt		(1, object.getNumVol());
+
+		prepare.executeUpdate();
+
+		AlertMessages.InfoBox("VOL MODIFIER AVEC SUCCES ","INSERTION SUCCESS");
+
+	
+	} catch (SQLException e) {
+		
+
+		AlertMessages.ErrorBox(
+				e.getMessage(),"SQL EXCEPTION");
+
+		e.printStackTrace();
+	}
+
+	} // ici  On interdit la suppression d'une adresse
 		
 	@Override
 	public ArrayList<Vol> selectAll() {
@@ -144,7 +164,7 @@ public class DaoVol extends DAO<Vol> {
 		
 		try {
 			
-			ResultSet result = this .connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeQuery("SELECT * FROM vol");
+			ResultSet result = this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeQuery("SELECT * FROM vol");
 			
 
 			while(result.next())

@@ -87,9 +87,6 @@ public class ModificationVolController {
 		this.volModel = volModel;
 		this.avionModel = avionModel;
 		this.modificationVolView = modificationVolView;
-		this.avionMenuView = new GenericTableView("Choix D'avion");;
-		this.avionMenuView.setVisible(false);
-		this.avionMenuView.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.personnelMenuView = new GenericTableView("Choix des pilotes");
 		this.personnelMenuView.setVisible(false);
 		this.personnelMenuView.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -109,6 +106,7 @@ public class ModificationVolController {
 		fetchDataFromModel();
 		createListenersModificationVolView();
 		createListenersPersonnelMenuView();
+
 	}
 
 	public void fetchDataFromModel() {
@@ -185,17 +183,6 @@ public class ModificationVolController {
 			}
 		});
 
-
-		modificationVolView.getBtnBack().addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				setFieldsState(false);
-				modificationVolView.getComboBoxNumAvion().setEnabled(false);
-				modificationVolView.getBtnChoixPilot().setEnabled(false);
-				modificationVolView.getBtnChoixHotesse().setEnabled(false);
-
-			}
-		});
-
 		modificationVolView.getBtnAnnuler().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				modificationVolView.dispose();
@@ -231,6 +218,7 @@ public class ModificationVolController {
 						(int) inputsValues.get("editTextPlacePrem"), (int) inputsValues.get("editTextPlaceAff"),
 						(Double) inputsValues.get("textFieldDistance"));
 //				
+
 
 				createListenersAvionView();
 
@@ -319,7 +307,9 @@ public class ModificationVolController {
 
 		
 	public void createListenersAvionView() {
-		this.avionMenuView.setVisible(true);
+		
+		avionMenuView = new GenericTableView("Choix D'avion");;
+		avionMenuView.setVisible(true);
 		this.avionMenuView.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
 		this.avionTableModel.setRowObjects(this.avions);

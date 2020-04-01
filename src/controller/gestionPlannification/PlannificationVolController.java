@@ -93,9 +93,11 @@ public class PlannificationVolController {
 		this.personnelTableModel = new PersonnelTableModel(this.personnels);
 		this.avionTableModel = new AvionTableModel(this.avions);
 
+
 		fetchDataFromModel();
 		createListenersPlannificationVolView();
 		createListenersPersonnelMenuView();
+			
 	}
 
 	public void fetchDataFromModel() {
@@ -175,7 +177,6 @@ public class PlannificationVolController {
 						);
 				
 				
-				plannificationVolView.dispose();
 		
 			}
 		});

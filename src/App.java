@@ -3,6 +3,7 @@ import javax.swing.JFrame;
 import controller.gestionPlannification.ModficationPersonnelVolController;
 import controller.gestionPlannification.ModificationVolController;
 import controller.gestionPlannification.PlannificationVolController;
+import controller.gestionPlannification.SupressionVolController;
 import controller.gestionPlannification.TerminaisonVolController;
 import controller.gestionReservationControllers.ConsultationReservationController;
 import model.classeDAO.DaoAeroport;
@@ -10,10 +11,10 @@ import model.classeDAO.DaoAvion;
 import model.classeDAO.DaoPersonnel;
 import model.classeDAO.DaoVol;
 import model.connection.OracleConnection;
-import view.gestionPlannification.GenericTableView;
 import view.gestionPlannification.ModficationPersonnelVolView;
 import view.gestionPlannification.ModificationVolView;
 import view.gestionPlannification.PlannificationVolView;
+import view.gestionPlannification.SupressionVolView;
 import view.gestionPlannification.TerminaisonVolView;
 import view.gestionReservationViews.ConsultationReservationView;
 
@@ -157,6 +158,7 @@ public class App extends JFrame{
 				ModficationPersonnelVolView modficationPersonnelVolView = new ModficationPersonnelVolView("Modification Personnel de Vol");
 				ModficationPersonnelVolController modficationPersonnelVolController = new ModficationPersonnelVolController(modficationPersonnelVolView, volModel, aeroPortModel,personnelModel);
 				modficationPersonnelVolView.setVisible(true);
+				modficationPersonnelVolView.toFront();
 				modficationPersonnelVolView.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 			}
 		});
@@ -175,10 +177,14 @@ public class App extends JFrame{
 				plannificationVolView.setVisible(true);
 				PlannificationVolController volController = new PlannificationVolController(plannificationVolView, volModel, avionModel, aeroPortModel, personnelModel);
 				plannificationVolView.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
 			}
 		});
 		quatre.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				SupressionVolView supressionVolView = new SupressionVolView("supression de Vol");
+				SupressionVolController terminaisonVolController = new SupressionVolController(supressionVolView,volModel);
+
 
 			}
 		});
@@ -205,6 +211,7 @@ public class App extends JFrame{
 	public static void main(String[] args) {
 
 		App test = new App();
+		test.setAlwaysOnTop(false);
 		test.setVisible(true);
 
 	}

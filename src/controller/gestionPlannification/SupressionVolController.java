@@ -36,6 +36,7 @@ import model.classes.Vol;
 import view.gestionPlannification.GenericTableView;
 import view.gestionPlannification.ModificationVolView;
 import view.gestionPlannification.PlannificationVolView;
+import view.gestionPlannification.SupressionVolView;
 import view.gestionPlannification.TerminaisonVolView;
 
 public class SupressionVolController {
@@ -47,7 +48,7 @@ public class SupressionVolController {
 	private DaoVol volModel;
 
 	// Views
-	private TerminaisonVolView volMenuView;
+	private SupressionVolView volMenuView;
 
 	// Data variables
 	private ArrayList<Vol> vols;
@@ -57,18 +58,20 @@ public class SupressionVolController {
 	private VolTableModel volTableModel;
 
 
-	public SupressionVolController(TerminaisonVolView volMenuView, DaoVol volModel) {
+	public SupressionVolController(SupressionVolView volMenuView, DaoVol volModel) {
 		this.volMenuView = volMenuView;
 		this.volModel = volModel;
 		vols = new ArrayList<Vol>();
 		
+		volMenuView.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		volMenuView.setVisible(true);
+
 		this.vols = volModel.getNonTerminatedVols();
 
 		VolTableModel obj = new VolTableModel(vols);
-		System.out.println(obj.getValue(0));
 		volMenuView.getTable().setModel(obj);
 
-		
+		createListenersPlannificationVolView();
 	
 	}
 	
@@ -76,7 +79,7 @@ public class SupressionVolController {
 	public void createListenersPlannificationVolView() {
 		// perfom some action when Next button is clicked
 
-		volMenuView.getButton().addActionListener(new ActionListener() {
+		volMenuView.getBtnDeleteVol().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// check for selected row first
 
@@ -86,7 +89,7 @@ public class SupressionVolController {
 						for (int nRow : volMenuView.getTable().getSelectedRows()) {
 							 selectedVol = tempModel.getValue(nRow);
 							 selectedVol.setTerminaison(true);
-							 volModel.modify(selectedVol);
+							 volModel.delete(selectedVol);
 						}
 						
 					}				
