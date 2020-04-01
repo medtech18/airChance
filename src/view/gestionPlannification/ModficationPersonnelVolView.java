@@ -30,7 +30,7 @@ public class ModficationPersonnelVolView extends JFrame {
 	public ModficationPersonnelVolView(String title) {
 		this.setTitle(title);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 540, 175);
+		setBounds(100, 100, 540, 183);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);

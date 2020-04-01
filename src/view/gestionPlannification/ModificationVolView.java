@@ -64,7 +64,7 @@ public class ModificationVolView extends JFrame {
 		table = new JTable();
 		table.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 		btnChoisirUnVol = new JButton("CHOISIR UN VOL");
-		btnChoisirUnVol.setBounds(39, 320, 400, 29);
+		btnChoisirUnVol.setBounds(39, 330, 400, 29);
 		getContentPane().setLayout(null);
       
         JScrollPane scrollPane = new JScrollPane(table);
@@ -191,7 +191,7 @@ public class ModificationVolView extends JFrame {
 		btnValiderModfi.setBounds(832, 297, 135, 37);
 		getContentPane().add(btnValiderModfi);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setSize(1200, 377);
+		setSize(1200, 405);
 		setLocationRelativeTo(null);
 		setVisible(true);
 	}

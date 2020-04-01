@@ -99,11 +99,11 @@ public class PlannificationVolView extends JFrame {
 
 
 		comboBoxAeroDep = new JComboBox();
-		comboBoxAeroDep.setBounds(167, 95, 158, 27);
+		comboBoxAeroDep.setBounds(167, 95, 151, 27);
 		getContentPane().add(comboBoxAeroDep);
 
 		comboBoxAeroDest = new JComboBox();
-		comboBoxAeroDest.setBounds(167, 124, 158, 27);
+		comboBoxAeroDest.setBounds(167, 124, 151, 27);
 		getContentPane().add(comboBoxAeroDest);
 
 		JLabel lblNombrePlaceEco = new JLabel("Nombre Place ECO");
