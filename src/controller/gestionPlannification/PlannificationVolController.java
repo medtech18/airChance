@@ -71,14 +71,17 @@ public class PlannificationVolController {
 	private PersonnelTableModel personnelTableModel;
 	private AvionTableModel avionTableModel;
 
-	public PlannificationVolController(PlannificationVolView plannificationVolView, GenericTableView avionMenuView,
-			GenericTableView personnelMenuView, DaoVol volModel, DaoAvion avionModel, DaoAeroport aeroPortModel,
+	public PlannificationVolController(PlannificationVolView plannificationVolView, DaoVol volModel, DaoAvion avionModel, DaoAeroport aeroPortModel,
 			DaoPersonnel personnelModel) {
 		this.volModel = volModel;
 		this.avionModel = avionModel;
 		this.plannificationVolView = plannificationVolView;
-		this.avionMenuView = avionMenuView;
-		this.personnelMenuView = personnelMenuView;
+		this.avionMenuView = new GenericTableView("Choix D'avion");
+		this.avionMenuView.setVisible(false);
+		this.avionMenuView.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		this.personnelMenuView = new GenericTableView("Choix des pilotes");
+		this.personnelMenuView.setVisible(false);
+		this.personnelMenuView.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.AeroPortModel = aeroPortModel;
 		this.personnelModel = personnelModel;
 		this.selectedPilots = new ArrayList<Personnel>();

@@ -82,14 +82,17 @@ public class ModificationVolController {
 	
 
 
-	public ModificationVolController(ModificationVolView modificationVolView, GenericTableView avionMenuView,
-			GenericTableView personnelMenuView, DaoVol volModel, DaoAvion avionModel, DaoAeroport aeroPortModel,
+	public ModificationVolController(ModificationVolView modificationVolView, DaoVol volModel, DaoAvion avionModel, DaoAeroport aeroPortModel,
 			DaoPersonnel personnelModel) {
 		this.volModel = volModel;
 		this.avionModel = avionModel;
 		this.modificationVolView = modificationVolView;
-		this.avionMenuView = avionMenuView;
-		this.personnelMenuView = personnelMenuView;
+		this.avionMenuView = new GenericTableView("Choix D'avion");;
+		this.avionMenuView.setVisible(false);
+		this.avionMenuView.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		this.personnelMenuView = new GenericTableView("Choix des pilotes");
+		this.personnelMenuView.setVisible(false);
+		this.personnelMenuView.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.AeroPortModel = aeroPortModel;
 		this.personnelModel = personnelModel;
 		this.selectedPilots = new ArrayList<Personnel>();
@@ -316,7 +319,6 @@ public class ModificationVolController {
 
 		
 	public void createListenersAvionView() {
-
 		this.avionMenuView.setVisible(true);
 		this.avionMenuView.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
@@ -356,7 +358,6 @@ public class ModificationVolController {
 
 		tempSelectedPersonnel = new ArrayList<Personnel>();
 		this.personnelMenuView.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
 		this.personnels = personnelModel.selectAll();
 		this.personnelTableModel.setRowObjects(this.personnels);
 		personnelMenuView.getTable().setModel(this.personnelTableModel);

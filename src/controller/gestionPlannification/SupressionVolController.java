@@ -38,7 +38,7 @@ import view.gestionPlannification.ModificationVolView;
 import view.gestionPlannification.PlannificationVolView;
 import view.gestionPlannification.TerminaisonVolView;
 
-public class TerminaisonVolController {
+public class SupressionVolController {
 
 	
 	
@@ -57,21 +57,18 @@ public class TerminaisonVolController {
 	private VolTableModel volTableModel;
 
 
-	public TerminaisonVolController(TerminaisonVolView volMenuView, DaoVol volModel) {
+	public SupressionVolController(TerminaisonVolView volMenuView, DaoVol volModel) {
 		this.volMenuView = volMenuView;
 		this.volModel = volModel;
 		vols = new ArrayList<Vol>();
 		
 		this.vols = volModel.getNonTerminatedVols();
-		
-		volMenuView.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		volMenuView.setVisible(true);
-
 
 		VolTableModel obj = new VolTableModel(vols);
+		System.out.println(obj.getValue(0));
 		volMenuView.getTable().setModel(obj);
 
-		createListenersPlannificationVolView();
+		
 	
 	}
 	
