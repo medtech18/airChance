@@ -57,7 +57,6 @@ public class ReserverVolController {
 					
 					dvol = new Date(dfFormat.parse(reservationview.getTxtDate().getText()).getTime());
 					
-					System.out.println(dfFormat.parse(reservationview.getTxtDate().getText()));
 					
 					vols=daoVol.selectbyCritere(dvol,(AeroPort) reservationview.getCbxdepart().getSelectedItem(),(AeroPort) reservationview.getCbxarrive().getSelectedItem());
 						if(vols.size()==0)

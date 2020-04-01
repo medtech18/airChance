@@ -91,7 +91,10 @@ public class SupressionVolController {
 							 selectedVol.setTerminaison(true);
 							 volModel.delete(selectedVol);
 						}
-						
+						vols = volModel.getNonTerminatedVols();
+
+						VolTableModel obj = new VolTableModel(vols);
+						volMenuView.getTable().setModel(obj);
 					}				
 
 			}

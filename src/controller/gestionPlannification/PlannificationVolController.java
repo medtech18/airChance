@@ -160,7 +160,8 @@ public class PlannificationVolController {
 				plannificationVolView.getComboBoxNumAvion().setEnabled(false);
 				plannificationVolView.getBtnChoixPilot().setEnabled(false);
 				plannificationVolView.getBtnChoixHotesse().setEnabled(false);
-				
+				selectedAeroPortDest = (AeroPort) plannificationVolView.getComboBoxAeroDest().getSelectedItem();
+				selectedAeroPortDep = (AeroPort) plannificationVolView.getComboBoxAeroDep().getSelectedItem();
 				volModel.insert( new Vol(
 							0000,
 							(Date)inputsValues.get("textFieldDateVol"),

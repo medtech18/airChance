@@ -179,10 +179,9 @@ public class ModificationVolController {
 					daoPersonnelVol.modify(new PersonnelVol(ele,selectedVol));
 				}
 				
-				personnels = personnelModel.selectAll();
-				personnelTableModel.setRowObjects(personnels);
-				personnelMenuView.getTable().setModel(personnelTableModel);
-				personnelMenuView.getTable().repaint();
+				vols = volModel.selectAll();
+				modificationVolView.getTable().setModel(new VolTableModel(vols));
+				//modificationVolView.getTable().repaint();
 
 				
 

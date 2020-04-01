@@ -45,6 +45,9 @@ public class App extends JFrame{
 	private ImageIcon img2 = new ImageIcon("ressources/img2.png");
 	private ImageIcon img3 = new ImageIcon("ressources/img3.png");
 	private JLabel lblNewLabel_3;
+	private JLabel lblNewLabel_2;
+	private JLabel lblNewLabel_1;
+	private JLabel lblConnexionBd;
 
 	
 	public App() {
@@ -87,7 +90,7 @@ public class App extends JFrame{
 		lblGestionDeReservation.setFont(new Font("Lucida Grande", Font.ITALIC, 19));
 		getContentPane().add(lblGestionDeReservation);
 		
-		JLabel lblConnexionBd = new JLabel("Connexion BD");
+		lblConnexionBd = new JLabel("Connexion BD");
 		lblConnexionBd.setBounds(525, 345, 132, 23);
 		getContentPane().add(lblConnexionBd);
 		lblConnexionBd.setFont(new Font("Lucida Grande", Font.ITALIC, 19));
@@ -101,11 +104,11 @@ public class App extends JFrame{
 		passwordField.setBounds(525, 414, 132, 26);
 		getContentPane().add(passwordField);
 		
-		JLabel lblNewLabel_1 = new JLabel("USERNAME");
+		lblNewLabel_1 = new JLabel("USERNAME");
 		lblNewLabel_1.setBounds(434, 390, 79, 16);
 		getContentPane().add(lblNewLabel_1);
 		
-		JLabel lblNewLabel_2 = new JLabel("PASSWORD");
+		lblNewLabel_2 = new JLabel("PASSWORD");
 		lblNewLabel_2.setBounds(434, 419, 79, 16);
 		getContentPane().add(lblNewLabel_2);
 		
@@ -131,6 +134,12 @@ public class App extends JFrame{
 				OracleConnection.setCredentials(textField.getText(),passwordField.getText());
 				if(OracleConnection.getInstance() != null)
 				{
+					 textField.setVisible(false);
+					 passwordField.setVisible(false);
+					 lblNewLabel_2.setVisible(false);
+					 lblNewLabel_1.setVisible(false);
+					 lblConnexionBd.setVisible(false);
+					 btnConnectDB.setVisible(false);
 					  un.setEnabled(true);
 					  deux.setEnabled(true);
 					  trois.setEnabled(true);
@@ -190,7 +199,7 @@ public class App extends JFrame{
 		});
 		cinq.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				TerminaisonVolView terminaisonVolView = new TerminaisonVolView("Modification de Vol");
+				TerminaisonVolView terminaisonVolView = new TerminaisonVolView("terminaison de Vol");
 				TerminaisonVolController terminaisonVolController = new TerminaisonVolController(terminaisonVolView,volModel);
 
 

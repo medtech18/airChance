@@ -47,7 +47,7 @@ public class DaoPersonnelVol extends DAO<PersonnelVol> {
 				
 				connect.setTransactionIsolation(java.sql.Connection.TRANSACTION_SERIALIZABLE);
 				connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE).executeUpdate(
-	                	"UPDATE PERSONNEL_VOL SET NUM_VOL = '" + obj.getNumVol().getNumVol() + "',"+
+	                	"UPDATE PERSONNEL_VOL SET NUM_VOL = '" + obj.getNumVol().getNumVol() + "'"+
 	                	" WHERE NUM_PERSONNEL = '" + obj.getNumPersonnel().getNumPersonnel() + "'"
 	                 );
 

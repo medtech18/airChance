@@ -1,10 +1,12 @@
 package model.classeDAO;
 
 
+import java.sql.CallableStatement;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 
 import controller.common.AlertMessages;
@@ -136,15 +138,14 @@ public class DaoVol extends DAO<Vol> {
 
 	@Override
 	public void delete(Vol object) {
-		PreparedStatement prepare = null;
-		try{
+		try
+		{
+			CallableStatement cstmt = this.connect.prepareCall(" {call delete_vol(?)}");
+			cstmt.setInt(1, object.getNumVol());
 
-		prepare = this.connect.prepareStatement("execute delete_vol(?)");
-		prepare.setInt		(1, object.getNumVol());
+			cstmt.execute();
 
-		prepare.executeUpdate();
-
-		AlertMessages.InfoBox("VOL MODIFIER AVEC SUCCES ","INSERTION SUCCESS");
+		AlertMessages.InfoBox("VOL SUPPRIMEE AVEC SUCCES ","INSERTION SUCCESS");
 
 	
 	} catch (SQLException e) {

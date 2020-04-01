@@ -91,6 +91,10 @@ public class TerminaisonVolController {
 							 selectedVol.setTerminaison(true);
 							 volModel.modify(selectedVol);
 						}
+						vols = volModel.getNonTerminatedVols();
+
+						VolTableModel obj = new VolTableModel(vols);
+						volMenuView.getTable().setModel(obj);
 						
 					}				
 
