@@ -197,15 +197,11 @@ public class App extends JFrame{
 		    	 ConsultationReservationController consultationController=new ConsultationReservationController(reservationView);
 		    	 reservationView.setVisible(true);
 
+
 			}
 		});
 		
-
-	}
-
-	
 	public static void main(String[] args) {
-
 
 		App test = new App();
 		test.setVisible(true);

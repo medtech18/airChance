@@ -39,7 +39,7 @@ public class ReservationPlaceView extends JFrame {
 	 * Create the frame.
 	 */
 	public ReservationPlaceView() {
-		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 474, 380);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

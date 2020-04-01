@@ -50,11 +50,15 @@ public class ReserverVolController {
 		
 		reservationview.getBtnRechercher().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				SimpleDateFormat dfFormat = new SimpleDateFormat("dd/MM/YYYY HH:MM");  
+				SimpleDateFormat dfFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");  
 				Date dvol;
 				reservationview.getBtnreserver().setEnabled(true);                                                      
 				try {
+					
 					dvol = new Date(dfFormat.parse(reservationview.getTxtDate().getText()).getTime());
+					
+					System.out.println(dfFormat.parse(reservationview.getTxtDate().getText()));
+					
 					vols=daoVol.selectbyCritere(dvol,(AeroPort) reservationview.getCbxdepart().getSelectedItem(),(AeroPort) reservationview.getCbxarrive().getSelectedItem());
 						if(vols.size()==0)
 						{
