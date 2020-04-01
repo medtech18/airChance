@@ -162,9 +162,6 @@ public class ModficationPersonnelVolController {
 		
 		modficationPersonnelVolView.getComboxSelectionVol().addPopupMenuListener(new PopupMenuListener() {
 			public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
-//		    	try {// if is number
-				System.out.println("NEWWW");
-//		    	try {// if is number
 				vols = volModel.selectAll();
 				createListenersVolView();
 			}
