@@ -176,6 +176,12 @@ public class PlannificationVolController {
 							)
 						);
 				
+				personnels = personnelModel.selectAll();
+				personnelTableModel.setRowObjects(personnels);
+				personnelMenuView.getTable().setModel(personnelTableModel);
+
+
+				
 				
 		
 			}
