@@ -43,7 +43,7 @@ public class ReserverVolView extends JFrame {
 
 	
 	public ReserverVolView() {
-		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 800, 600);
 		JPanel contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -63,7 +63,7 @@ public class ReserverVolView extends JFrame {
 		btnreserver.setBounds(306, 529, 184, 23);
 		contentPane.add(btnreserver);
 		
-		DateFormat format = new SimpleDateFormat("dd/MM/YYYY HH:MM");
+		DateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 		txtDate = new JFormattedTextField(format);
 		txtDate.setBounds(265, 56, 225, 21);
 		contentPane.add(txtDate);

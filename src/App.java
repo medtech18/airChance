@@ -55,17 +55,17 @@ public class App {
 
 		// terminaison Vol 
 		
-		TerminaisonVolView terminaisonVolView = new TerminaisonVolView("Modification de Vol");
-		terminaisonVolView.setVisible(true);
-		TerminaisonVolController terminaisonVolController = new TerminaisonVolController(terminaisonVolView,volModel);
+//		TerminaisonVolView terminaisonVolView = new TerminaisonVolView("Modification de Vol");
+//		terminaisonVolView.setVisible(true);
+//		TerminaisonVolController terminaisonVolController = new TerminaisonVolController(terminaisonVolView,volModel);
 
 		
 		
 // gestion resrvation
 
-//	    	 ConsultationReservationView reservationView=new ConsultationReservationView();
-//	    	 reservationView.setVisible(true);
-//	    	 ConsultationReservationController consultationController=new ConsultationReservationController(reservationView);
+	    	 ConsultationReservationView reservationView=new ConsultationReservationView();
+	    	 reservationView.setVisible(true);
+	    	 ConsultationReservationController consultationController=new ConsultationReservationController(reservationView);
 
 
 	}
