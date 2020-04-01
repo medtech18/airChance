@@ -162,8 +162,8 @@ public class PlannificationVolController {
 				volModel.insert( new Vol(
 							0000,
 							(Date)inputsValues.get("textFieldDateVol"),
-							selectedAeroPortDest,
 							selectedAeroPortDep,
+							selectedAeroPortDest,
 							((Double)inputsValues.get("textFieldDuree")).floatValue(),
 							((Double)inputsValues.get("textFieldDistance")).floatValue(),
 							false ,
@@ -245,6 +245,7 @@ public class PlannificationVolController {
 		plannificationVolView.getBtnChoixPilot().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				actionFromPiloteBtn = true;
+				
 				personnels = personnelModel.getPersonnelWith((Date)inputsValues.get("textFieldDateVol"), selectedAeroPortDep," pilots ");
 
 				personnelTableModel.setRowObjects(personnels);

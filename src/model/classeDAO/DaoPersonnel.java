@@ -111,7 +111,7 @@ public class DaoPersonnel extends DAO<Personnel> {
 
 			
 			try {
-				PreparedStatement pstmt = this .connect.prepareStatement("SELECT * FROM "+personnel +"where DATEDISPONIBILITE >= ? and position_pilot_aeroport(num_personnel) = ?");
+				PreparedStatement pstmt = this .connect.prepareStatement("SELECT * FROM "+personnel +"where DATEDISPONIBILITE <= ? and position_pilot_aeroport(num_personnel) = ?");
 			   
 
 				pstmt.setDate(1, dateDisponibilite);
