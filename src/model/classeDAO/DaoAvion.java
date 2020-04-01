@@ -31,6 +31,7 @@ public class DaoAvion extends DAO<Avion> {
 				prepare.executeUpdate();
 				obj = selectById(obj.getNumAvion());
 		
+				prepare.close();
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
@@ -91,7 +92,7 @@ public class DaoAvion extends DAO<Avion> {
 				
 					
 				a = new Avion(numA,DaoModel.selectById(result.getInt("num_modele")), result.getInt("nb_place_eco") ,result.getInt("nb_place_premiere"),result.getInt("nb_place_affaire") );
-				
+			result.close();
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
@@ -112,6 +113,8 @@ public class DaoAvion extends DAO<Avion> {
 
 				a.add(new Avion(result.getInt("num_avion"),DaoModel.selectById(result.getInt("num_modele")),result.getInt("nb_place_eco") ,result.getInt("nb_place_premiere"),result.getInt("nb_place_affaire")));
 			}
+			result.close();
+
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
@@ -149,7 +152,8 @@ public class DaoAvion extends DAO<Avion> {
 				listAvions.add(newVol);
 				
 			}
-			
+			result.close();
+
 		} catch (SQLException e) {
 			
 			e.printStackTrace();

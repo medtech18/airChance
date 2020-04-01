@@ -67,7 +67,8 @@ public class ModficationPersonnelVolController {
 	private PersonnelTableModel personnelTableModel;
 	private VolTableModel volTableModel;
 	
-	public ModficationPersonnelVolController(ModficationPersonnelVolView modficationPersonnelVolView, GenericTableView personnelMenuView, DaoVol volModel, DaoAeroport aeroPortModel,DaoPersonnel personnelModel) {
+		
+	public ModficationPersonnelVolController(ModficationPersonnelVolView modficationPersonnelVolView, DaoVol volModel, DaoAeroport aeroPortModel,DaoPersonnel personnelModel) {
 		// TODO Auto-generated constructor stub
 		this.modficationPersonnelVolView = modficationPersonnelVolView;
 		this.personnelModel = personnelModel;
@@ -75,9 +76,11 @@ public class ModficationPersonnelVolController {
 		this.aeroPortModel = aeroPortModel;	
 		this.volModel = volModel;
 		this.modificationVolView = new GenericTableView("Choix DE VOL");
-		this.modificationVolView.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.modificationVolView.setVisible(false);
-		this.personnelMenuView = personnelMenuView;
+		this.modificationVolView.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		this.personnelMenuView = new GenericTableView("Perosnnel Menu View");
+		this.personnelMenuView.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		this.personnelMenuView.setVisible(false);
 		this.personnelModel = personnelModel;
 		this.personnelVolModel = new DaoPersonnelVol();
 		this.selectedPilots = new ArrayList<Personnel>();

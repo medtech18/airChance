@@ -79,6 +79,7 @@ public class DaoPersonnelVol extends DAO<PersonnelVol> {
 					ResultSet result = prepare.getResultSet();
 					
 					AlertMessages.InfoBox("DELETE WITH SUCCES" , "DELETE INSERSION");
+					result.close();
 					
 			    } catch (SQLException e) {
 			    	

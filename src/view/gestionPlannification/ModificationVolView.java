@@ -78,7 +78,7 @@ public class ModificationVolView extends JFrame {
 		label.setBounds(611, 28, 113, 16);
 		getContentPane().add(label);
 
-	    DateFormat format = new SimpleDateFormat("dd/MM/YYYY HH:MM");
+	    DateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 		TextFieldDateVol = new JFormattedTextField(format);
 		TextFieldDateVol.setBounds(763, 23, 151, 26);
 		TextFieldDateVol.setFocusLostBehavior(JFormattedTextField.PERSIST);
