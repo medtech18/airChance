@@ -31,6 +31,8 @@ public class DaoPlace extends DAO<Place>
 			prepare.executeUpdate();
 			obj = selectById(obj.getNumPlace(),obj.getNumAvion());
 			
+			
+			prepare.close();
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
@@ -119,6 +121,9 @@ public class DaoPlace extends DAO<Place>
 				
 				p.add(new Place(result.getInt("num_place"),result.getString("classe"),result.getString("position"),DaoAvion.selectById(result.getInt("num_avion"))));
 		
+			
+			result.close();
+
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
@@ -139,6 +144,8 @@ public ArrayList<Place> placedispo(Vol vol) {
 				
 				p.add(new Place(result.getInt("num_place"),result.getString("classe"),result.getString("position"),DaoAvion.selectById(result.getInt("num_avion"))));
 		
+			
+			result.close();
 		} catch (SQLException e) {
 			
 			e.printStackTrace();

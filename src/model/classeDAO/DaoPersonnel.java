@@ -32,7 +32,7 @@ public class DaoPersonnel extends DAO<Personnel> {
 				prepare.executeUpdate();
 				obj = selectById(obj.getNumPersonnel());
 			
-				
+				prepare.close();
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
@@ -137,6 +137,7 @@ public class DaoPersonnel extends DAO<Personnel> {
 								);
 					
 				}	
+				
 				result.close();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block

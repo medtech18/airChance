@@ -30,7 +30,8 @@ public class DaoClient extends DAO<Client> {
 
 				prepare.executeUpdate();
 				obj = selectById(obj.getNumClient());
-			
+				
+				prepare.close();
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
@@ -73,6 +74,7 @@ public class DaoClient extends DAO<Client> {
 			prepare.executeUpdate();
 			client.setPointsFidelite(selectById(client.getNumClient()).getPointsFidelite());
 			
+			prepare.close();
 	} catch (SQLException e) {
 		
 		e.printStackTrace();
@@ -107,6 +109,9 @@ public class DaoClient extends DAO<Client> {
 			if(result.first())
 				c = new Client(numClient,result.getString("nom"),result.getString("prenom"),result.getString("num_passport"),result.getInt("point"), DaoAdresse.selectbyID(result.getInt("num_adresse")));
 		
+			
+			result.close();
+
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
@@ -127,6 +132,9 @@ public class DaoClient extends DAO<Client> {
 				c.add(new Client(result.getInt("num_client"),result.getString("nom"),result.getString("prenom"),result.getString("num_passport"),result.getInt("point"),
 		                DaoAdresse.selectbyID(result.getInt("num_adresse"))));
 		
+			
+			result.close();
+
 		} catch (SQLException e) {
 			
 			e.printStackTrace();

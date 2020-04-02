@@ -28,6 +28,9 @@ public class DaoAeroport extends DAO<AeroPort> {
 			prepare.executeUpdate();
 			
 			obj = selectbyID(obj.getNumAeroport());
+			
+			
+			prepare.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

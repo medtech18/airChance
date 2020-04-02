@@ -24,6 +24,8 @@ public class DaoLangue extends DAO<Langue>{
 				prepare.executeUpdate();
 				obj = selectById(obj.getNumLangue());
 			
+				
+				prepare.close();
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
@@ -45,6 +47,8 @@ public class DaoLangue extends DAO<Langue>{
                  );
 
 			obj = selectById(obj.getNumLangue());
+			
+			
 	    } catch (SQLException e) {
 	    	
 	            e.printStackTrace();
@@ -84,6 +88,9 @@ public class DaoLangue extends DAO<Langue>{
 			
 				l = new Langue(numL,result.getString("nom"));
 			
+			
+			result.close();
+
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
@@ -105,7 +112,9 @@ public ArrayList<Langue> selectAll() {
 				
 				l.add(new Langue(result.getInt("numLangue"),result.getString("nom")));
 			}
+		
 			
+			result.close();
 		} catch (SQLException e) {
 			
 			e.printStackTrace();

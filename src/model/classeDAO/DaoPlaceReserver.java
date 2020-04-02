@@ -31,6 +31,8 @@ public class DaoPlaceReserver extends DAO<PlaceReserver> {
 			prepare.executeUpdate();
 			obj = this.selectById(obj.getNumPlace().getNumPlace(),obj.getNumVol());
 			
+			
+			prepare.close();
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
@@ -92,6 +94,8 @@ public class DaoPlaceReserver extends DAO<PlaceReserver> {
 				a = new  PlaceReserver(DaoReservation.selectById(result.getInt("num_reservation")), DaoPlace.selectById(result.getInt("num_place"),vol.getNumAvion()), vol);
 			    
 		
+			result.close();
+
 			} catch (SQLException e) {
 			
 				e.printStackTrace();
@@ -114,6 +118,8 @@ public class DaoPlaceReserver extends DAO<PlaceReserver> {
 				v=DaoVol.selectbyID(result.getInt("num_vol"));
 				p.add(new PlaceReserver(DaoReservation.selectById(result.getInt("num_reservation")),DaoPlace.selectById(result.getInt("num_place"),v.getNumAvion()) ,v));
 		
+			
+			result.close();
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
@@ -135,6 +141,7 @@ public ArrayList<PlaceReserver> selectbyreservation(Reservation reserv,Vol vol) 
 				
 				p.add(new PlaceReserver(reserv,DaoPlace.selectById(result.getInt("num_place"),vol.getNumAvion()) , vol));
 		
+			result.close();
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
@@ -158,7 +165,8 @@ public ArrayList<PlaceReserver> placedispo(Vol vol) {
 			p.add(new PlaceReserver(DaoReservation.selectById(result.getInt("num_reservation")),DaoPlace.selectById(result.getInt("num_place"),v.getNumAvion()) ,v));
 		}
 			
-	
+		result.close();
+
 	} catch (SQLException e) {
 		
 		e.printStackTrace();
@@ -185,12 +193,14 @@ public float getprix(ArrayList<PlaceReserver> places) {
 			prepare.setInt(2, p.getNumPlace().getNumPlace());
 			prepare.setInt(3, p.getNumVol().getNumAvion().getNumAvion());
 			prepare.setInt(4, p.getNumVol().getNumVol());
+			
 			result=prepare.executeQuery();
 			if(result.next())
 				prix+=result.getFloat(1);
 		}
 			
-	
+		prepare.close();
+
 	} catch (SQLException e) {
 		
 		e.printStackTrace();

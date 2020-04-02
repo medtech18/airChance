@@ -22,6 +22,7 @@ public class DaoLangueHotesse extends DAO<LangueHotesse> {
 				prepare.executeUpdate();
 				obj = this.selectById(obj.getNumPersonnel().getNumPersonnel(),obj.getNumLangue().getNumLangue());
 			
+				prepare.close();
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
@@ -80,6 +81,7 @@ public class DaoLangueHotesse extends DAO<LangueHotesse> {
 				a = new LangueHotesse(DaoPersonnel.selectById(result.getInt("numPersonnel")),DaoLangue.selectById(result.getInt("numLangue"))
 					);
 			
+			result.close();
 			} catch (SQLException e) {
 			
 				e.printStackTrace();
@@ -102,6 +104,8 @@ public class DaoLangueHotesse extends DAO<LangueHotesse> {
 				
 				a.add(new LangueHotesse(DaoPersonnel.selectById(result.getInt("numPersonnel")),DaoLangue.selectById(result.getInt("numLangue"))));
 			}
+			
+			result.close();
 		} catch (SQLException e) {
 			
 			e.printStackTrace();

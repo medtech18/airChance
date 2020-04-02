@@ -42,7 +42,7 @@ public class DaoVol extends DAO<Vol> {
 
 				AlertMessages.InfoBox("VOL INSERER AVEC SUCCES ","INSERTION SUCCESS");
 
-			
+				prepare.close();
 			} catch (SQLException e) {
 				
 				AlertMessages.ErrorBox(
@@ -82,6 +82,7 @@ public class DaoVol extends DAO<Vol> {
 				AlertMessages.InfoBox("VOL MODIFIER AVEC SUCCES ","INSERTION SUCCESS");
 	
 			
+				prepare.close();
 			} catch (SQLException e) {
 				
 
@@ -127,7 +128,7 @@ public class DaoVol extends DAO<Vol> {
 
 			
 				
-		
+			result.close();
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
@@ -148,6 +149,7 @@ public class DaoVol extends DAO<Vol> {
 		AlertMessages.InfoBox("VOL SUPPRIMEE AVEC SUCCES ","INSERTION SUCCESS");
 
 	
+		cstmt.close();
 	} catch (SQLException e) {
 		
 
@@ -187,6 +189,7 @@ public class DaoVol extends DAO<Vol> {
 				
 			}
 			
+			result.close();
 		} catch (SQLException e) {
 			
 			e.printStackTrace();

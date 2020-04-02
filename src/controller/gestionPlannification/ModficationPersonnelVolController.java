@@ -160,6 +160,14 @@ public class ModficationPersonnelVolController {
 			}
 		});
 		
+		modficationPersonnelVolView.getBtnAnnuler().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				modficationPersonnelVolView.dispose();
+			}
+			
+		});		
+		
 		modficationPersonnelVolView.getComboxSelectionVol().addPopupMenuListener(new PopupMenuListener() {
 			public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
 				vols = volModel.selectAll();
